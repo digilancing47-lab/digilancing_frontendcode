@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE}/api/v_1/users/Change-password`, {
+      const response = await fetch(`${API_BASE}/api/v_1/users/Change-password/request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,9 +37,6 @@ const ForgotPassword = () => {
         throw new Error(data.message || "Something went wrong");
       }
 
-      console.log("Forgot Password API Success:", data);
-
-      // Navigate to OTP page if success
       navigate("/VerifyOtp", { state: { email } });
     } catch (error) {
       console.error("Forgot Password Error:", error.message);
@@ -72,7 +69,7 @@ const ForgotPassword = () => {
         {/* Right side - Form */}
         <div
           className="
-            flex-1 bg-[#003B73] text-white p-10 flex flex-col relative
+            flex-1 bg-[#003B73] text-white py-10 md:p-10 flex flex-col relative
             md:border md:border-[#1C7BD5]
             rounded-b-3xl md:rounded-tr-3xl md:rounded-br-3xl md:rounded-tl-none md:rounded-bl-none
           "
@@ -86,14 +83,14 @@ const ForgotPassword = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-2xl sm:text-3xl font-semibold mb-8">
+          <h2 className="text-2xl mt-3 sm:text-3xl font-semibold mb-8">
             Forgot Password?
           </h2>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-6" aria-busy={loading}>
             <div>
-              <label className="block mb-1 text-sm">Enter your email address</label>
+              <label className="block text-sm mb-2">Enter your email address</label>
               <input
                 type="email"
                 name="email"
@@ -109,7 +106,7 @@ const ForgotPassword = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className={`flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md transition
+                className={`flex items-center cursor-pointer gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md transition
                   ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-gray-100'}`}
                 disabled={loading}
               >

@@ -511,9 +511,8 @@ const Register = () => {
 
 
   return (
-    <div className="mx-auto px-4 sm:px-6 lg:px-32 pt-16 lg:pt-20 gap-10 bg-[#002B54] min-h-screen">
+    <div className="mx-auto px-4 cursor-default sm:px-6 lg:px-32 pt-16 lg:pt-20 gap-10 pb-10 bg-[#002B54] min-h-screen">
       <RegisterHeader step={step} setStep={(s) => dispatch(setStep(s))} />
-
       <AnimatePresence mode="wait">
         {/* Step 1 */}
         {step === 1 && (
@@ -542,7 +541,7 @@ const Register = () => {
                 {!referralVerified ? (
                   <button
                     onClick={handleVerify}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+                    className="px-4 py-2 bg-blue-600 text-white  cursor-pointer rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
                     disabled={loading || !referral.trim()}
                     aria-disabled={loading || !referral.trim()}
                   >
@@ -605,7 +604,6 @@ const Register = () => {
           </motion.div>
         )}
 
-        {/* Step 2 */}
         {step === 2 && selectedCard && (
           <motion.div
             key="step2"
@@ -686,17 +684,52 @@ const Register = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">State</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your State"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
-                    value={formData.state}
-                    onChange={(e) =>
-                      dispatch(setFormData({ state: e.target.value }))
-                    }
-                  />
-                </div>
+  <label className="text-gray-200 mb-1">State</label>
+  <select
+    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800"
+    value={formData.state}
+    onChange={(e) => dispatch(setFormData({ state: e.target.value }))}
+  >
+    <option value="">Select your State</option>
+    <option value="Andhra Pradesh">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+    <option value="Assam">Assam</option>
+    <option value="Bihar">Bihar</option>
+    <option value="Chhattisgarh">Chhattisgarh</option>
+    <option value="Goa">Goa</option>
+    <option value="Gujarat">Gujarat</option>
+    <option value="Haryana">Haryana</option>
+    <option value="Himachal Pradesh">Himachal Pradesh</option>
+    <option value="Jharkhand">Jharkhand</option>
+    <option value="Karnataka">Karnataka</option>
+    <option value="Kerala">Kerala</option>
+    <option value="Madhya Pradesh">Madhya Pradesh</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Manipur">Manipur</option>
+    <option value="Meghalaya">Meghalaya</option>
+    <option value="Mizoram">Mizoram</option>
+    <option value="Nagaland">Nagaland</option>
+    <option value="Odisha">Odisha</option>
+    <option value="Punjab">Punjab</option>
+    <option value="Rajasthan">Rajasthan</option>
+    <option value="Sikkim">Sikkim</option>
+    <option value="Tamil Nadu">Tamil Nadu</option>
+    <option value="Telangana">Telangana</option>
+    <option value="Tripura">Tripura</option>
+    <option value="Uttar Pradesh">Uttar Pradesh</option>
+    <option value="Uttarakhand">Uttarakhand</option>
+    <option value="West Bengal">West Bengal</option>
+    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+    <option value="Chandigarh">Chandigarh</option>
+    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+    <option value="Ladakh">Ladakh</option>
+    <option value="Lakshadweep">Lakshadweep</option>
+    <option value="Puducherry">Puducherry</option>
+  </select>
+</div>
+
               </div>
             </div>
 
@@ -730,7 +763,7 @@ const Register = () => {
               </div>
 
               <button
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+                className="w-full bg-blue-600 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700"
                 onClick={handleSubmit}
                 disabled={loading}
               >
@@ -756,7 +789,7 @@ const Register = () => {
             </p>
             <button
               onClick={() => startRazorpayPayment(paymentData)}
-              className="px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+              className="px-6 py-2 cursor-pointer bg-green-600 text-white rounded-xl hover:bg-green-700"
             >
               Confirm Payment
             </button>
@@ -786,13 +819,13 @@ const Register = () => {
               <p className="text-gray-600 mb-6">No referral code entered. Do you want to proceed anyway?</p>
               <div className="flex justify-center gap-4 flex-wrap">
                 <button
-                  className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
+                  className="px-4 cursor-pointer py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
                   onClick={() => setShowPopup(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-4 py-2 cursor-pointer  rounded-lg bg-blue-600 text-white hover:bg-blue-700"
                   onClick={() => {
                     setShowPopup(false);
                     dispatch(setStep(2));
@@ -838,7 +871,7 @@ const Register = () => {
 
               <div className="flex justify-center gap-4">
                 <button
-                  className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
+                  className="px-4 py-2 rounded-lg cursor-pointer bg-gray-300 hover:bg-gray-400"
                   onClick={() => {
                     setErrorPopup(false);
                   }}
@@ -848,7 +881,7 @@ const Register = () => {
 
                 {errorStatus === 409 ? (
                   <button
-                    className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700"
+                    className="px-4 py-2 rounded-lg cursor-pointer bg-green-600 text-white hover:bg-green-700"
                     onClick={() => {
                       setErrorPopup(false);
                       // navigate to login so user can access the course
@@ -859,7 +892,7 @@ const Register = () => {
                   </button>
                 ) : (
                   <button
-                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                    className="px-4 py-2 rounded-lg cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
                     onClick={() => {
                       setErrorPopup(false);
                       // keeps form data as-is for retry

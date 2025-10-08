@@ -49,6 +49,18 @@ const RegisterHeader = ({ step, setStep }) => {
 
   const steps = ['Course Selection', 'Sign up to Account', 'Payment'];
 
+  const handleStepClick = (targetStep) => {
+  if (targetStep === 1) {
+    setStep(1);
+    return;
+  }
+
+  if (!authToken) {
+    return;
+  }
+  setStep(targetStep);
+};
+
   return (
     <div className="mb-8 mt-5">
       {/* Header */}
@@ -82,7 +94,7 @@ const RegisterHeader = ({ step, setStep }) => {
           className="text-white w-full max-w-4xl"
         >
           {steps.map((label, index) => (
-            <Step key={label} onClick={() => setStep(index + 1)}>
+              <Step key={label} onClick={() => handleStepClick(index + 1)}>
               <StepLabel
                 StepIconComponent={(props) => <StepIconComponent {...props} icon={index + 1} />}
               >

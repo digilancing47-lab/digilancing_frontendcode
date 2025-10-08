@@ -115,13 +115,13 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex-1 bg-[#003B73] text-white p-10 flex flex-col relative md:border md:border-[#1C7BD5] md:rounded-tr-3xl md:rounded-br-3xl">
+        <div className="flex-1 bg-[#003B73] text-white py-10 md:p-10 flex flex-col relative md:border md:border-[#1C7BD5] md:rounded-tr-3xl md:rounded-br-3xl">
           <div className="absolute top-6 right-6 text-sm">
             No Account?{' '}
             <a href="/Register" className="underline hover:text-[#FDDB5D]">Sign up</a>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-semibold mb-3">Log in to <br /><span className="font-bold">your account</span></h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold  mt-3 mb-6">Log in to <br /><span className="font-bold">your account</span></h2>
 
           {/* Error message */}
           {error && (
@@ -132,7 +132,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-grow">
             <div>
-              <label className="block mb-1 text-sm">Enter your username or email address</label>
+              <label className="block mb-2 text-sm">Enter your username or email address</label>
               <input
                 type="email"
                 name="email"
@@ -145,7 +145,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label className="block mb-1 text-sm">Enter your Password</label>
+              <label className="block mb-2 text-sm">Enter your Password</label>
               <input
                 type="password"
                 name="password"
@@ -175,7 +175,7 @@ const Login = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition disabled:opacity-60"
+                className="flex items-center gap-2 cursor-pointer bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition disabled:opacity-60"
                 disabled={loading}
               >
                 {loading ? 'Signing in...' : 'Submit'} <ArrowRight className="w-5 h-5" />

@@ -14,10 +14,43 @@ const VerifyOtp = () => {
   const [error, setError] = useState('');
   const inputRefs = useRef([]);
 
+  // Timer state
+  const [secondsLeft, setSecondsLeft] = useState(59);
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const timerRef = useRef(null);
+
   useEffect(() => {
     // focus the first input on mount
     if (inputRefs.current[0]) inputRefs.current[0].focus();
+
+    // start initial countdown
+    startCountdown(59);
+
+    return () => {
+      // cleanup interval on unmount
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Start countdown helper
+  const startCountdown = (startSeconds = 59) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setSecondsLeft(startSeconds);
+    setIsResendDisabled(true);
+
+    timerRef.current = setInterval(() => {
+      setSecondsLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+          setIsResendDisabled(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const handleChange = (value, index) => {
     // allow only single digit numbers or empty
@@ -69,7 +102,8 @@ const VerifyOtp = () => {
     e.preventDefault();
   };
 
-  const handleSubmit = async (e) => {
+  // This is your OTP verification submit (keeps previous behavior)
+  const handleVerifySubmit = async (e) => {
     e.preventDefault();
     setError('');
     const fullOtp = otp.join('').trim();
@@ -106,6 +140,47 @@ const VerifyOtp = () => {
     }
   };
 
+  // Resend function - calls your Change-password/request endpoint and restarts countdown
+  const handleResend = async () => {
+    if (!email) {
+      alert('No email available to resend to.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/v_1/users/Change-password/request`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong while resending OTP.");
+      }
+
+      // Successfully requested resend
+      // Optionally clear inputs so the user types fresh:
+      // setOtp(new Array(6).fill(''));
+      // if (inputRefs.current[0]) inputRefs.current[0].focus();
+
+      // restart countdown to 59 seconds
+      startCountdown(59);
+
+      // show a small success message (you can replace with toast)
+      alert(data.message || 'OTP resent. Please check your email.');
+    } catch (err) {
+      console.error('Resend OTP Error:', err);
+      alert(err.message || 'Failed to resend OTP. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#003B73] p-4">
       <div className="flex flex-col md:flex-row max-w-4xl w-full rounded-3xl overflow-hidden mt-15 shadow-lg">
@@ -121,19 +196,19 @@ const VerifyOtp = () => {
         {/* Right side - OTP form */}
         <div
           className="
-            flex-1 bg-[#003B73] text-white p-10 flex flex-col relative
+            flex-1 bg-[#003B73] text-white py-10 md:p-10 flex flex-col relative
             md:border md:border-[#1C7BD5]
             rounded-b-3xl md:rounded-tr-3xl md:rounded-br-3xl md:rounded-tl-none md:rounded-bl-none
           "
         >
           <h2 className="text-2xl sm:text-3xl font-semibold mb-2">Verify OTP</h2>
-          <p className="mb-6 text-[#FDDB5D] text-lg max-w-lg">
+          <p className="mb-6 text-[#FDDB5D] text-sm max-w-lg">
             We’ve emailed you a 6-digit code at{' '}
             <span className="font-semibold">{email}</span>. Please enter it here to continue.
           </p>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleVerifySubmit}
             className="flex flex-col gap-6"
             aria-busy={loading}
             onPaste={handlePaste}
@@ -160,14 +235,14 @@ const VerifyOtp = () => {
             {error && <p className="text-red-400 text-sm">{error}</p>}
 
             <div className="flex justify-end items-center gap-4">
-              {/* Optional: show resend hint or button (no API call implemented here) */}
+              {/* Resend button with timer */}
               <button
                 type="button"
-                onClick={() => alert('Resend OTP clicked — implement resend API call if available.')}
+                onClick={handleResend}
                 className="text-sm underline hover:text-gray-200 disabled:opacity-50"
-                disabled={loading}
+                disabled={loading || isResendDisabled}
               >
-                Resend code
+                {isResendDisabled ? `Resend code (${secondsLeft}s)` : 'Resend code'}
               </button>
 
               <button

@@ -74,7 +74,7 @@ const ResetPassword = () => {
         {/* Right side - Form */}
         <div
           className="
-            flex-1 bg-[#003B73] text-white p-10 flex flex-col relative
+            flex-1 bg-[#003B73] text-white py-10 md:p-10 flex flex-col relative
             md:border md:border-[#1C7BD5]
             rounded-b-3xl md:rounded-tr-3xl md:rounded-br-3xl md:rounded-tl-none md:rounded-bl-none
           "
