@@ -43,7 +43,7 @@ const Card = ({
       setSelectedPackage({ title, description, price, features });
       setCurrentStep(2);
     } else if (isHomePage) {
-      setShowPopup(true);
+      navigate('/Register')
     }
     // Do nothing on Upgrade page or others
   };
@@ -84,44 +84,6 @@ const Card = ({
           Get Started
         </button>
       </div>
-
-      {/* Popup on Home Page */}
-      {showPopup &&
-        createPortal(
-          <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
-            role="dialog"
-            aria-modal="true"
-            onClick={() => setShowPopup(false)}
-          >
-            <div
-              className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="absolute right-3 top-3 rounded-full px-2 py-1 text-gray-500 hover:bg-gray-100"
-                aria-label="Close"
-                onClick={() => setShowPopup(false)}
-              >
-                ✕
-              </button>
-
-              <h2 className="text-xl font-semibold mb-2">🚀 Digilancing</h2>
-              <p className="text-gray-600 mb-4">Launching soon... Stay tuned!</p>
-
-              <button
-                className="mt-2 px-4 py-2 rounded-lg text-white hover:scale-105 transition"
-                style={{
-                  background: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)",
-                }}
-                onClick={() => setShowPopup(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>,
-          document.body
-        )}
     </>
   );
 };
