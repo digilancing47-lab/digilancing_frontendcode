@@ -1,7 +1,7 @@
 // src/Components/Mockdata.js
 import img1 from "../Assets/profile.png";
-import img2 from "../Assets/profile-dash.png";
-import img3 from "../Assets/sponsor.png";
+import img2 from "../Assets/Profile-dash.png";
+import img3 from "../Assets/Sponsor.png";
 const randomImages = [
  img1,img2,img3
 ];
