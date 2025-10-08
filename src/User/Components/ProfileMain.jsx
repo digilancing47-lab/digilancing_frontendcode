@@ -3,7 +3,7 @@ import Cropper from "react-easy-crop";
 import axios from "axios";
 import { FaUpload, FaTrash } from "react-icons/fa";
 import profileImgDefault from "../Assets/profile.png";
-import sponsorImg from "../Assets/sponsor.png";
+import sponsorImg from "../Assets/Sponsor.png";
 
 export default function ProfilePage() {
   const user = JSON.parse(sessionStorage.getItem("user") || "null");
