@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@import "tailwindcss";
+
+
+
+@theme {
+  --font-outfit: "Outfit", sans-serif;
+}
+
+
+/* Add this to your global CSS or Tailwind globals */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, Opera */
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* for IE and Edge */
+  scrollbar-width: none;     /* for Firefox */
+}
+
+
+.custom-dot {
+  width: 10px;
+  height: 10px;
+  background: #d1d5db; /* gray */
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active.custom-dot {
+  background: #5E4BDA; /* your brand color */
+  width: 12px;
+  height: 12px;
+}
+
+
+
+/* Swiper custom dots */
+.custom-swiper-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 6px !important;
+  opacity: 0.4;
+  background: #5E4BDA;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.custom-swiper-pagination .swiper-pagination-bullet-active {
+  transform: scale(1.6);
+  opacity: 1;
+  background: linear-gradient(90deg, #5E4BDA, #2C71A1);
+  border-radius: 9999px;
+}
