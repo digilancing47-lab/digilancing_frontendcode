@@ -2,8 +2,8 @@ import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import axios from "axios";
 import { FaUpload, FaTrash } from "react-icons/fa";
-import profileImgDefault from "../assets/profile.png";
-import sponsorImg from "../assets/sponsor.png";
+import profileImgDefault from "../Assets/profile.png";
+import sponsorImg from "../Assets/sponsor.png";
 
 export default function ProfilePage() {
   const user = JSON.parse(sessionStorage.getItem("user") || "null");
