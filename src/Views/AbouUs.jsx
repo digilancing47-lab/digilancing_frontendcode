@@ -106,7 +106,7 @@ const AboutUs = () => {
                         </h3>
                         <p className="text-white font-medium mb-4">Founder & CEO</p>
                         <p className="text-gray-300 text-justify leading-relaxed text-sm">
-                            Arjun Mehta is the visionary Founder & CEO behind DIGI LANCING.
+                            Arun Kumar is the visionary Founder & CEO behind DIGI LANCING.
                             With years of experience at IBM and expertise in Learning Management
                             Systems, he saw the gap between education and employability.
                             His mission is to shift education from theory to execution,
@@ -130,7 +130,7 @@ const AboutUs = () => {
                         <h3 className="text-2xl font-bold text-white mb-1">Akshay Kumar</h3>
                         <p className="text-white font-medium mb-4">Co-Founder</p>
                         <p className="text-gray-300 text-justify leading-relaxed text-sm">
-                            Rohan Kapoor, with a background at IDBI Bank, brings financial expertise,
+                            Akshay Kumar, with a background at IDBI Bank, brings financial expertise,
                             sales acumen, and administration to DIGI LANCING.
                             She believes education should not end with information,
                             but begin with action — skills that generate sustainable income.

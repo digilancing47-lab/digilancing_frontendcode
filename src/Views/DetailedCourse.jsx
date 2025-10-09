@@ -24,7 +24,7 @@ const DetailedCourse = () => {
           <div className="relative w-full rounded-2xl shadow-xl overflow-hidden bg-black aspect-video">
             <iframe
               className="w-full h-full"
-              src={playlist_intro || "https://www.youtube.com/embed/ePOglweqy7o"}
+              src={playlist_intro || "https://www.youtube.com/embed/49GsAbnNZv8?si=aBQAb4hV61sFqhWv"}
               title="Course Preview"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -127,11 +127,11 @@ const Footer = () => {
               <h3 className="text-lg sm:text-2xl font-semibold mb-4">Packages</h3>
               <ul className="space-y-2">
                 {[
-                  { href: '/basic-package', label: 'Basic Package' },
-                  { href: '/standard-package', label: 'Standard Package' },
-                  { href: '/advanced-package', label: 'Advanced Package' },
-                  { href: '/premium-package', label: 'Premium Package' },
-                  { href: '/ultimate-package', label: 'Ultimate Package' },
+                  { href: '/BasicPackages', label: 'Basic Package' },
+                  { href: '/StandardPackages', label: 'Standard Package' },
+                  { href: '/AdvancedPackages', label: 'Advanced Package' },
+                  { href: '/PremiumPackages', label: 'Premium Package' },
+                  { href: '/UltimatePackages', label: 'Ultimate Package' },
                 ].map((l) => (
                   <motion.li key={l.href} whileHover={!prefersReduced ? { x: 4 } : {}}>
                     <a href={l.href} className="text-sm font-normal sm:text-lg hover:text-gray-300 transition-colors">
