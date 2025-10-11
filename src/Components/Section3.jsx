@@ -6,6 +6,9 @@ import CardGrid from "./CardGrid";
 
 import { setDefaultPackages } from "../redux/slices/registerSlice";
 
+
+import axios from "axios";
+
 import TickBlue from "../assets/Tick_2.svg";
 import TickPurple from "../assets/Tick_3.svg";
 import TickRed from "../assets/Tick_4.svg";
@@ -17,6 +20,8 @@ import Card2 from "../assets/Card2.svg";
 import Card3 from "../assets/Card3.svg";
 import Card4 from "../assets/Card4.svg";
 import Card5 from "../assets/Card5.svg";
+
+import { API_BASE } from "../apiBase";
 
 const container = {
   hidden: { opacity: 0 },
@@ -158,16 +163,145 @@ const Section3 = ({ onCardSelect }) => {
   }, [dispatch, isUpgradePage]);
 
 
-const handleCardClick = (pkg) => {
-  if (isRegisterPage) {
-    if (onCardSelect) onCardSelect(pkg);
-    navigate("/Register", { state: { selectedCard: pkg } });
-  } else if (isUpgradePage) {
-    
-  }
+  const verifyPayment = async (data) => {
+      try {
+        const response = await fetch(`${API_BASE}/api/v_1/payment/Verify`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Payment verification failed");
+        }
+  
+        const text = await response.text();
+        try {
+          return JSON.parse(text);
+        } catch {
+          return { success: true, message: text };
+        }
+      } catch (error) {
+        console.error(error);
+        throw new Error("Network error. Please try again later.");
+      }
+    };
+  
+      const [isProcessing, setIsProcessing] = useState(false);
+        const [errorMessage, setErrorMessage] = useState("");
+          const [errorPopup, setErrorPopup] = useState(false);
 
-};
+  const handleCardClick =async(pkg) => {
+    if (isRegisterPage) {
+      if (onCardSelect) onCardSelect(pkg);
+      navigate("/Register", { state: { selectedCard: pkg } });
+    } else if (isUpgradePage) {
+      const data = sessionStorage.getItem("user");
+      const user = data ? JSON.parse(data) : null;
+      
+      if (user) {
 
+     const res = await axios.post(`${API_BASE}/api/v_1/users/upgradecreate`, {
+       Guide_code: user.guide_code,
+       PackageID: pkg.id
+     });
+
+         const response = res.data;
+
+               if (response.ok) {
+                 const options = {
+                   key: "rzp_test_RHsIWDG0e3uqin",
+                   amount: response?.amount,
+                   currency: "INR",
+                   name: "Digilancing Private Limited",
+                   description: `${response?.orderId} OrderID Transaction`,
+                   image: "",
+                   order_id: response?.razorpayOrderId,
+                   handler: function () {
+                     verifyPayment({
+                       razorpay_order_id: response.razorpayOrderId,
+                       status: "completed",
+                     })
+                       .then((res) => {
+                         if (res?.message == "Login successful") {
+                           setIsProcessing(false);
+                                 sessionStorage.setItem("authToken", res.token);
+               if (res.user) sessionStorage.setItem("user", JSON.stringify(res.user));
+               if (res.enrollment) {
+                 sessionStorage.setItem("enrollment", JSON.stringify(res.enrollment));
+                 if (res.enrollment.package_id)
+                   sessionStorage.setItem("packageId", res.enrollment.package_id);
+               }
+         
+               navigate("/DashBoard");
+                         } else {
+                           setIsProcessing(false);
+                           setErrorMessage(
+                             res?.message || "Payment verification failed. Please contact support."
+                           );
+                           setErrorPopup(true);
+                         }
+                       })
+                       .catch((err) => {
+                         setIsProcessing(false);
+                         setErrorMessage(err?.message || "Payment verification network error.");
+                         setErrorPopup(true);
+                       });
+                   },
+                   modal: {
+                     ondismiss: () => {
+                       (async () => {
+                         if (response?.razorpayOrderId) {
+                           try {
+                             await verifyPayment({
+                               razorpay_order_id: response.razorpayOrderId,
+                               status: "failed",
+                             });
+                           } catch (err) {
+                             console.error("Failed to mark payment as failed:", err);
+                           }
+                         }
+                         setIsProcessing(false);
+                         setErrorMessage("Payment not completed. You can try again.");
+                         setErrorPopup(true);
+                       })();
+                     },
+                   },
+                   prefill: {
+                     name: data.full_name,
+                     email: data.email,
+                     contact: data.phone,
+                   },
+                   notes: {
+                     address: "Razorpay Corporate Office",
+                   },
+                   theme: {
+                     color: "#3399cc",
+                   },
+                 };
+         
+                 var rzp1 = new window.Razorpay(options);
+         
+                 rzp1.on("payment.failed", function (response) {
+                   const reason = (response && response.error && response.error.description) || "Payment Failed";
+                   setErrorMessage(reason);
+                   setErrorPopup(true);
+                 });
+                 rzp1.open();
+               } else {
+                 setIsProcessing(false);
+                 setErrorMessage("Error purchasing package. Please try again.");
+                 setErrorPopup(true);
+               }
+      } else {
+        console.log("No user data found in sessionStorage");
+      }
+      
+    }
+  };
+  
   return (
     <motion.section
        className="bg-white py-8 md:py-16 font-outfit px-6 lg:px-20"

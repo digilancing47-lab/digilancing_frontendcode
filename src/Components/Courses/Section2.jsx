@@ -91,23 +91,31 @@ const Section2 = () => {
     return true;
   });
 
-  const handleWatchClick = async (course) => {
-    if (course.lock) return;
-    setLoadingCourse(course.course_code);
-    try {
-      const res = await dispatch(fetchCourseDetail(course.course_code)).unwrap();
-      if (!res) {
-        alert("Course details not available right now.");
-        return;
-      }
-      navigate("/DetailedCourse", { state: { courseData: res } });
-    } catch (err) {
-      console.error("Error fetching course detail:", err);
-      alert("Failed to load course details. Please try again later.");
-    } finally {
-      setLoadingCourse(null);
+const handleWatchClick = async (course) => {
+  if (course.lock) {
+    navigate("/Upgrade");
+    return;
+  }
+
+  setLoadingCourse(course.course_code);
+
+  try {
+    const res = await dispatch(fetchCourseDetail(course.course_code)).unwrap();
+
+    if (!res) {
+      alert("Course details not available right now.");
+      return;
     }
-  };
+
+    navigate("/DetailedCourse", { state: { courseData: res } });
+  } catch (err) {
+    console.error("Error fetching course detail:", err);
+    alert("Failed to load course details. Please try again later.");
+  } finally {
+    setLoadingCourse(null);
+  }
+};
+
 
   const handleLoadMore = () => {
     if (guide_code) {
@@ -234,24 +242,25 @@ const Section2 = () => {
                 </div>
 
                 <div className="flex-grow" />
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full py-3 rounded-xl text-sm sm:text-base
-                  ${
-                    course.lock
-                      ? "bg-gray-200 cursor-not-allowed"
-                      : "bg-[#0162D9] cursor-pointer text-white"
-                  }`}
-                  onClick={() => handleWatchClick(course)}
-                  disabled={loadingCourse === course.course_code || course.lock}
-                >
-                  {course.lock
-                    ? "Upgrade to Watch"
-                    : loadingCourse === course.course_code
-                    ? "Loading..."
-                    : "Watch"}
-                </motion.button>
+<motion.button
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  className={`w-full py-3 rounded-xl text-sm sm:text-base font-medium transition
+    ${
+      course.lock
+        ? "bg-gray-300 text-gray-600 hover:bg-gray-400 cursor-pointer"
+        : "bg-[#0162D9] text-white hover:bg-[#0150b3] cursor-pointer"
+    }`}
+  onClick={() => handleWatchClick(course)}
+
+>
+  {loadingCourse === course.course_code
+    ? "Loading..."
+    : course.lock
+    ? "Upgrade to Watch"
+    : "Watch"}
+</motion.button>
+
               </div>
             </motion.div>
           ))}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import loginImage from '../assets/login.svg';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE } from "../apiBase";
 
@@ -13,7 +13,8 @@ const wrapperVariants = {
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(''); 
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // 👁️ Password toggle
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -45,21 +46,17 @@ const Login = () => {
         body: JSON.stringify({ email: formData.email, password: formData.password }),
       });
 
-      // Try to parse JSON response safely
       let data;
       try {
         data = await res.json();
-      } catch (parseErr) {
+      } catch {
         data = { message: await res.text() };
       }
 
-      // Map status codes to user messages
       if (!res.ok) {
-        // Treat 403 and 404 as "user not found" (per your requirement)
         if (res.status === 403 || res.status === 404) {
           setError("User not found. Please check your email or sign up.");
         } else if (res.status === 401) {
-          // Unauthorized -> Invalid password (example)
           setError(data?.message || "Invalid password. Please try again.");
         } else if (res.status === 422) {
           setError(data?.message || "Validation error. Check inputs.");
@@ -70,22 +67,20 @@ const Login = () => {
         return;
       }
 
-      // Successful response: validate token before storing
       if (!data || !data.token) {
         setError("Login succeeded but server did not return a token.");
         console.error("No token in login response:", data);
         return;
       }
 
-      // Store session only on success
       sessionStorage.setItem("authToken", data.token);
       if (data.user) sessionStorage.setItem("user", JSON.stringify(data.user));
       if (data.enrollment) {
         sessionStorage.setItem("enrollment", JSON.stringify(data.enrollment));
-        if (data.enrollment.package_id) sessionStorage.setItem("packageId", data.enrollment.package_id);
+        if (data.enrollment.package_id)
+          sessionStorage.setItem("packageId", data.enrollment.package_id);
       }
 
-      // If the user chose persistent login, you might want to also save to localStorage
       if (formData.stayLoggedIn) {
         localStorage.setItem("authToken", data.token);
       }
@@ -121,9 +116,10 @@ const Login = () => {
             <a href="/Register" className="underline hover:text-[#FDDB5D]">Sign up</a>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-semibold  mt-3 mb-6">Log in to <br /><span className="font-bold">your account</span></h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold mt-3 mb-6">
+            Log in to <br /><span className="font-bold">your account</span>
+          </h2>
 
-          {/* Error message */}
           {error && (
             <div className="mb-4 p-3 rounded-md bg-red-600/90 text-white">
               {error}
@@ -132,7 +128,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-grow">
             <div>
-              <label className="block mb-2 text-sm">Enter your username or email address</label>
+              <label className="block mb-2 text-sm">Enter your email address</label>
               <input
                 type="email"
                 name="email"
@@ -144,17 +140,27 @@ const Login = () => {
               />
             </div>
 
+            {/* Password Field with Eye Icon */}
             <div>
               <label className="block mb-2 text-sm">Enter your Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="••••••"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg text-black focus:outline-none bg-white"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg text-black focus:outline-none bg-white pr-12"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center justify-between text-sm">

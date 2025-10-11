@@ -4,14 +4,12 @@ import icon from '../../User/Assets/icon.svg';
 
 const RecentlyQualified = () => {
  const qualifiedUsers = [
-  { name: 'Vikram', qualification: 'Normal Qualifier', timeAgo: '1 day ago', avatar: icon },
-  { name: 'Anjali', qualification: 'Premium Plus Qualifier', timeAgo: '2 days ago', avatar: icon },
-  { name: 'Rohit', qualification: 'Premium Qualifier', timeAgo: '3 days ago', avatar: icon },
+  { name: 'Vikram', qualification: 'Normal Qualifier', timeAgo: '1 day ago', avatar: "" },
+  { name: 'Anjali', qualification: 'Premium Plus Qualifier', timeAgo: '2 days ago', avatar: "" },
+  { name: 'Rohit', qualification: 'Premium Qualifier', timeAgo: '3 days ago', avatar: "" },
   { name: 'Meera', qualification: 'Premium Plus Qualifier', timeAgo: '2 hours ago', avatar: "" },
-  { name: 'Sandeep', qualification: 'Normal Qualifier', timeAgo: '5 hours ago', avatar: icon }
+  { name: 'Sandeep', qualification: 'Normal Qualifier', timeAgo: '5 hours ago', avatar: "" }
 ];
-
-
   return (
     <div
       className="bg-white rounded-4xl cursor-default border border-[#C9C9C9] mb-4 overflow-hidden w-full "

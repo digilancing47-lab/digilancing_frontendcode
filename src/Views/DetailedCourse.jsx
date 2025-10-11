@@ -18,9 +18,7 @@ const DetailedCourse = () => {
   return (
     <div className="min-h-screen mt-20 bg-gray-50 py-8 px-4 sm:px-6 lg:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Course Video */}
           <div className="relative w-full rounded-2xl shadow-xl overflow-hidden bg-black aspect-video">
             <iframe
               className="w-full h-full"
@@ -31,8 +29,6 @@ const DetailedCourse = () => {
               allowFullScreen
             ></iframe>
           </div>
-
-          {/* About Course */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">About the Course</h2>
             <p className="text-gray-700 text-base leading-relaxed">
@@ -40,7 +36,6 @@ const DetailedCourse = () => {
             </p>
           </section>
 
-          {/* What Will I Learn */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">What You'll Learn</h2>
             <ul className="grid sm:grid-cols-2 gap-3 text-gray-700 text-base">

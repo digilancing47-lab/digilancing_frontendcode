@@ -350,7 +350,6 @@ const Register = () => {
             res.error ||
             (typeof res === "string" ? res : "Registration failed");
           setErrorMessage(msg);
-          // if thunk returned status in resolved payload (rare), capture it
           if (res.status) setErrorStatus(res.status);
           setErrorPopup(true);
         } else {
@@ -429,13 +428,19 @@ const Register = () => {
               status: "completed",
             })
               .then((res) => {
-                if (res?.success) {
+                if (res?.message == "Login successful") {
                   setIsProcessing(false);
-                  alert("Please Login to process");
-                  navigate("/DashBoard");
+                        sessionStorage.setItem("authToken", res.token);
+      if (res.user) sessionStorage.setItem("user", JSON.stringify(res.user));
+      if (res.enrollment) {
+        sessionStorage.setItem("enrollment", JSON.stringify(res.enrollment));
+        if (res.enrollment.package_id)
+          sessionStorage.setItem("packageId", res.enrollment.package_id);
+      }
+
+      navigate("/DashBoard");
                 } else {
                   setIsProcessing(false);
-                  // show error popup instead of alert
                   setErrorMessage(
                     res?.message || "Payment verification failed. Please contact support."
                   );
@@ -469,9 +474,9 @@ const Register = () => {
             },
           },
           prefill: {
-            name: "Karthi",
-            email: "amariyappan.karthi@gmail.com",
-            contact: "6301457870",
+            name: formData.full_name,
+            email: formData.email,
+            contact: formData.phone,
           },
           notes: {
             address: "Razorpay Corporate Office",
@@ -484,7 +489,6 @@ const Register = () => {
         var rzp1 = new window.Razorpay(options);
 
         rzp1.on("payment.failed", function (response) {
-          // show failed reason if available
           const reason = (response && response.error && response.error.description) || "Payment Failed";
           setErrorMessage(reason);
           setErrorPopup(true);
@@ -492,13 +496,11 @@ const Register = () => {
         rzp1.open();
       } else {
         setIsProcessing(false);
-        console.error("Error purchasing package:", response.data);
         setErrorMessage("Error purchasing package. Please try again.");
         setErrorPopup(true);
       }
     } catch (error) {
       setIsProcessing(false);
-      console.error("Error purchasing package:", error);
       setErrorMessage(error?.message || "Error purchasing package. Please try again.");
       setErrorPopup(true);
     }
@@ -658,15 +660,20 @@ const Register = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
                   <label className="text-gray-200 mb-1">Mobile Number</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Mobile Number"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      dispatch(setFormData({ phone: e.target.value }))
-                    }
-                  />
+                 <input
+  type="text"
+  placeholder="Enter Mobile Number"
+  className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+  value={formData.phone}
+  maxLength={10}
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, ""); // remove non-digits
+    if (value.length <= 10) {
+      dispatch(setFormData({ phone: value }));
+    }
+  }}
+/>
+
                 </div>
                 <div className="flex flex-col flex-1">
                   <label className="text-gray-200 mb-1">Password</label>
