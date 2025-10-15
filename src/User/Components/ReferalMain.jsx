@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import img1 from "../Assets/pro-ref.png"; // fallback photo
 import { API_BASE } from "../../apiBase";
+import referal from '/referal.avif'
+
 export default function ReferralDetails() {
   // read user from sessionStorage
   let parsedUser = null;
@@ -105,10 +107,21 @@ export default function ReferralDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6 px-4 sm:px-6 lg:px-8 rounded-4xl">
+    <div className="min-h-screen bg-gray-50  p-6 rounded-4xl">
       {/* Header */}
-      <div className=" bg-[#003366] text-white text-center  text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center px-3 sm:px-4  lg:max-w-6xl lg:mx-auto">
-        <h1 className="text-4xl font-bold tracking-wide">REFERAL DETAILS</h1>
+      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[250px] rounded-4xl mb-3 overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={referal}
+          alt="Webinar Background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+    
+        {/* Centered Text */}
+        <div className="relative flex flex-col items-center justify-center h-full">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">REFERRAL DETAILS</h1>
+          <h1 className="text-sm font-normal tracking-wide">Track and manage your referral network</h1>
+        </div>
       </div>
 
 

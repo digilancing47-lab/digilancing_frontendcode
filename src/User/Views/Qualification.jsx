@@ -10,7 +10,7 @@ const Qualification = () => {
         <div className="lg:ml-64">
           <AfHeader />
         </div>
-        <div className="lg:ml-66 lg:mt-2 mt-20 py-0.5 rounded-3xl bg-white ">
+        <div className="mt-20 lg:mt-2 lg:ml-65 rounded-4xl bg-white ">
           <QualificationMain />
         </div>
       </div>

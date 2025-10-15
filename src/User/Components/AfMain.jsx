@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import walletIcon from "../Assets/wallet.png";
-import upro from "../Assets/u_pro.png";
-import { referrals as mockReferrals, leaderboard as mockLeaderboard } from "../Components/Mockdata";
 import { API_BASE } from "../../apiBase";
+import { useNavigate } from "react-router-dom";
+
+
 
 // ---- Animated counter component (paste above MainDashboard) ----
 function AnimatedAmount({ value = 0, duration = 900, formatter }) {
   const [display, setDisplay] = useState(0);
+
 
   useEffect(() => {
     let raf;
@@ -196,6 +197,8 @@ export default function MainDashboard() {
     { id: "DIGI0004", name: "Premium Package" },
     { id: "DIGI0005", name: "Ultimate Package" },
   ];
+
+  const Navigate = useNavigate()
 
   // load mock lists into state (simulate)
   const [loading, setLoading] = useState(false);
@@ -403,11 +406,11 @@ export default function MainDashboard() {
       )}
       <div className="flex flex-col text-[#000000] font-sans">
         {/* Top Section */}
-        <div className="bg-[#EBF5EB] rounded-3xl p-4">
+        <div className="bg-[#EBF5EB] rounded-4xl p-4">
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="relative w-full lg:w-[350px] h-[220px] rounded-4xl overflow-hidden shadow-md flex-shrink-0">
               {user.customer_image ? (
-                <img src={user.customer_image} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
+                <img src={user.customer_image} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <div className="h-full w-full mx-auto flex items-center  justify-center bg-gradient-to-r from-indigo-500  to-indigo-300 text-white/60 font-bold text-[150px] uppercase">
                   {user.fullname?.slice(0, 2)}
@@ -490,7 +493,7 @@ export default function MainDashboard() {
                 <div className="bg-[#F9FAFB] rounded-2xl p-4 sm:p-6 shadow-sm">
                   <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
                     <h3 className="font-semibold text-xl">Your Recent Referrals</h3>
-                    <button className="text-xs bg-[#E6F7E9] text-[#1E6FFF] px-3 py-1 rounded-full">See all</button>
+                    <button onClick={()=>{Navigate('/ReferalDetails')}} className="text-xs cursor-pointer bg-[#E6F7E9] text-[#1E6FFF] px-3 py-1 rounded-full">See all</button>
                   </div>
                   <div className="space-y-3">
                     {loading && recentreferrals.length === 0 ? (

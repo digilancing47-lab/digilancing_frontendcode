@@ -4,6 +4,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { API_BASE } from "../../apiBase";
 
+import webiner_image from '/webinar_frontend.avif'
+
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -13,7 +15,6 @@ function getRandomColor() {
   return color;
 }
 
-
 const WebinarCalendar = () => {
   const [calendarRef, setCalendarRef] = useState(null);
   const [showMonthPicker, setShowMonthPicker] = useState(false);
@@ -22,8 +23,6 @@ const WebinarCalendar = () => {
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-
 
   // Fetch webinars from API
   const fetchWebinars = async (year, month) => {
@@ -38,8 +37,12 @@ const WebinarCalendar = () => {
       if (data.success) {
         const formattedEvents = data.data.map((webinar) => {
           const startDate = new Date(webinar.date);
-          const startDateTime = `${startDate.toISOString().split("T")[0]}T${webinar.timing_from}`;
-          const endDateTime = `${startDate.toISOString().split("T")[0]}T${webinar.timing_to}`;
+          const startDateTime = `${startDate
+            .toISOString()
+            .split("T")[0]}T${webinar.timing_from}`;
+          const endDateTime = `${startDate
+            .toISOString()
+            .split("T")[0]}T${webinar.timing_to}`;
 
           return {
             id: webinar.id,
@@ -76,47 +79,66 @@ const WebinarCalendar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#002B54] flex flex-col items-center  text-white">
+    <div className="min-h-screen bg-[#002B54] flex flex-col items-center text-white">
       {/* Header */}
-      <div className="w-full  bg-white text-[#12467f] text-center py-6 sm:py-8 rounded-2xl shadow-lg mb-3">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-wide mt-2">WEBINAR</h1>
-      </div>
 
-      {/* Calendar Section */}
-      <div className="w-full  bg-white text-black p-4 sm:p-8 rounded-2xl shadow-xl relative">
-        <FullCalendar
-          ref={(ref) => setCalendarRef(ref)}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          headerToolbar={{
-            left: "today",
-            center: "title",
-            right: "",
-          }}
-          titleFormat={{ year: "numeric", month: "long" }}
-          height="auto"
-          eventContent={(eventInfo) => (
-            <div
-  className="rounded-md w-full mx-auto text-xs p-2 sm:text-sm cursor-pointer leading-tight text-black"
-  style={{ backgroundColor: getRandomColor() }}
->
-              <b>{eventInfo.timeText}</b>
-              <p className="font-semibold truncate">{eventInfo.event.title}</p>
-              <p className="text-xs">{eventInfo.event.extendedProps.trainer}</p>
-            </div>
-          )}
-          eventClick={(info) => {
-            setSelectedEvent(info.event);
-            setShowModal(true);
-          }}
-        />
+      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[250px] rounded-4xl mb-3 overflow-hidden">
+  {/* Background Image */}
+  <img
+    src={webiner_image}
+    alt="Webinar Background"
+    className="absolute inset-0 w-full h-full object-cover"
+  />
+
+  {/* Overlay for slight dim effect (optional) */}
+  <div className="absolute inset-0 bg-white/10"></div>
+
+  {/* Centered Text */}
+  <div className="relative flex flex-col items-center justify-center h-full">
+    <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">WEBINAR SCHEDULE</h1>
+  </div>
+</div>
+
+
+      {/* Calendar Section (Light Theme) */}
+      <div className="w-full bg-[#f8fafc] text-black p-4 sm:p-8 rounded-4xl relative shadow-md">
+        <div className="calendar-light">
+          <FullCalendar
+            ref={(ref) => setCalendarRef(ref)}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            headerToolbar={{
+              left: "today",
+              center: "title",
+              right: "",
+            }}
+            titleFormat={{ year: "numeric", month: "long" }}
+            height="auto"
+            eventContent={(eventInfo) => (
+              <div
+                className="rounded-md w-full mx-auto text-xs p-2 sm:text-sm cursor-pointer leading-tight text-white"
+                style={{ backgroundColor: getRandomColor() }}
+              >
+                <b>{eventInfo.timeText}</b>
+                <p className="font-semibold truncate">
+                  {eventInfo.event.title}
+                </p>
+                <p className="text-xs">{eventInfo.event.extendedProps.trainer}</p>
+              </div>
+            )}
+            eventClick={(info) => {
+              setSelectedEvent(info.event);
+              setShowModal(true);
+            }}
+          />
+        </div>
 
         {/* Month-Year Button */}
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <button
             onClick={() => setShowMonthPicker(!showMonthPicker)}
-            className="bg-[#12467f] text-[#ffffff] px-3 sm:px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base cursor-pointer hover:bg-[#12467f] transition-colors"
+            className="bg-[#12467f] text-[#ffffff] px-3 sm:px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base cursor-pointer hover:bg-[#0b3b70] transition-colors"
           >
             Month
           </button>
@@ -151,7 +173,9 @@ const WebinarCalendar = () => {
                         ? "bg-[#0b3b70] text-white"
                         : "hover:bg-gray-200"
                     }`}
-                    onClick={() => handleMonthYearChange(selectedYear, monthIndex)}
+                    onClick={() =>
+                      handleMonthYearChange(selectedYear, monthIndex)
+                    }
                   >
                     {new Date(0, monthIndex).toLocaleString("default", {
                       month: "short",
@@ -166,11 +190,11 @@ const WebinarCalendar = () => {
 
       {/* Modal */}
       {showModal && selectedEvent && (
-        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center px-2 sm:px-4 z-50">
+        <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center px-2 sm:px-4 z-50">
           <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 max-w-4xl w-full relative">
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-black-600 hover:text-gray-900 text-xl sm:text-2xl"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-600 hover:text-gray-900 text-xl sm:text-2xl"
             >
               ✖
             </button>
@@ -178,10 +202,7 @@ const WebinarCalendar = () => {
             <div className="mt-5">
               {/* Image */}
               <img
-                src={
-                  selectedEvent.extendedProps.image
-                 
-                }
+                src={selectedEvent.extendedProps.image}
                 alt={selectedEvent.title}
                 className="w-full h-48 sm:h-64 object-cover rounded-lg"
               />
@@ -202,13 +223,6 @@ const WebinarCalendar = () => {
                 <p className="text-sm sm:text-base text-gray-700 mb-4">
                   <b>End:</b> {new Date(selectedEvent.end).toLocaleString()}
                 </p>
-
-                {/* <button
-                  onClick={() => setShowModal(false)}
-                  className="mt-4 px-5 sm:px-6 py-2 bg-[#0b3b70] text-white rounded-lg shadow hover:bg-[#12467f]"
-                >
-                  Close
-                </button> */}
               </div>
             </div>
           </div>

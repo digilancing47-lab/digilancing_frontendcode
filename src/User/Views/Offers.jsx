@@ -23,11 +23,11 @@ const Offers = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#002B54]">
       <AfLeftNav />
-      <div className="flex-1 px-3 py-4">
+      <div className="flex-1 p-4">
         <div className="lg:ml-64 mb-2">
           <AfHeader />
         </div>
-        <div className="lg:ml-66 lg:mt-2 mt-20 py-0.5 rounded-3xl bg-white p-6">
+        <div className="mt-20 lg:mt-2 lg:ml-65 rounded-4xl bg-white p-6">
           <OffersContainer />
           <div className="flex flex-col items-center h-[50vh] text-center">
             <img src="/offers.png" alt="" className="w-[230px]"/>

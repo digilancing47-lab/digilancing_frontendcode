@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import train from "../Assets/training.png";
-
+import training from '/training.avif'
 const TrainingPage = () => {
   const [trainings, setTrainings] = useState([]);
   useEffect(() => {
@@ -15,10 +15,21 @@ const TrainingPage = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen rounded-3xl bg-[#ffffff] p-6">
-      <div className=" bg-[#003366] text-white text-center  text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center  px-3 sm:px-4  lg:max-w-6xl lg:mx-auto">
-          DIGILANCING TRAINING
-      </div>
+    <div className="w-full min-h-screen rounded-4xl bg-[#ffffff] p-6">
+        <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[300px] rounded-4xl mb-3 overflow-hidden">
+              {/* Background Image */}
+              <img
+                src={training}
+                alt="Webinar Background"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+          
+              {/* Centered Text */}
+              <div className="relative flex flex-col items-center justify-center h-full">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">TRAININGS</h1>
+                {/* <h1 className="text-sm font-normal tracking-wide">Track and manage your referral network</h1> */}
+              </div>
+            </div>
 
       {/* Trainings Grid */}
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

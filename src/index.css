@@ -52,3 +52,60 @@
   background: linear-gradient(90deg, #5E4BDA, #2C71A1);
   border-radius: 9999px;
 }
+
+
+/* FullCalendar Light Theme Styling */
+.calendar-light .fc {
+  background-color: #ffffff;
+  color: #111827; /* Neutral text */
+  border-radius: 12px;
+  padding: 8px;
+}
+
+/* Header Title */
+.calendar-light .fc-toolbar-title {
+  color: #0b3b70;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Day Cells */
+.calendar-light .fc-daygrid-day {
+  background-color: #f9fafb;
+  transition: background 0.2s ease-in-out;
+}
+
+.calendar-light .fc-daygrid-day:hover {
+  background-color: #eef2ff;
+}
+
+.calendar-light .fc-daygrid-day.fc-day-today {
+  background-color: #fff7ed;
+  border: 1px solid #fbbf24;
+}
+
+/* Day Numbers */
+.calendar-light .fc-daygrid-day-number {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Buttons */
+.calendar-light .fc-button {
+  background-color: #0b3b70 !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+
+.calendar-light .fc-button:hover {
+  background-color: #12467f !important;
+}
+
+/* Event */
+.calendar-light .fc-event {
+  border-radius: 6px;
+  color: white;
+  padding: 3px 4px;
+  font-size: 0.85rem;
+}

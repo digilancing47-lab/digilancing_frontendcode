@@ -93,9 +93,8 @@ const stats = [
 const AchievementPage = () => {
   return (
     <div className="bg-[#032B55] min-h-screen flex flex-col items-center">
-      
       {/* Header */}
-      <div className="w-full bg-white rounded-3xl py-10 flex flex-col items-center px-4 text-center">
+      <div className="w-full bg-white rounded-4xl py-10 flex flex-col items-center px-4 text-center">
         <img src={f1} alt="Trophy" className="h-20 w-20" />
         <h1 className="text-3xl font-bold text-black mb-1">Your Achievements</h1>
         <p className="text-md text-gray-400 mt-1 max-w-lg">
@@ -104,7 +103,7 @@ const AchievementPage = () => {
       </div>
 
       {/* Achievements Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 max-w-5xl w-full px-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 w-full px-3">
         {achievements.map((achievement, index) => (
           <div key={index} className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-left">
             

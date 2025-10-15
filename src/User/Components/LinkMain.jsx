@@ -9,6 +9,7 @@ const LinkGenerator = () => {
   const [popup, setPopup] = useState(false);
   const [linkPopup, setLinkPopup] = useState(false);
 
+
   const packages = [
     { id: "DIGI0001", name: "Basic Package" },
     { id: "DIGI0002", name: "Standard Package" },
@@ -46,26 +47,25 @@ const LinkGenerator = () => {
   };
 
   return (
-  <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center py-2 px-6">
-      <div className=" bg-[#003366] text-white text-center  text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center  mt-5 px-3 sm:px-4  lg:max-w-6xl lg:mx-auto">
-        <h1 className="text-4xl font-bold tracking-wide">LINK GENERATOR</h1>
-      </div>
-      <div className="w-full max-w-4xl bg-[#0b3b70] p-6 rounded-2xl shadow-lg relative mt-5">
+  <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-6">
+      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[300px] rounded-4xl mb-3 overflow-hidden">
+             <img src='/LinkGenerator.avif' alt="Webinar Background" className="absolute inset-0 w-full h-full object-cover" />
+             <div className="relative flex flex-col items-center justify-center h-full">
+               <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">LINK GENERATOR</h1>
+             </div>
+           </div>
+
+
+
+
+      <div className="w-full bg-[#0b3b70] p-6 rounded-2xl shadow-lg relative mt-5">
         <h2 className="text-lg font-semibold mb-4 text-white">Affiliate Link Generator</h2>
         <hr className="border-gray-500 mb-6" />
         <div className="mb-6">
           <label className="block mb-2 font-medium text-white">My Referral Code:</label>
           <div className="flex gap-3">
-            <input
-              type="text"
-              value={guide_code}
-              disabled
-              className="flex-1 px-3 py-2 rounded-md text-black bg-white"
-            />
-            <button
-              onClick={handleCopyCode}
-              className="bg-white text-black cursor-pointer px-4 py-2 rounded-lg shadow font-semibold"
-            >
+            <input type="text" value={guide_code} disabled  className="flex-1 px-3 py-2 rounded-md text-black bg-white"/>
+            <button onClick={handleCopyCode} className="bg-white text-black cursor-pointer px-4 py-2 rounded-lg shadow font-semibold">
               Share code
             </button>
           </div>

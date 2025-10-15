@@ -3,6 +3,7 @@ import { Calendar, X, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { API_BASE } from "../../apiBase";
+import { useNavigate } from "react-router-dom";
 
 // Premium modal (kept in the same file for convenience)
 function PremiumDateRangeModal({
@@ -15,48 +16,6 @@ function PremiumDateRangeModal({
   applyDateRange,
 }) {
   if (!modalOpen) return null;
-
-  const presets = [
-    {
-      id: "7d",
-      label: "Last 7 days",
-      calc: () => {
-        const end = new Date();
-        const start = new Date();
-        start.setDate(end.getDate() - 6);
-        return { start, end };
-      },
-    },
-    {
-      id: "30d",
-      label: "Last 30 days",
-      calc: () => {
-        const end = new Date();
-        const start = new Date();
-        start.setDate(end.getDate() - 29);
-        return { start, end };
-      },
-    },
-    {
-      id: "month",
-      label: "This month",
-      calc: () => {
-        const end = new Date();
-        const start = new Date(end.getFullYear(), end.getMonth(), 1);
-        return { start, end };
-      },
-    },
-  ];
-
-  const applyPreset = (preset) => {
-    const { start, end } = preset.calc();
-    const s = start.toISOString().slice(0, 10);
-    const e = end.toISOString().slice(0, 10);
-    setStartDate(s);
-    setEndDate(e);
-    applyDateRange?.({ start: s, end: e });
-    setModalOpen(false);
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -88,7 +47,7 @@ function PremiumDateRangeModal({
             <button
               onClick={() => setModalOpen(false)}
               aria-label="Close"
-              className="-mr-2 rounded-lg p-2 hover:bg-zinc-100"
+              className="-mr-2 cursor-pointer rounded-lg p-2 hover:bg-zinc-100"
             >
               <X className="h-5 w-5 text-zinc-600" />
             </button>
@@ -128,7 +87,7 @@ function PremiumDateRangeModal({
                     setStartDate("");
                     setEndDate("");
                   }}
-                  className="rounded-md px-3 py-2 text-sm bg-zinc-100"
+                  className="rounded-md px-3 cursor-pointer py-2 text-sm bg-zinc-100"
                 >
                   Clear
                 </button>
@@ -138,23 +97,11 @@ function PremiumDateRangeModal({
                     applyDateRange?.({ start: startDate, end: endDate });
                     setModalOpen(false);
                   }}
-                  className="rounded-md px-3 py-2 text-sm bg-[#003D80] text-white shadow"
+                  className="rounded-md px-3 cursor-pointer py-2 text-sm bg-[#003D80] text-white shadow"
                 >
                   Apply
                 </button>
               </div>
-            </div>
-
-            <div className="mt-4 flex gap-2">
-              {presets.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => applyPreset(p)}
-                  className="text-xs rounded-md px-3 py-2 bg-zinc-50"
-                >
-                  {p.label}
-                </button>
-              ))}
             </div>
           </div>
         </div>
@@ -171,6 +118,11 @@ export default function EarningsDashboard() {
     parsedUser = sessionStorage.getItem("user") || null;
   }
   const user = parsedUser;
+  const name = user?.fullname;
+  const image = user?.customer_image;
+
+  const navigate = useNavigate()
+
   const [guide_code] = useState(user?.guide_code || "");
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -262,28 +214,28 @@ export default function EarningsDashboard() {
           label: "Today's Earning",
           amount: inrFormatter.format(Number(apiData.today?.total || 0)),
           count: apiData.today?.count,
-          gradient: "from-purple-600 via-pink-500 to-red-500",
+          gradient: "from-indigo-600 via-blue-500 to-blue-600",
         },
         {
           id: "last7",
           label: "Last 7 Days Earnings",
           amount: inrFormatter.format(Number(apiData.last7Days?.total || 0)),
           count: apiData.last7Days?.count,
-          gradient: "from-indigo-600 via-blue-500 to-purple-600",
+          gradient: "from-indigo-600 via-blue-500 to-blue-600",
         },
         {
           id: "last30",
           label: "Last 30 Days Earnings",
           amount: inrFormatter.format(Number(apiData.last30Days?.total || 0)),
           count: apiData.last30Days?.count,
-          gradient: "from-red-500 via-pink-500 to-purple-500",
+          gradient: "from-indigo-600 via-blue-500 to-blue-600",
         },
         {
           id: "allTime",
           label: "All Time Earning",
           amount: inrFormatter.format(Number(apiData.allTime?.total || 0)),
           count: apiData.allTime?.count,
-          gradient: "from-purple-600 via-indigo-500 to-green-400",
+           gradient: "from-indigo-600 via-blue-500 to-blue-600",
         },
       ]
     : [];
@@ -320,7 +272,6 @@ export default function EarningsDashboard() {
   const applyDateRange = async ({ start, end } = {}) => {
     const s = start ?? startDate;
     const e = end ?? endDate;
-    console.log("Applying date range for", modalFor, s, e);
 
     // persist selection to session so it survives refresh:
     try {
@@ -388,18 +339,27 @@ export default function EarningsDashboard() {
     }
   };
 
+
   return (
-    <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center py-2 px-6">
+    <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-4 md:p-6">
       {/* Profile Card */}
-     <div className=" bg-[#003366] text-white text-center text-lg sm:text-2xl md:text-2xl h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center  mt-5 px-3 sm:px-4  lg:max-w-6xl lg:mx-auto relative">
+     <div className=" bg-[#003366] text-white text-center text-lg sm:text-2xl md:text-2xl h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
         <div className="flex flex-col items-center">
-          <img
-            src={user?.customer_image || "/user.svg"}
-            alt={user?.name || "User"}
-            className="w-20 h-20 rounded-full object-cover"
-          />
-          <h2 className="text-white text-lg font-bold mt-3">{user?.fullname || "Unknown"}</h2>
-          <p className="text-gray-200">{user?.email || ""}</p>
+          {image ? (
+              <img
+                src={image}
+                alt="Profile"
+                className="w-28 h-28 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-28 h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-4xl uppercase" 
+               onClick={() => navigate("/Profile")}
+                style={{cursor:"pointer"}}>
+                {name?.slice(0, 2)}
+              </div>
+            )}
+          <h2 className="text-white text-2xl font-bold mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
+          <p className="text-gray-200 text-xl mt-1">{user?.email || ""}</p>
         </div>
         <button
           onClick={() => {
@@ -412,7 +372,7 @@ export default function EarningsDashboard() {
       </div>
 
       {/* Earnings Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 w-full max-w-4xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6 pt-3 md:pt-5 w-full">
         {loading && <div className="col-span-full text-center text-white">Loading...</div>}
 
         {!loading && earningsCards.length === 0 && (
@@ -458,7 +418,6 @@ export default function EarningsDashboard() {
                           </div>
                         </div>
                         <div className="text-sm font-semibold">
-                          {/* choose likely property names */}
                           {inrFormatter.format(Number(c.amount || c.earning_amount || c.total || 0))}
                         </div>
                       </div>
@@ -472,16 +431,15 @@ export default function EarningsDashboard() {
           </div>
         )}
 
-{earningsCards.map((item) => (
+        {earningsCards.map((item) => (
           <button
             key={item.id}
-            onClick={() => openDateModal(item.id)}
-            className={`rounded-xl p-5 text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
+            className={`rounded-xl px-5 h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm">{item.label}</p>
+              <p className="text-lg">{item.label}</p>
             </div>
-            <h3 className="text-2xl font-bold mt-2">{item.amount}</h3>
+            <h3 className="text-2xl md:text-3xl font-bold mt-2">{item.amount}</h3>
           </button>
         ))}
 

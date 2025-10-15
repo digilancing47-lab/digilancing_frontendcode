@@ -128,7 +128,8 @@ const AfHeader = () => {
               <img
                 src={image}
                 alt="Profile"
-                className="w-10 h-10 rounded-full object-cover"
+                onClick={()=>{navigate('/Profile')}}
+                className="w-10 h-10 cursor-pointer  rounded-full object-cover"
               />
             ) : (
               <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-lg uppercase" 
@@ -137,7 +138,7 @@ const AfHeader = () => {
                 {name?.slice(0, 2)}
               </div>
             )}
-            <div className="flex px-2 flex-col">
+            <div  onClick={()=>{navigate('/Profile')}} className="flex cursor-pointer px-2 flex-col">
               <span className="bg-gradient-to-r from-indigo-500 to-indigo-300 bg-clip-text text-transparent font-semibold text-base capitalize">
                 Hello! {name}
               </span>

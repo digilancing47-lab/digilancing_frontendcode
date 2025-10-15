@@ -212,7 +212,7 @@ const Section3 = ({ onCardSelect }) => {
 
                if (response.ok) {
                  const options = {
-                   key: "rzp_test_RHsIWDG0e3uqin",
+                   key: "rzp_test_RTi6PhglOHM0AF",
                    amount: response?.amount,
                    currency: "INR",
                    name: "Digilancing Private Limited",
