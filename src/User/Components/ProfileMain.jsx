@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const state = user?.state || "";
   const packageId = sessionStorage.getItem("packageId");
 
-  const referred_person_id = user?.referred_by || 4849787438;
+  const referred_person_id = user?.referred_by;
 
   const packageNames = {
     DIGI0005: "Ultimate Package",
