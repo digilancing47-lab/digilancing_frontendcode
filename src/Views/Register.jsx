@@ -409,6 +409,8 @@ const Register = () => {
     }
   };
 
+  const [OnPaymentcancel,setOnPaymentcancel]=useState(false)
+
   const startRazorpayPayment = async (packagedata) => {
     try {
       setIsProcessing(true);
@@ -468,8 +470,7 @@ const Register = () => {
                 }
                 setIsProcessing(false);
                 dispatch(resetRegister());
-                setErrorMessage("Payment not completed. You can try again.");
-                setErrorPopup(true);
+                setOnPaymentcancel(true)
               })();
             },
           },
@@ -845,6 +846,49 @@ const Register = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+    
+
+      <AnimatePresence>
+  {OnPaymentcancel && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-4"
+      onClick={() => setOnPaymentcancel(false)}
+      aria-modal="true"
+      role="dialog"
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full text-center relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-xl font-semibold mb-4 text-red-600">
+          Payment Failed
+        </h2>
+
+        <p className="text-gray-700 mb-6 break-words">
+          You have cancelled the payment process. Please try again to complete your purchase.
+        </p>
+
+        <div className="flex justify-center gap-4">
+          <button
+            className="px-4 py-2 rounded-lg cursor-pointer bg-gray-300 hover:bg-gray-400"
+            onClick={() => {setOnPaymentcancel(false),window.location.reload();}}
+          >
+            Close
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
 
       {/* ERROR POPUP */}
       <AnimatePresence>
