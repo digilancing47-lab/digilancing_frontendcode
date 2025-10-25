@@ -415,7 +415,7 @@ const Register = () => {
       const response = packagedata;
       if (response.ok) {
         const options = {
-          key: "rzp_test_RTi6PhglOHM0AF",
+          key: "rzp_live_RXbLLc7M5E1mHF",
           amount: response?.amount,
           currency: "INR",
           name: "Digilancing Private Limited",
