@@ -55,7 +55,18 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
                 <div className="flex flex-col h-full overflow-y-auto p-2">
                     {/* Logo */}
                     <div className="flex items-center justify-between h-16 px-2">
-                        <span className="text-xl font-semibold">DIGI LANCING</span>
+                       <span
+  className="text-xl font-semibold flex items-center gap-2"
+  style={{ fontFamily: "Finance", color: "#FFFFFF" }} // your logo blue
+>
+  digilancing
+  <img
+    src="/logo_White.svg"  // 👉 change this to your actual path (e.g., /assets/white_logo.png)
+    alt="Digilancing White Logo"
+    className="w-6 h-6 object-contain"
+  />
+</span>
+
                         <button
                             onClick={() => setIsOpen(false)}
                             className="text-gray-300 hover:text-gray-100 lg:hidden"

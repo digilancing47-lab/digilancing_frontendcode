@@ -89,7 +89,18 @@ const LeftNav = () => {
         <div className="h-full bg-[#F3F5F2] shadow-xl flex flex-col p-2 lg:rounded-3xl rounded-none lg:w-72 lg:h-full lg:relative lg:flex-shrink-0 transition-all duration-300 ease-in-out overflow-auto">
           {/* Logo Section */}
           <div className="flex items-center justify-between  h-16">
-            <span className="text-xl font-bold text-[#002B54]">DIGILANCING</span>
+           <span
+  className="text-xl font-bold text-[#2B3FF5] flex items-center gap-2"
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src="/Logo_blue.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-contain"
+  />
+</span>
+
             <button
               onClick={() => setIsOpen(false)} // Close the sidebar on clicking "X"
               className="text-gray-500 hover:text-gray-700 lg:hidden"

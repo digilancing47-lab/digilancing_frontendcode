@@ -57,12 +57,19 @@ const Footer = () => {
             className="text-center sm:text-left"
             variants={slideLeft}
           >
-            <motion.h2
-              className="text-3xl sm:text-4xl md:text-4xl font-bold whitespace-nowrap"
-              variants={fadeUp}
-            >
-              DIGILANCING
-            </motion.h2>
+           <motion.h2
+  className="text-3xl sm:text-4xl md:text-4xl font-bold whitespace-nowrap flex items-center gap-2"
+  style={{ fontFamily: "Finance", color: "#FFFFFF" }} // Brand blue color
+  variants={fadeUp}
+>
+  digilancing
+  <img
+    src="/logo_White.svg"  
+    alt="Digilancing Logo"
+    className="w-8 h-8 object-contain"
+  />
+</motion.h2>
+
 
             <motion.div
               className="border-t border-gray-500 my-4 inline-block w-1/3 mx-auto"

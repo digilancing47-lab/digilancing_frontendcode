@@ -374,7 +374,20 @@ const Header = ({ isDarkMode }) => {
           <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
-              <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
+<h1
+  onClick={() => navigate('/')}
+  className={`cursor-pointer mt-2.5 md:mt-0 flex items-center gap-2 font-bold text-2xl ${
+    scrolled || isDarkMode ? 'text-black' : 'text-white'
+  }`}
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-cover center"
+  />
+</h1>
             </div>
 
             {/* Main Navigation */}
