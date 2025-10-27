@@ -515,9 +515,22 @@ const Header = ({ isDarkMode }) => {
                       {name?.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-medium text-gray-500 text-[14px]">{name}</span>
-                      <span className="text-[12px] text-gray-500">{email}</span>
-                    </div>
+  <span
+    className={`font-medium text-[14px] ${
+      scrolled || isDarkMode ? "text-black" : "text-white"
+    }`}
+  >
+    {name}
+  </span>
+  <span
+    className={`text-[12px] ${
+      scrolled || isDarkMode ? "text-gray-700" : "text-gray-200"
+    }`}
+  >
+    {email}
+  </span>
+</div>
+
                     <div>
                       <button
                         type="button"

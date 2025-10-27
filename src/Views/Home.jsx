@@ -5,6 +5,7 @@ import Section4 from '../Components/Section4';
 import Section5 from '../Components/Section5';
 import Section7 from '../Components/Section7';
 import Footer from '../Components/Footer';
+import Note from "../Components/Note"
 
 const Home = () => {
     return (
@@ -19,6 +20,10 @@ const Home = () => {
             </div>
             <Section5 />       
             <Section7 />
+            <Note
+          message="Digilancing is not liable for any payments made outside our official website or verified platforms. Please ensure that all transactions are completed only through authorized channels and affiliate links to prevent scams or fraudulent activities."
+        />
+
             <Footer/>
         </div>
     );

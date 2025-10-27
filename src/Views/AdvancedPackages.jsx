@@ -6,6 +6,7 @@ import Section7 from '../Components/Section7';
 import Section8 from '../Components/Section8';
 import Footer from '../Components/Footer';
 import packagesData from '../Data/packagesData';
+import Note from "../Components/Note"
 
 const AdvancedPackages = () => {
   const data = packagesData.advanced;
@@ -24,6 +25,9 @@ const AdvancedPackages = () => {
       <Section3 />
       <Section4 />
       <Section7 />
+       <Note
+          message="Digilancing is not liable for any payments made outside our official website or verified platforms. Please ensure that all transactions are completed only through authorized channels and affiliate links to prevent scams or fraudulent activities."
+        />
       {/* <Section8 /> */}
       <Footer />
     </div>

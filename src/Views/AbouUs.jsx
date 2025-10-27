@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Users, Target, Rocket } from "lucide-react";
 
@@ -9,8 +9,11 @@ import image_4 from '../assets/Adout_us_image_4.jpeg'
 import AkshayKumar from '../assets/AkshayKumar.jpg'
 import ArunKumar from '../assets/ArunKumar.jpg'
 import Footer from "../Components/Footer";
+import Note from "../Components/Note"
 
 const AboutUs = () => {
+  const user = JSON.parse(sessionStorage.getItem("user") || "null");
+
     const fadeIn = {
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0 },
@@ -179,10 +182,13 @@ const AboutUs = () => {
                 </div>
             </div>
 
-            {/* Offline Events Timeline */}
            
+       <Note
+          message="Digilancing is not liable for any payments made outside our official website or verified platforms. Please ensure that all transactions are completed only through authorized channels and affiliate links to prevent scams or fraudulent activities."
+        />
+
+        <Footer />
         </div>
-        <Footer/>
         </>
     );
 };
