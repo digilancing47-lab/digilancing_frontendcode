@@ -53,22 +53,6 @@ const Section3 = ({ onCardSelect }) => {
   useEffect(() => {
     const defaults = [
       {
-        icon: Card1,
-        title: "Basic Package",
-        description: "Ideal for freelancers ready to expand their skills",
-        price: "5999",
-        features: [
-          "10+ Hours of Content",
-          "Basic Project Templates",
-          "Community Access",
-          "Email Support",
-          "3 Practice Projects",
-        ],
-        id: "DIGI0001",
-        iconImage: TickGreen,
-        buttonGradient: "linear-gradient(135deg, #10B682 0%, #0D9887 100%)",
-      },
-      {
         icon: Card2,
         title: "Standard Package",
         description: "Perfect for advanced learners looking to specialize",

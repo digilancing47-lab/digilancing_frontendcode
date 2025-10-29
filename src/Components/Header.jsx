@@ -109,7 +109,20 @@ const Header = ({ isDarkMode }) => {
           <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
-              <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
+<h1
+  onClick={() => navigate('/')}
+  className={`cursor-pointer mt-2.5 md:mt-0 flex items-center gap-2 font-bold text-2xl ${
+    scrolled || isDarkMode ? 'text-black' : 'text-white'
+  }`}
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-cover center"
+  />
+</h1>
             </div>
 
             {/* Main Navigation */}
@@ -161,8 +174,20 @@ const Header = ({ isDarkMode }) => {
           <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
-              <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
-            </div>
+<h1
+  onClick={() => navigate('/')}
+  className={`cursor-pointer mt-2.5 md:mt-0 flex items-center gap-2 font-bold text-2xl ${
+    scrolled || isDarkMode ? 'text-black' : 'text-white'
+  }`}
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-cover center"
+  />
+</h1>            </div>
 
             {/* Main Navigation */}
             <div className="flex-1  hidden lg:flex flex-row ">
@@ -216,8 +241,20 @@ const Header = ({ isDarkMode }) => {
           <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
-              <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
-            </div>
+<h1
+  onClick={() => navigate('/')}
+  className={`cursor-pointer mt-2.5 md:mt-0 flex items-center gap-2 font-bold text-2xl ${
+    scrolled || isDarkMode ? 'text-black' : 'text-white'
+  }`}
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-cover center"
+  />
+</h1>            </div>
 
             {/* Main Navigation */}
             <div className="flex-1  hidden lg:flex flex-row ">
@@ -269,8 +306,20 @@ const Header = ({ isDarkMode }) => {
           <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
-              <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
-            </div>
+<h1
+  onClick={() => navigate('/')}
+  className={`cursor-pointer mt-2.5 md:mt-0 flex items-center gap-2 font-bold text-2xl ${
+    scrolled || isDarkMode ? 'text-black' : 'text-white'
+  }`}
+  style={{ fontFamily: "Finance" }}
+>
+  digilancing
+  <img
+    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-cover center"
+  />
+</h1>            </div>
 
             {/* Main Navigation */}
             <div className="flex-1  hidden lg:flex flex-row ">
@@ -590,10 +639,15 @@ const Header = ({ isDarkMode }) => {
             <div className="fixed inset-0 border border-white h-screen bg-white p-3 sm:p-4 z-50 flex flex-col">
               {/* Top Bar */}
               <div className="px-3 w-full mx-auto flex justify-between items-center">
-                <div className="flex items-center gap-2 xl:w-full xl:max-w-[320px]">
-                  <h1 className="font-outfit text-xl sm:text-2xl font-bold text-black">
-                    DIGILANCING
-                  </h1>
+                <div className="flex items-center gap-2 xl:w-full xl:max-w-[320px] text-2xl text-bold">
+                
+                   digilancing
+  <img
+    src="/Logo_Black.svg"  
+    alt="Digilancing Logo"
+    className="w-6 h-6 object-contain"
+  />
+                
                 </div>
 
                 {/* Close Icon */}
