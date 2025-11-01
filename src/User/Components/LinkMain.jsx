@@ -54,15 +54,11 @@ const LinkGenerator = () => {
                <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">LINK GENERATOR</h1>
              </div>
            </div>
-
-
-
-
       <div className="w-full bg-[#0b3b70] p-6 rounded-2xl shadow-lg relative mt-5">
         <h2 className="text-lg font-semibold mb-4 text-white">Affiliate Link Generator</h2>
         <hr className="border-gray-500 mb-6" />
         <div className="mb-6">
-          <label className="block mb-2 font-medium text-white">My Referral Code:</label>
+          <label className="block mb-2 font-medium text-white">My Access code:</label>
           <div className="flex gap-3">
             <input type="text" value={guide_code} disabled  className="flex-1 px-3 py-2 rounded-md text-black bg-white"/>
             <button onClick={handleCopyCode} className="bg-white text-black cursor-pointer px-4 py-2 rounded-lg shadow font-semibold">
@@ -71,7 +67,7 @@ const LinkGenerator = () => {
           </div>
         </div>
         <div>
-          <label className="block mb-2 font-medium text-white">Referral Link:</label>
+          <label className="block mb-2 font-medium text-white">Access Link:</label>
           <div className="flex flex-col sm:flex-row gap-3">
             <select
               value={selectedPackage}
@@ -115,13 +111,13 @@ const LinkGenerator = () => {
 
         {popup && (
           <div className="absolute top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow">
-            ✅ Code copied!
+            ✅ Access code copied!
           </div>
         )}
 
         {linkPopup && (
           <div className="absolute top-16 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow">
-            ✅ Link copied!
+            ✅ Access code Link copied!
           </div>
         )}
       </div>
