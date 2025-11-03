@@ -92,7 +92,7 @@ const Section8 = () => {
             opportunities.”
           </motion.blockquote>
 
-          <p className="text-gray-900 text-base sm:text-lg mb-4">— The Founders, Edulancing</p>
+          <p className="text-gray-900 text-base sm:text-lg mb-4">— The Founders, Digilancing</p>
 
           <div className="flex gap-3 mt-2">
             {[

@@ -74,7 +74,7 @@ const Section2 = () => {
             className="text-[#797979] mb-6 text-[14px] md:text-lg leading-relaxed"
             variants={fadeUp}
           >
-            At Edulancing, we empower learners to become doers. Our expertly designed video programs 
+            At Digilancing, we empower learners to become doers. Our expertly designed video programs 
             ranging from quick skill boosters to in-depth masterclasses open doors to opportunities 
             in freelancing, digital marketing, automation, and much more. We go beyond courses.
           </motion.p>

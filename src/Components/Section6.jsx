@@ -74,7 +74,7 @@ const Section6 = () => {
           {/* Text + Button Responsive Layout */}
           <div className="flex flex-col md:flex-row px-2 md:px-6 pb-4 md:py-5 items-start md:items-center justify-between gap-3 mt-3 w-full">
             <p className="font-semibold text-[16px] md:text-lg lg:text-xl text-left">
-              On Demand on Master Class Mastering Career Growth with Edulancing.
+              On Demand on Master Class Mastering Career Growth with Digilancing.
             </p>
             <motion.button
               className="border border-blue-500 text-blue-500 px-3 md:px-4 py-1 md:py-2 rounded-2xl text-[12px] hover:bg-blue-50 whitespace-nowrap text-sm md:text-base mt-2 md:mt-0"
@@ -114,7 +114,7 @@ const Section6 = () => {
             <div className="flex flex-col lg:gap-3 items-start md:ml-4 mt-3 w-full md:w-1/2">
               <p className="font-semibold text-left max-w-[600px] text-sm md:text-base">
                 On Demand on Master Class Mastering Career Growth with
-                Edulancing.
+                Digilancing.
               </p>
               <motion.button
                 className="border border-blue-500 text-blue-500 px-3 md:px-4 py-1 md:py-2 rounded-2xl text-[12px] hover:bg-blue-50 whitespace-nowrap text-sm md:text-base mt-4 md:mt-0"
@@ -143,7 +143,7 @@ const Section6 = () => {
             <div className="flex flex-col lg:gap-3 items-start md:ml-4 mt-3 w-full md:w-1/2">
               <p className="font-semibold text-left max-w-[600px] text-sm md:text-base">
                 On Demand on Master Class Mastering Career Growth with
-                Edulancing.
+                Digilancing.
               </p>
               <motion.button
                 className="border border-blue-500 text-blue-500 px-3 md:px-4 py-1 md:py-2 rounded-2xl text-[12px] hover:bg-blue-50 whitespace-nowrap text-sm md:text-base mt-4 md:mt-0"

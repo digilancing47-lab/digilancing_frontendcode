@@ -11,17 +11,17 @@ const Section6 = () => {
             From the Founders' Desk 🚀
           </h2>
           <p className="text-gray-700 text-base sm:text-lg mb-6">
-            Uncover the Purpose, Passion, and Vision that Drives Edulancing Forward
+            Uncover the Purpose, Passion, and Vision that Drives Digilancing Forward
           </p>
 
           <blockquote className="text-gray-800 italic font-semibold text-base sm:text-lg border-l-4 border-[#3384EC] pl-4 mb-6">
-            “Edulancing is more than a learning platform — it’s a movement to
+            Digilancing is more than a learning platform — it’s a movement to
             equip every learner with future-ready skills that open doors to
-            opportunities.”
+            opportunities
           </blockquote>
 
           <p className="text-gray-900 text-base sm:text-lg mb-4">
-            — The Founders, Edulancing
+            — The Founders, Digilancing
           </p>
 
           <div className="flex gap-3 mt-2">
