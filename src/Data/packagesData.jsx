@@ -308,8 +308,8 @@ const packagesData = {
   ultimate: {
     id: "DIGI0005",
     packageName: "Ultimate Package",
-    price: "29,999",
-    promoPrice: "22,999",
+    price: "1,000",
+    promoPrice: "1,000",
     description:
       "All-in-one learning bundle to fast-track your freelancing, marketing, and content skills in one place.",
     buttonText: "Buy Now",
