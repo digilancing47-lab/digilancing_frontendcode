@@ -274,9 +274,9 @@ const Register = () => {
 
       const normalized = ("" + message).toLowerCase();
 
-      if (normalized.includes("invalid referral") || normalized.includes("invalid referral code")) {
+      if (normalized.includes("invalid referral") || normalized.includes("invalid Access code")) {
         // Show invalid referral popup
-        setErrorMessage("Invalid referral code. Prices will be shown at MRP.");
+        setErrorMessage("Invalid Access code. Prices will be shown at MRP.");
         setErrorStatus(400);
         setErrorPopup(true);
 
@@ -531,7 +531,7 @@ const Register = () => {
               <div className="flex gap-2 items-center">
                 <input
                   type="text"
-                  placeholder="Enter referral code"
+                  placeholder="Enter Access code"
                   value={referral}
                   onChange={(e) => dispatch(setReferral(e.target.value))}
                   className={`w-full max-w-sm px-3 py-2 rounded-lg border ${referralVerified ? "border-green-500 bg-gray-100" : "border-gray-300 bg-white"
