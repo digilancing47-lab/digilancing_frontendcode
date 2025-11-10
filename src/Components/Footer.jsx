@@ -62,11 +62,11 @@ const Footer = () => {
   style={{ fontFamily: "Finance", color: "#FFFFFF" }} // Brand blue color
   variants={fadeUp}
 >
-  digilancing
+
   <img
-    src="/logo_White.svg"  
+    src="/white.svg"  
     alt="Digilancing Logo"
-    className="w-8 h-8 object-contain"
+    className="w-60 h-10 object-contain"
   />
 </motion.h2>
 

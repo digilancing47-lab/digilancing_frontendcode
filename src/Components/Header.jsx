@@ -116,11 +116,11 @@ const Header = ({ isDarkMode }) => {
   }`}
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+ 
   <img
-    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-6 h-6 object-cover center"
+    className="w-50 h-8 object-cover center"
   />
 </h1>
             </div>
@@ -181,11 +181,11 @@ const Header = ({ isDarkMode }) => {
   }`}
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+
   <img
-    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-6 h-6 object-cover center"
+    className="w-50 h-8 object-cover center"
   />
 </h1>            </div>
 
@@ -248,11 +248,11 @@ const Header = ({ isDarkMode }) => {
   }`}
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+
   <img
-    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-6 h-6 object-cover center"
+    className="w-50 h-8 object-cover center"
   />
 </h1>            </div>
 
@@ -313,11 +313,11 @@ const Header = ({ isDarkMode }) => {
   }`}
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+
   <img
-    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-6 h-6 object-cover center"
+    className="w-50 h-8 object-cover center"
   />
 </h1>            </div>
 
@@ -430,11 +430,11 @@ const Header = ({ isDarkMode }) => {
   }`}
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+
   <img
-    src={scrolled || isDarkMode ? '/Logo_Black.svg' : '/logo_White.svg'}
+    src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-6 h-6 object-cover center"
+    className="w-50 h-8 object-cover center"
   />
 </h1>
             </div>
@@ -641,11 +641,11 @@ const Header = ({ isDarkMode }) => {
               <div className="px-3 w-full mx-auto flex justify-between items-center">
                 <div className="flex items-center gap-2 xl:w-full xl:max-w-[320px] text-2xl text-bold">
                 
-                   digilancing
+                  
   <img
-    src="/Logo_Black.svg"  
+    src="/Black.svg"  
     alt="Digilancing Logo"
-    className="w-6 h-6 object-contain"
+    className="w-50 h-8 object-contain"
   />
                 
                 </div>
