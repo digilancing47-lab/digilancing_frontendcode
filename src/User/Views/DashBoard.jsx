@@ -11,6 +11,7 @@ import BestInstructors from '../../User/Components/BestInstructors';
 import SupportSystem from '../../User/Components/SupportSystem';
 import { useNavigate } from "react-router-dom";
 import timing_icon from "../../assets/timing_icon.svg";
+import CustomAlert from '../Components/CustomAlert';
 
 import { API_BASE } from '../../apiBase';
 
@@ -29,6 +30,7 @@ const DashBoard = () => {
   const [currentPackage, setCurrentPackage] = useState(null);
   const [guide_code, setguide_code] = useState(user?.guide_code || "");
   const [data, setData] = useState(null);
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -53,9 +55,19 @@ const DashBoard = () => {
   }, [guide_code]);
 
   const navigate = useNavigate();
-  const handleLogout = () => {
+  
+  const handleLogoutClick = () => {
+    setShowLogoutAlert(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutAlert(false);
     sessionStorage.clear();
     navigate("/");
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutAlert(false);
   };
 
   const fadeIn = {
@@ -108,7 +120,7 @@ const DashBoard = () => {
             </div>
             <button
               type="button"
-              onClick={handleLogout}
+              onClick={handleLogoutClick}
               className="p-2 rounded-full cursor-pointer bg-gray-200 hover:bg-gray-300 focus:outline-none transition"
               aria-label="Logout"
             >
@@ -235,6 +247,15 @@ const DashBoard = () => {
           <SupportSystem />
         </motion.div>
       </div>
+      
+      {/* Custom Alert */}
+      <CustomAlert
+        isOpen={showLogoutAlert}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+        title="Confirm Logout"
+        message="Are you sure you want to logout? You will need to sign in again to access your account."
+      />
     </div>
   );
 };

@@ -120,7 +120,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-50 h-8 object-cover center"
+    className="w-50 h-10 "
   />
 </h1>
             </div>
@@ -185,7 +185,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-50 h-8 object-cover center"
+    className="w-50 h-10"
   />
 </h1>            </div>
 
@@ -252,7 +252,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-50 h-8 object-cover center"
+    className="w-50 h-10"
   />
 </h1>            </div>
 
@@ -317,7 +317,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-50 h-8 object-cover center"
+    className="w-50 h-10"
   />
 </h1>            </div>
 
@@ -434,7 +434,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src={scrolled || isDarkMode ? '/Black.svg' : '/white.svg'}
     alt="Digilancing Logo"
-    className="w-50 h-8 object-cover center"
+    className="w-50 h-10"
   />
 </h1>
             </div>
@@ -645,7 +645,7 @@ const Header = ({ isDarkMode }) => {
   <img
     src="/Black.svg"  
     alt="Digilancing Logo"
-    className="w-50 h-8 object-contain"
+    className="w-50 h-10"
   />
                 
                 </div>

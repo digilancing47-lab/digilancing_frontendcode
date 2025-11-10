@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 import AfLeftNav from "./AfLeftNav";
+import CustomAlert from "./CustomAlert";
 
 const Loader = () => (
   <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-md bg-black/30">
@@ -14,6 +15,7 @@ const AfHeader = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const dropdownRef = useRef(null);
 
   const user = JSON.parse(sessionStorage.getItem("user") || "null");
@@ -21,12 +23,22 @@ const AfHeader = () => {
   const email = user?.email;
   const image = user?.customer_image;
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setIsDropdownOpen(false);
+    setShowLogoutAlert(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutAlert(false);
     setLoading(true);
     setTimeout(() => {
       sessionStorage.clear();
       navigate("/");
     }, 2000);
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutAlert(false);
   };
 
   // Close dropdown on outside click
@@ -109,7 +121,7 @@ const AfHeader = () => {
                 Profile
               </a>
               <button
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
                 className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
               >
                 Logout
@@ -155,7 +167,7 @@ const AfHeader = () => {
               </a>
                
               <h1
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
                 className="text-gray-400 cursor-pointer hover:text-gray-600 transition"
               >
                 Logout
@@ -167,6 +179,15 @@ const AfHeader = () => {
 
       {/* Sidebar */}
       <AfLeftNav isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+
+      {/* Custom Alert */}
+      <CustomAlert
+        isOpen={showLogoutAlert}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+        title="Confirm Logout"
+        message="Are you sure you want to logout? You will need to sign in again to access your account."
+      />
 
       {/* Loader */}
       {loading && ReactDOM.createPortal(<Loader />, document.body)}
