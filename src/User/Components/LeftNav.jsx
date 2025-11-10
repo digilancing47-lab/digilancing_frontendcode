@@ -93,11 +93,11 @@ const LeftNav = () => {
   className="text-xl font-bold text-[#2B3FF5] flex items-center gap-2"
   style={{ fontFamily: "Finance" }}
 >
-  digilancing
+ 
   <img
-    src="/Logo_blue.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
+    src="/Black.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
     alt="Digilancing Logo"
-    className="w-6 h-6 object-contain"
+    className="w-40 h-7 object-contain"
   />
 </span>
 

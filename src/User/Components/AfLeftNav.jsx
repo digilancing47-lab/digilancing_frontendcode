@@ -59,11 +59,11 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
   className="text-xl font-semibold flex items-center gap-2"
   style={{ fontFamily: "Finance", color: "#FFFFFF" }} // your logo blue
 >
-  digilancing
+
   <img
-    src="/logo_White.svg"  // 👉 change this to your actual path (e.g., /assets/white_logo.png)
+    src="/white.svg"  // 👉 change this to your actual path (e.g., /assets/white_logo.png)
     alt="Digilancing White Logo"
-    className="w-6 h-6 object-contain"
+    className="w-40 h-7 object-contain"
   />
 </span>
 
