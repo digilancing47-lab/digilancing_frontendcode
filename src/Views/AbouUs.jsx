@@ -109,7 +109,7 @@ const AboutUs = () => {
                         </h3>
                         <p className="text-white font-medium mb-4">Founder & CEO</p>
                         <p className="text-gray-300 text-justify leading-relaxed text-sm">
-                            Arun Kumar is the visionary Founder & CEO behind DIGI LANCING.
+                            Arun Kumar is the visionary Founder & CEO behind DIGILANCING.
                             With years of experience at IBM and expertise in Learning Management
                             Systems, he saw the gap between education and employability.
                             His mission is to shift education from theory to execution,
@@ -134,7 +134,7 @@ const AboutUs = () => {
                         <p className="text-white font-medium mb-4">Co-Founder</p>
                         <p className="text-gray-300 text-justify leading-relaxed text-sm">
                             Akshay Kumar, with a background at IDBI Bank, brings financial expertise,
-                            sales acumen, and administration to DIGI LANCING.
+                            sales acumen, and administration to DIGILANCING.
                             She believes education should not end with information,
                             but begin with action — skills that generate sustainable income.
                         </p>
@@ -146,7 +146,7 @@ const AboutUs = () => {
             <div className="bg-black/30 py-20">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
                     <h2 className="text-4xl font-bold text-white mb-10">
-                        What Makes <span className="bg-gradient-to-r from-[#0078FF] to-[#ffffff] bg-clip-text text-transparent">DIGI LANCING</span> Different?
+                        What Makes <span className="bg-gradient-to-r from-[#0078FF] to-[#ffffff] bg-clip-text text-transparent">DIGILANCING</span> Different?
                     </h2>
 
                     <div className="grid md:grid-cols-3 gap-10">
