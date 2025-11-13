@@ -272,13 +272,9 @@ const KYCForm = () => {
               />
               {field.name === 'email' && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  {user?.is_email_verified ? (
+                  {user?.is_email_verified && (
                     <span className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">
                       Verified
-                    </span>
-                  ) : (
-                    <span className="text-sm bg-red-100 text-red-700 px-3 py-1 rounded-full font-medium">
-                      Not Verified
                     </span>
                   )}
                   {!user?.is_email_verified && (
