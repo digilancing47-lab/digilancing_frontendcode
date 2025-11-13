@@ -16,13 +16,12 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
         { path: "/Training", key: "training", label: "Training", icon: <Monitor className="w-5 h-5 mr-2" /> },
         { path: "/Webinar", key: "webinar", label: "Webinar", icon: <Headset className="w-5 h-5 mr-2" /> },
         { path: "/LinkGenerator", key: "linkgenerator", label: "Link Generator", icon: <Link2 className="w-5 h-5 mr-2" /> },
+         { path: "/Kyc", key: "kyc", label: "Kyc", icon: <UserCheck className="w-5 h-5 mr-2" /> },
         { path: "/ReferalDetails", key: "referaldetails", label: "Referal Details", icon: <Users className="w-5 h-5 mr-2" /> },
         { path: "/Qualification", key: "qualification", label: "Qualification", icon: <BookOpen className="w-5 h-5 mr-2" /> },
         { path: "/Earning", key: "earning", label: "Earning", icon: <BarChart2 className="w-5 h-5 mr-2" /> },
-        { path: "/LeaderBoard", key: "leaderboard", label: "LeaderBoard", icon: <Award className="w-5 h-5 mr-2" /> },
+        { path: "/LeaderBoard", key: "leaderboard", label: "LeaderBoard", icon: <Award className="w-5 h-5 mr-2" /> }
     ];
-
-//  { path: "/Kyc", key: "kyc", label: "Kyc", icon: <UserCheck className="w-5 h-5 mr-2" /> },
 //      { path: "/PayoutDetails", key: "payoutdetails", label: "Payout Details", icon: <CreditCard className="w-5 h-5 mr-2" /> },
     const getActiveMenu = () => {
         const found = menuItems.find(item => item.path === location.pathname);
