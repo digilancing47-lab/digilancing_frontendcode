@@ -330,30 +330,38 @@ console.log(referedpersondetails)
         <div className="space-y-6">
           <div className="bg-[#ffffff] rounded-xl p-6 shadow-lg">
             <h3 className="text-black font-semibold mb-4">Sponsor Details</h3>
-            <div className="flex items-center gap-3">
-
-{referedpersondetails?.customer_image ? (
-              <img
-                src={referedpersondetails?.customer_image}
-                alt="Profile"
-                className="w-16 h-16 rounded-lg object-cover"
-              />
+            {referedpersondetails ? (
+              <div className="flex items-center gap-3">
+                {referedpersondetails?.customer_image ? (
+                  <img
+                    src={referedpersondetails?.customer_image}
+                    alt="Profile"
+                    className="w-16 h-16 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-2xl uppercase" 
+                   onClick={() => navigate("/Profile")}
+                    style={{cursor:"pointer"}}>
+                    {referedpersondetails?.fullname?.slice(0, 2)}
+                  </div>
+                )}
+                <div className="">
+                  <h4 className="text-black text-[16px] font-medium">{referedpersondetails?.fullname}</h4>
+                  <p className="text-[#6B7280] text-xs">{referedpersondetails?.email}</p>
+                  <p className="text-[#6B7280] text-xs">{referedpersondetails?.phone}</p>
+                </div>
+              </div>
             ) : (
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-2xl uppercase" 
-               onClick={() => navigate("/Profile")}
-                style={{cursor:"pointer"}}>
-                {referedpersondetails?.fullname?.slice(0, 2)}
+              <div className="text-center py-4">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-gray-100">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <p className="text-gray-500 text-sm">You have not joined under anyone</p>
+                <p className="text-gray-400 text-xs mt-1">No guide assigned</p>
               </div>
             )}
-
-
-
-              <div className="">
-                <h4 className="text-black text-[16px] font-medium">{referedpersondetails?.fullname}</h4>
-                <p className="text-[#6B7280] text-xs">{referedpersondetails?.email}</p>
-                <p className="text-[#6B7280] text-xs">{referedpersondetails?.phone}</p>
-              </div>
-            </div>
           </div>
 
           <div className="bg-[#ffffff] rounded-xl p-6 shadow-lg">
