@@ -104,7 +104,7 @@ const Section3 = ({ onCardSelect }) => {
         icon: Card5,
         title: "Ultimate Package",
         description: "Become a top-tier freelancer with premium training",
-        price: "1000",
+        price: "21999",
         features: [
           "100+ Hours of Content",
           "Lifetime Access",

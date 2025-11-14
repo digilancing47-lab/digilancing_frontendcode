@@ -124,7 +124,7 @@ const Register = () => {
       icon: Card5,
       title: "Ultimate Package",
       description: "Become a top-tier freelancer with premium training",
-      price: "1000",
+      price: "29999",
       features: [
         "100+ Hours of Content",
         "Lifetime Access",
