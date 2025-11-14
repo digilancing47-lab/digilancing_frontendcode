@@ -4,8 +4,8 @@ const packagesData = {
   basic: {
     id: "DIGI0001",
     packageName: "Basic Package",
-    price: "5,999",
-    promoPrice: "3,999",
+    price: "3,999",
+    promoPrice: "2,500",
     description:
       "Gain lifetime access to essential digital skills, certifications, and a supportive community that helps you grow with confidence.",
     buttonText: "Buy Now",
@@ -41,8 +41,8 @@ const packagesData = {
   standard: {
     id: "DIGI0002",
     packageName: "Standard Package",
-    price: "9,999",
-    promoPrice: "6,999",
+    price: "6,999",
+    promoPrice: "4,000",
     description:
       "Master content creation, strategy, and freelancing basics with lifetime access and community support.",
     buttonText: "Buy Now",
@@ -104,7 +104,7 @@ const packagesData = {
   advanced: {
     id: "DIGI0003",
     packageName: "Advanced Package",
-    price: "16,999",
+    price: "11,999",
     promoPrice: "7,000",
     description:
       "Gain lifetime access to in-demand skills like digital marketing, copywriting, Facebook ads, and content creation—plus certification and community support to help you grow, earn, and succeed with confidence.",
@@ -190,7 +190,7 @@ const packagesData = {
   premium: {
     id: "DIGI0004",
     packageName: "Premium Package",
-    price: "21,999",
+    price: "16,999",
     promoPrice: "11,000",
     description:
       "All-in-one learning bundle to fast-track your freelancing, marketing, and content skills in one place.",
@@ -308,8 +308,8 @@ const packagesData = {
   ultimate: {
     id: "DIGI0005",
     packageName: "Ultimate Package",
-    price: "21,999",
-    promoPrice: "21,999",
+    price: "22,999",
+    promoPrice: "15,000",
     description:
       "All-in-one learning bundle to fast-track your freelancing, marketing, and content skills in one place.",
     buttonText: "Buy Now",

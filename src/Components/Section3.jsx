@@ -56,7 +56,7 @@ const Section3 = ({ onCardSelect }) => {
         icon: Card2,
         title: "Standard Package",
         description: "Perfect for advanced learners looking to specialize",
-        price: "9999",
+        price: "6999",
         features: [
           "25+ Hours of Content",
           "Premium Project Templates",
@@ -72,7 +72,7 @@ const Section3 = ({ onCardSelect }) => {
         icon: Card3,
         title: "Advanced Package",
         description: "For freelancers scaling their business",
-        price: "16999",
+        price: "11999",
         features: [
           "50+ Hours of Content",
           "Automation Tools",
@@ -88,7 +88,7 @@ const Section3 = ({ onCardSelect }) => {
         icon: Card4,
         title: "Premium Package",
         description: "Become a top-tier freelancer with premium training",
-        price: "21999",
+        price: "16999",
         features: [
           "100+ Hours of Content",
           "Lifetime Access",
@@ -104,7 +104,7 @@ const Section3 = ({ onCardSelect }) => {
         icon: Card5,
         title: "Ultimate Package",
         description: "Become a top-tier freelancer with premium training",
-        price: "21999",
+        price: "22999",
         features: [
           "100+ Hours of Content",
           "Lifetime Access",
