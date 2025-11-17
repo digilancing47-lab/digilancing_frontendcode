@@ -618,17 +618,41 @@ const Register = () => {
           >
             {/* Form */}
             <div className="bg-[#003B73] p-6 rounded-xl space-y-4 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 max-w-3xl mx-auto lg:mx-0">
-              <div className="flex flex-col">
-                <label className="text-gray-200 mb-1">Full Name</label>
-                <input
-                  type="text"
-                  placeholder="Enter your full name"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white"
-                  value={formData.full_name}
-                  onChange={(e) =>
-                    dispatch(setFormData({ full_name: e.target.value }))
-                  }
-                />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col flex-1">
+                  <label className="text-gray-200 mb-1">First Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your first name"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    value={formData.first_name || ''}
+                    onChange={(e) => {
+                      const firstName = e.target.value;
+                      const lastName = formData.last_name || '';
+                      dispatch(setFormData({ 
+                        first_name: firstName,
+                        full_name: `${firstName} ${lastName}`.trim()
+                      }));
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col flex-1">
+                  <label className="text-gray-200 mb-1">Last Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your last name"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    value={formData.last_name || ''}
+                    onChange={(e) => {
+                      const lastName = e.target.value;
+                      const firstName = formData.first_name || '';
+                      dispatch(setFormData({ 
+                        last_name: lastName,
+                        full_name: `${firstName} ${lastName}`.trim()
+                      }));
+                    }}
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
