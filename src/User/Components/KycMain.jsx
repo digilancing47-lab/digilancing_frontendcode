@@ -10,6 +10,8 @@ const KYCForm = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [otpLoading, setOtpLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [nextLoading, setNextLoading] = useState(false);
   const [kycLoading, setKycLoading] = useState(true);
   
@@ -168,15 +170,24 @@ const KYCForm = () => {
           setShowWarning(true);
           return;
         }
-        
-        // Call create contact API
+        setCurrentStage(2);
+      }
+    } else if (currentStage === 2) {
+      const validationErrors = validateStage2();
+      setErrors(validationErrors);
+      if (Object.keys(validationErrors).length === 0) {
+        // Call single API with all data
         setNextLoading(true);
         try {
-          const response = await fetch(`${API_BASE}/api/v_1/fund-account/create-contact`, {
+          const response = await fetch(`${API_BASE}/api/v_1/fund-account/create-and-validate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               guidecode: user?.guide_code,
+              account_number: formData.accountNumber,
+              ifsc: formData.ifsc,
+              aadhaar_number: formData.aadharNumber,
+              pan_code: formData.panNumber,
               pincode: formData.pinCode,
               state: formData.state,
               city: formData.city
@@ -184,43 +195,14 @@ const KYCForm = () => {
           });
           
           if (response.ok) {
-            setCurrentStage(2);
-          } else {
-            alert('Failed to create contact. Please try again.');
-          }
-        } catch (error) {
-          alert('Error creating contact. Please try again.');
-        } finally {
-          setNextLoading(false);
-        }
-      }
-    } else if (currentStage === 2) {
-      const validationErrors = validateStage2();
-      setErrors(validationErrors);
-      if (Object.keys(validationErrors).length === 0) {
-        // Call create fund account API
-        setNextLoading(true);
-        try {
-          const response = await fetch(`${API_BASE}/api/v_1/fund-account/create-fund-account`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              guidecode: user?.guide_code,
-              account_type: "bank_account",
-              account_number: formData.accountNumber,
-              ifsc: formData.ifsc,
-              aadhaar_number: formData.aadharNumber,
-              pan_code: formData.panNumber
-            })
-          });
-          
-          if (response.ok) {
             setCurrentStage(3);
           } else {
-            alert('Failed to create fund account. Please try again.');
+            setErrorMessage('Failed to create and validate fund account. Please try again.');
+            setShowError(true);
           }
         } catch (error) {
-          alert('Error creating fund account. Please try again.');
+          setErrorMessage('Error creating fund account. Please try again.');
+          setShowError(true);
         } finally {
           setNextLoading(false);
         }
@@ -684,6 +666,43 @@ const KYCForm = () => {
                 </div>
 
               
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error Modal */}
+        {showError && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
+              <button
+                onClick={() => setShowError(false)}
+                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <X className="w-8 h-8 text-red-500" />
+                </div>
+                
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  Error
+                </h3>
+                
+                <p className="text-gray-600 mb-6">
+                  {errorMessage}
+                </p>
+                
+                <div className="flex gap-3 w-full">
+                  <button
+                    onClick={() => setShowError(false)}
+                    className="flex-1 px-4 py-2 cursor-pointer bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  >
+                    Try Again
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -48,10 +48,7 @@ const CardGrid = ({ onCardClick, selectedCard }) => {
             onClick={() => onCardClick(pkg)}
             animate={{
               scale: selectedCard?.id === pkg.id ? 1.05 : 1,
-              boxShadow:
-                selectedCard?.id === pkg.id
-                  ? "0 0 20px rgba(0, 198, 255, 0.6)"
-                  : "0 0 10px rgba(0,0,0,0.1)",
+             
               border:
                 selectedCard?.id === pkg.id
                   ? "2px solid #00C6FF"
