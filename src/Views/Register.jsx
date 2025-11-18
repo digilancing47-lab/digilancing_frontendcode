@@ -372,8 +372,10 @@ const Register = () => {
 
 
   const handleSubmit = () => {
-    if (formData.email !== formData.confirmEmail) {
-      alert("Emails do not match.");
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage(validationError);
+      setErrorPopup(true);
       return;
     }
 
@@ -561,9 +563,22 @@ const Register = () => {
   };
 
   const gstRate = 18;
-  const total = Number(selectedCard?.price);
+  const displayPrice = referralVerified ? selectedCard?.price : selectedCard?.mrpPrice;
+  const total = Number(displayPrice);
   const gstAmount = (total * 0.18).toFixed(2);
   const basePrice = (total - gstAmount).toFixed(2);
+
+  const validateForm = () => {
+    if (!formData.full_name?.trim()) return "Full name is required";
+    if (!formData.email?.trim()) return "Email is required";
+    if (!formData.confirmEmail?.trim()) return "Confirm email is required";
+    if (formData.email !== formData.confirmEmail) return "Emails do not match";
+    if (!formData.phone?.trim()) return "Phone number is required";
+    if (formData.phone.length !== 10) return "Phone number must be 10 digits";
+    if (!formData.password?.trim()) return "Password is required";
+    if (!formData.state?.trim()) return "State is required";
+    return null;
+  };
 
 
   return (
@@ -648,7 +663,7 @@ const Register = () => {
                   transition={{ duration: 0.3 }}
                   className="cursor-pointer relative rounded-2xl"
                 >
-                  <Card {...pkg} />
+                  <Card {...pkg} price={referralVerified ? pkg.price : pkg.mrpPrice} />
                   {selectedCard === pkg && (
                     <span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 text-xs rounded-full z-10">
                       Selected
