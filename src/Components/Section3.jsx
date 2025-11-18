@@ -49,101 +49,185 @@ const Section3 = ({ onCardSelect }) => {
   const isUpgradePage = location.pathname === "/Upgrade";
 
   const [isUltimateUser, setIsUltimateUser] = useState(false);
+  const [packages, setPackages] = useState([]);
+
+  const getPackageConfig = (packageId) => {
+    const configs = {
+      "DIGI0001": { icon: Card1, iconImage: TickGreen, buttonGradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)" },
+      "DIGI0002": { icon: Card2, iconImage: TickBlue, buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)" },
+      "DIGI0003": { icon: Card3, iconImage: TickPurple, buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)" },
+      "DIGI0004": { icon: Card4, iconImage: TickRed, buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)" },
+      "DIGI0005": { icon: Card5, iconImage: TickOrange, buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)" }
+    };
+    return configs[packageId] || configs["DIGI0001"];
+  };
+
+  const getPackageFeatures = (packageId) => {
+    const features = {
+      "DIGI0001": ["15+ Hours of Content", "Basic Project Templates", "Community Support", "3 Real-World Projects"],
+      "DIGI0002": ["25+ Hours of Content", "Premium Project Templates", "1-on-1 Mentorship", "Priority Support", "5 Real-World Projects"],
+      "DIGI0003": ["50+ Hours of Content", "Automation Tools", "Advanced Challenges", "Dedicated Community Group", "10 Live Projects"],
+      "DIGI0004": ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+      "DIGI0005": ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"]
+    };
+    return features[packageId] || features["DIGI0001"];
+  };
+
+  const getPackageDescription = (packageId) => {
+    const descriptions = {
+      "DIGI0001": "Perfect for beginners starting their freelancing journey",
+      "DIGI0002": "Perfect for advanced learners looking to specialize",
+      "DIGI0003": "For freelancers scaling their business",
+      "DIGI0004": "Become a top-tier freelancer with premium training",
+      "DIGI0005": "Become a top-tier freelancer with premium training"
+    };
+    return descriptions[packageId] || descriptions["DIGI0001"];
+  };
 
   useEffect(() => {
-    const defaults = [
-      {
-        icon: Card2,
-        title: "Standard Package",
-        description: "Perfect for advanced learners looking to specialize",
-        price: "6999",
-        features: [
-          "25+ Hours of Content",
-          "Premium Project Templates",
-          "1-on-1 Mentorship",
-          "Priority Support",
-          "5 Real-World Projects",
-        ],
-        id: "DIGI0002",
-        iconImage: TickBlue,
-        buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)",
-      },
-      {
-        icon: Card3,
-        title: "Advanced Package",
-        description: "For freelancers scaling their business",
-        price: "11999",
-        features: [
-          "50+ Hours of Content",
-          "Automation Tools",
-          "Advanced Challenges",
-          "Dedicated Community Group",
-          "10 Live Projects",
-        ],
-        id: "DIGI0003",
-        iconImage: TickPurple,
-        buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)",
-      },
-      {
-        icon: Card4,
-        title: "Premium Package",
-        description: "Become a top-tier freelancer with premium training",
-        price: "16999",
-        features: [
-          "100+ Hours of Content",
-          "Lifetime Access",
-          "Exclusive Webinars",
-          "Direct Client Leads",
-          "Unlimited Projects",
-        ],
-        id: "DIGI0004",
-        iconImage: TickRed,
-        buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)",
-      },
-      {
-        icon: Card5,
-        title: "Ultimate Package",
-        description: "Become a top-tier freelancer with premium training",
-        price: "22999",
-        features: [
-          "100+ Hours of Content",
-          "Lifetime Access",
-          "Exclusive Webinars",
-          "Direct Client Leads",
-          "Unlimited Projects",
-        ],
-        id: "DIGI0005",
-        iconImage: TickOrange,
-        buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)",
+    const fetchPackages = async () => {
+      try {
+        const response = await axios.get(`${API_BASE}/api/v_1/packageplan/packages`);
+        if (response.data.success) {
+          const apiPackages = response.data.data.map(pkg => {
+            const config = getPackageConfig(pkg.package_id);
+            return {
+              ...config,
+              title: pkg.name,
+              description: getPackageDescription(pkg.package_id),
+              price: pkg.referral_amount,
+              mrpPrice: pkg.mrp_amount,
+              features: getPackageFeatures(pkg.package_id),
+              id: pkg.package_id,
+              dbId: pkg.id
+            };
+          });
 
-      },
-    ];
+          // Store package data in session
+          sessionStorage.setItem('packageData', JSON.stringify(response.data.data));
 
-    let filteredPackages = defaults;
+          let filteredPackages = apiPackages.filter(pkg => pkg.id !== "DIGI0001");
 
-    if (isUpgradePage) {
-      const currentPackageId = sessionStorage.getItem("packageId");
+          if (isUpgradePage) {
+            const currentPackageId = sessionStorage.getItem("packageId");
+            const upgradeMap = {
+              DIGI0001: ["DIGI0002", "DIGI0003", "DIGI0004", "DIGI0005"],
+              DIGI0002: ["DIGI0003", "DIGI0004", "DIGI0005"],
+              DIGI0003: ["DIGI0004", "DIGI0005"],
+              DIGI0004: ["DIGI0005"],
+              DIGI0005: [],
+            };
 
-      const upgradeMap = {
-        DIGI0001: ["DIGI0002", "DIGI0003", "DIGI0004", "DIGI0005"],
-        DIGI0002: ["DIGI0003", "DIGI0004", "DIGI0005"],
-        DIGI0003: ["DIGI0004", "DIGI0005"],
-        DIGI0004: ["DIGI0005"],
-        DIGI0005: [],
-      };
+            const allowedIds = upgradeMap[currentPackageId] || [];
 
-      const allowedIds = upgradeMap[currentPackageId] || [];
+            if (currentPackageId === "DIGI0005") {
+              setIsUltimateUser(true);
+            }
 
-      if (currentPackageId === "DIGI0005") {
-        setIsUltimateUser(true);
+            filteredPackages = apiPackages.filter((pkg) =>
+              allowedIds.includes(pkg.id)
+            );
+          }
+
+          setPackages(filteredPackages);
+          dispatch(setDefaultPackages(filteredPackages));
+        }
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+        // Fallback to static data if API fails
+        const fallbackPackages = [
+          {
+            icon: Card1,
+            title: "Basic Package",
+            description: "Perfect for beginners starting their freelancing journey",
+            price: "2500",
+            mrpPrice: "3999",
+            features: ["15+ Hours of Content", "Basic Project Templates", "Community Support", "3 Real-World Projects"],
+            id: "DIGI0001",
+            iconImage: TickGreen,
+            buttonGradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)"
+          },
+          {
+            icon: Card2,
+            title: "Standard Package",
+            description: "Perfect for advanced learners looking to specialize",
+            price: "4000",
+            mrpPrice: "6999",
+            features: ["25+ Hours of Content", "Premium Project Templates", "1-on-1 Mentorship", "Priority Support", "5 Real-World Projects"],
+            id: "DIGI0002",
+            iconImage: TickBlue,
+            buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)"
+          },
+          {
+            icon: Card3,
+            title: "Advanced Package",
+            description: "For freelancers scaling their business",
+            price: "7000",
+            mrpPrice: "11999",
+            features: ["50+ Hours of Content", "Automation Tools", "Advanced Challenges", "Dedicated Community Group", "10 Live Projects"],
+            id: "DIGI0003",
+            iconImage: TickPurple,
+            buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)"
+          },
+          {
+            icon: Card4,
+            title: "Premium Package",
+            description: "Become a top-tier freelancer with premium training",
+            price: "11000",
+            mrpPrice: "16999",
+            features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+            id: "DIGI0004",
+            iconImage: TickRed,
+            buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)"
+          },
+          {
+            icon: Card5,
+            title: "Ultimate Package",
+            description: "Become a top-tier freelancer with premium training",
+            price: "15000",
+            mrpPrice: "22999",
+            features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+            id: "DIGI0005",
+            iconImage: TickOrange,
+            buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)"
+          }
+        ];
+        
+        // Store fallback data in session if not already stored
+        if (!sessionStorage.getItem('packageData')) {
+          const fallbackApiData = [
+            { id: 12, package_id: "DIGI0001", name: "Basic Package", mrp_amount: "3999", referral_amount: "2500" },
+            { id: 13, package_id: "DIGI0002", name: "Standard Package", mrp_amount: "6999", referral_amount: "4000" },
+            { id: 14, package_id: "DIGI0003", name: "Advanced Package", mrp_amount: "11999", referral_amount: "7000" },
+            { id: 15, package_id: "DIGI0004", name: "Premium Package", mrp_amount: "16999", referral_amount: "11000" },
+            { id: 16, package_id: "DIGI0005", name: "Ultimate Package", mrp_amount: "22999", referral_amount: "15000" }
+          ];
+          sessionStorage.setItem('packageData', JSON.stringify(fallbackApiData));
+        }
+        
+        let filteredPackages = fallbackPackages.filter(pkg => pkg.id !== "DIGI0001");
+        if (isUpgradePage) {
+          const currentPackageId = sessionStorage.getItem("packageId");
+          const upgradeMap = {
+            DIGI0001: ["DIGI0002", "DIGI0003", "DIGI0004", "DIGI0005"],
+            DIGI0002: ["DIGI0003", "DIGI0004", "DIGI0005"],
+            DIGI0003: ["DIGI0004", "DIGI0005"],
+            DIGI0004: ["DIGI0005"],
+            DIGI0005: [],
+          };
+          const allowedIds = upgradeMap[currentPackageId] || [];
+          if (currentPackageId === "DIGI0005") {
+            setIsUltimateUser(true);
+          }
+          filteredPackages = fallbackPackages.filter((pkg) => allowedIds.includes(pkg.id));
+        }
+        
+        setPackages(filteredPackages);
+        dispatch(setDefaultPackages(filteredPackages));
       }
+    };
 
-      filteredPackages = defaults.filter((pkg) =>
-        allowedIds.includes(pkg.id)
-      );
-    }
-
-    dispatch(setDefaultPackages(filteredPackages));
+    fetchPackages();
   }, [dispatch, isUpgradePage]);
 
 
@@ -177,7 +261,18 @@ const Section3 = ({ onCardSelect }) => {
         const [errorMessage, setErrorMessage] = useState("");
           const [errorPopup, setErrorPopup] = useState(false);
 
-  const handleCardClick =async(pkg) => {
+  const handleCardClick = async(pkg) => {
+    // Store package selection data in session
+    const packageData = JSON.parse(sessionStorage.getItem('packageData') || '[]');
+    const selectedPackage = packageData.find(p => p.package_id === pkg.id);
+    
+    if (selectedPackage) {
+      sessionStorage.setItem('selectedPackageId', selectedPackage.id.toString());
+      sessionStorage.setItem('selectedPackageCode', selectedPackage.package_id);
+      sessionStorage.setItem('selectedMrpPrice', selectedPackage.mrp_amount);
+      sessionStorage.setItem('selectedPromoPrice', selectedPackage.referral_amount);
+    }
+
     if (isRegisterPage) {
       if (onCardSelect) onCardSelect(pkg);
       navigate("/Register", { state: { selectedCard: pkg } });
