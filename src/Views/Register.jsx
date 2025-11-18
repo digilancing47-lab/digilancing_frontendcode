@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_BASE } from "../apiBase";
+import axios from "axios";
 import {
   setStep,
   setReferral,
@@ -36,7 +37,7 @@ const Register = () => {
   const {
     referral,
     selectedCard,
-    packages,
+    packages: reduxPackages,
     formData,
     paymentData,
     referralVerified,
@@ -55,96 +56,152 @@ const Register = () => {
 
   const processedRef = useRef(false)
 
-  const defaults = [
-    {
-      icon: Card1,
-      title: "Basic Package",
-      description: "Ideal for freelancers ready to expand their skills",
-      price: "5999",
-      features: [
-        "10+ Hours of Content",
-        "Basic Project Templates",
-        "Community Access",
-        "Email Support",
-        "3 Practice Projects",
-      ],
-      id: "DIGI0001",
-      iconImage: TickGreen,
-      buttonGradient: "linear-gradient(135deg, #10B682 0%, #0D9887 100%)",
-    },
-    {
-      icon: Card2,
-      title: "Standard Package",
-      description: "Perfect for advanced learners looking to specialize",
-      price: "9999",
-      features: [
-        "25+ Hours of Content",
-        "Premium Project Templates",
-        "1-on-1 Mentorship",
-        "Priority Support",
-        "5 Real-World Projects",
-      ],
-      id: "DIGI0002",
-      iconImage: TickBlue,
-      buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)",
-    },
-    {
-      icon: Card3,
-      title: "Advanced Package",
-      description: "For freelancers scaling their business",
-      price: "16999",
-      features: [
-        "50+ Hours of Content",
-        "Automation Tools",
-        "Advanced Challenges",
-        "Dedicated Community Group",
-        "10 Live Projects",
-      ],
-      id: "DIGI0003",
-      iconImage: TickPurple,
-      buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)",
-    },
-    {
-      icon: Card4,
-      title: "Premium Package",
-      description: "Become a top-tier freelancer with premium training",
-      price: "21999",
-      features: [
-        "100+ Hours of Content",
-        "Lifetime Access",
-        "Exclusive Webinars",
-        "Direct Client Leads",
-        "Unlimited Projects",
-      ],
-      id: "DIGI0004",
-      iconImage: TickRed,
-      buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)",
-    },
-    {
-      icon: Card5,
-      title: "Ultimate Package",
-      description: "Become a top-tier freelancer with premium training",
-      price: "29999",
-      features: [
-        "100+ Hours of Content",
-        "Lifetime Access",
-        "Exclusive Webinars",
-        "Direct Client Leads",
-        "Unlimited Projects",
-      ],
-      id: "DIGI0005",
-      iconImage: TickOrange,
-      buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)",
-    },
-  ];
+  const getPackageConfig = (packageId) => {
+    const configs = {
+      "DIGI0001": { icon: Card1, iconImage: TickGreen, buttonGradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)" },
+      "DIGI0002": { icon: Card2, iconImage: TickBlue, buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)" },
+      "DIGI0003": { icon: Card3, iconImage: TickPurple, buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)" },
+      "DIGI0004": { icon: Card4, iconImage: TickRed, buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)" },
+      "DIGI0005": { icon: Card5, iconImage: TickOrange, buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)" }
+    };
+    return configs[packageId] || configs["DIGI0001"];
+  };
+
+  const getPackageFeatures = (packageId) => {
+    const features = {
+      "DIGI0001": ["15+ Hours of Content", "Basic Project Templates", "Community Support", "3 Real-World Projects"],
+      "DIGI0002": ["25+ Hours of Content", "Premium Project Templates", "1-on-1 Mentorship", "Priority Support", "5 Real-World Projects"],
+      "DIGI0003": ["50+ Hours of Content", "Automation Tools", "Advanced Challenges", "Dedicated Community Group", "10 Live Projects"],
+      "DIGI0004": ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+      "DIGI0005": ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"]
+    };
+    return features[packageId] || features["DIGI0001"];
+  };
+
+  const getPackageDescription = (packageId) => {
+    const descriptions = {
+      "DIGI0001": "Perfect for beginners starting their freelancing journey",
+      "DIGI0002": "Perfect for advanced learners looking to specialize",
+      "DIGI0003": "For freelancers scaling their business",
+      "DIGI0004": "Become a top-tier freelancer with premium training",
+      "DIGI0005": "Become a top-tier freelancer with premium training"
+    };
+    return descriptions[packageId] || descriptions["DIGI0001"];
+  };
+
   useEffect(() => {
-    dispatch(setDefaultPackages(defaults));
+    const fetchPackages = async () => {
+      try {
+        let sessionData = sessionStorage.getItem('packageData');
+        
+        if (!sessionData) {
+          const response = await axios.get(`${API_BASE}/api/v_1/packageplan/packages`);
+          if (response.data.success) {
+            sessionStorage.setItem('packageData', JSON.stringify(response.data.data));
+            sessionData = JSON.stringify(response.data.data);
+          }
+        }
+
+        if (sessionData) {
+          const apiPackages = JSON.parse(sessionData);
+          const formattedPackages = apiPackages.map(pkg => {
+            const config = getPackageConfig(pkg.package_id);
+            return {
+              ...config,
+              title: pkg.name,
+              description: getPackageDescription(pkg.package_id),
+              price: pkg.referral_amount,
+              mrpPrice: pkg.mrp_amount,
+              features: getPackageFeatures(pkg.package_id),
+              id: pkg.package_id,
+              dbId: pkg.id
+            };
+          });
+          
+          dispatch(setDefaultPackages(formattedPackages));
+        } else {
+          // Fallback data
+          const fallbackPackages = [
+            {
+              icon: Card1,
+              title: "Basic Package",
+              description: "Perfect for beginners starting their freelancing journey",
+              price: "2500",
+              mrpPrice: "3999",
+              features: ["15+ Hours of Content", "Basic Project Templates", "Community Support", "3 Real-World Projects"],
+              id: "DIGI0001",
+              iconImage: TickGreen,
+              buttonGradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)"
+            },
+            {
+              icon: Card2,
+              title: "Standard Package",
+              description: "Perfect for advanced learners looking to specialize",
+              price: "4000",
+              mrpPrice: "6999",
+              features: ["25+ Hours of Content", "Premium Project Templates", "1-on-1 Mentorship", "Priority Support", "5 Real-World Projects"],
+              id: "DIGI0002",
+              iconImage: TickBlue,
+              buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)"
+            },
+            {
+              icon: Card3,
+              title: "Advanced Package",
+              description: "For freelancers scaling their business",
+              price: "7000",
+              mrpPrice: "11999",
+              features: ["50+ Hours of Content", "Automation Tools", "Advanced Challenges", "Dedicated Community Group", "10 Live Projects"],
+              id: "DIGI0003",
+              iconImage: TickPurple,
+              buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)"
+            },
+            {
+              icon: Card4,
+              title: "Premium Package",
+              description: "Become a top-tier freelancer with premium training",
+              price: "11000",
+              mrpPrice: "16999",
+              features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+              id: "DIGI0004",
+              iconImage: TickRed,
+              buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)"
+            },
+            {
+              icon: Card5,
+              title: "Ultimate Package",
+              description: "Become a top-tier freelancer with premium training",
+              price: "15000",
+              mrpPrice: "22999",
+              features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
+              id: "DIGI0005",
+              iconImage: TickOrange,
+              buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)"
+            }
+          ];
+          
+          const fallbackApiData = [
+            { id: 12, package_id: "DIGI0001", name: "Basic Package", mrp_amount: "3999", referral_amount: "2500" },
+            { id: 13, package_id: "DIGI0002", name: "Standard Package", mrp_amount: "6999", referral_amount: "4000" },
+            { id: 14, package_id: "DIGI0003", name: "Advanced Package", mrp_amount: "11999", referral_amount: "7000" },
+            { id: 15, package_id: "DIGI0004", name: "Premium Package", mrp_amount: "16999", referral_amount: "11000" },
+            { id: 16, package_id: "DIGI0005", name: "Ultimate Package", mrp_amount: "22999", referral_amount: "15000" }
+          ];
+          sessionStorage.setItem('packageData', JSON.stringify(fallbackApiData));
+          
+          dispatch(setDefaultPackages(fallbackPackages));
+        }
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
+    };
+
+    fetchPackages();
   }, [dispatch]);
 
   useEffect(() => {
     const currentPackageId = sessionStorage.getItem("packageId");
 
-    if (currentPackageId) {
+    if (currentPackageId && reduxPackages.length > 0) {
       setIsUpgradePage(true);
 
       const upgradeMap = {
@@ -158,19 +215,15 @@ const Register = () => {
       const allowedIds = upgradeMap[currentPackageId] || [];
 
       if (currentPackageId === "DIGI0005") {
-        setIsUltimateUser(true); // Already ultimate, no upgrades
+        setIsUltimateUser(true);
         dispatch(setDefaultPackages([]));
         return;
       }
 
-      const filteredPackages = defaults.filter(pkg => allowedIds.includes(pkg.id));
+      const filteredPackages = reduxPackages.filter(pkg => allowedIds.includes(pkg.id));
       dispatch(setDefaultPackages(filteredPackages));
-    } else {
-      // first-time registration
-      setIsUpgradePage(false);
-      dispatch(setDefaultPackages(defaults));
     }
-  }, [dispatch]);
+  }, [dispatch, reduxPackages]);
 
 
   useEffect(() => {
@@ -241,7 +294,7 @@ const Register = () => {
         // If packages are already available, select the matching package.
         // If not available yet, wait until packages populate (see next effect).
         if (planIdFromUrl) {
-          const pkg = packages.find((p) => p.id === planIdFromUrl);
+          const pkg = reduxPackages.find((p) => p.id === planIdFromUrl);
           if (pkg) {
             dispatch(setSelectedCard(pkg));
             // move to step 2 so the user sees the form/order summary
@@ -308,14 +361,14 @@ const Register = () => {
     const query = new URLSearchParams(window.location.search);
     const planIdFromUrl = query.get("planId") || query.get("PlanId");
 
-    if (planIdFromUrl && packages && packages.length) {
-      const pkg = packages.find((p) => p.id === planIdFromUrl);
+    if (planIdFromUrl && reduxPackages && reduxPackages.length) {
+      const pkg = reduxPackages.find((p) => p.id === planIdFromUrl);
       if (pkg) {
         dispatch(setSelectedCard(pkg));
         dispatch(setStep(2));
       }
     }
-  }, [packages]);
+  }, [reduxPackages]);
 
 
   const handleSubmit = () => {
@@ -580,7 +633,7 @@ const Register = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-              {packages.map((pkg, i) => (
+              {reduxPackages.map((pkg, i) => (
                 <motion.div
                   key={i}
                   onClick={() => handleCardClick(pkg)}
