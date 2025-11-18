@@ -392,6 +392,7 @@ const Register = () => {
         password: formData.password,
         referred_by: referral || null,
         package_id: selectedCard.id,
+        coupon_id: promoData?.Coupenid || null,
       })
     )
       .unwrap()
@@ -465,6 +466,11 @@ const Register = () => {
   };
 
   const [OnPaymentcancel,setOnPaymentcancel]=useState(false)
+  const [showPromoInput, setShowPromoInput] = useState(false)
+  const [promoCode, setPromoCode] = useState('')
+  const [promoData, setPromoData] = useState(null)
+  const [promoLoading, setPromoLoading] = useState(false)
+  const [promoError, setPromoError] = useState('')
 
   const startRazorpayPayment = async (packagedata) => {
     try {
@@ -564,9 +570,44 @@ const Register = () => {
 
   const gstRate = 18;
   const displayPrice = referralVerified ? selectedCard?.price : selectedCard?.mrpPrice;
-  const total = Number(displayPrice);
+  let total = Number(displayPrice);
+  
+  // Apply promo discount if valid
+  if (promoData && promoData.discountpercentage) {
+    const discount = (total * promoData.discountpercentage) / 100;
+    total = total - discount;
+  }
+  
   const gstAmount = (total * 0.18).toFixed(2);
   const basePrice = (total - gstAmount).toFixed(2);
+  
+  const validatePromoCode = async () => {
+    if (!promoCode.trim()) return;
+    
+    setPromoLoading(true);
+    setPromoError('');
+    
+    try {
+      const response = await axios.post(`${API_BASE}/api/v_1/coupons/validate`, {
+        promocode: promoCode
+      });
+      
+      // Check if promo is valid for selected package
+      if (response.data.vaildfor_packageid !== selectedCard.id) {
+        setPromoError('This promo code is not valid for the selected package');
+        setPromoData(null);
+        return;
+      }
+      
+      setPromoData(response.data);
+    } catch (error) {
+      const errorMsg = error.response?.data?.error || 'Failed to validate promo code';
+      setPromoError(errorMsg);
+      setPromoData(null);
+    } finally {
+      setPromoLoading(false);
+    }
+  };
 
   const validateForm = () => {
     if (!formData.full_name?.trim()) return "Full name is required";
@@ -856,11 +897,63 @@ const Register = () => {
                 <span>GST ({gstRate}%):</span>
                 <span>₹{Number(gstAmount).toLocaleString("en-IN")}</span>
               </div>
+              
+              {promoData && (
+                <div className="mb-2 flex justify-between text-green-600">
+                  <span>Discount ({parseFloat(promoData.discountpercentage).toString()}%):</span>
+                  <span>-₹{((Number(displayPrice) * promoData.discountpercentage) / 100).toLocaleString("en-IN")}</span>
+                </div>
+              )}
 
               <div className="mb-4 flex justify-between font-bold">
                 <span>Total:</span>
                 <span>₹{Math.round(total).toLocaleString("en-IN")}</span>
               </div>
+              
+              <hr className="border-gray-300 mb-4" />
+              
+              {!showPromoInput ? (
+                <button
+                  onClick={() => setShowPromoInput(true)}
+                  className="text-blue-600 hover:text-blue-700 text-sm mb-4 cursor-pointer"
+                >
+                  + add promo
+                </button>
+              ) : (
+                <div className="mb-4">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      onChange={(e) => {
+                        setPromoCode(e.target.value);
+                        setPromoError('');
+                        setPromoData(null);
+                      }}
+                      className={`flex-1 px-3 py-2 border rounded-lg text-sm ${
+                        promoData ? 'border-green-500 bg-green-50' : 
+                        promoError ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    />
+                    <button
+                      onClick={validatePromoCode}
+                      disabled={promoLoading || !promoCode.trim()}
+                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 cursor-pointer disabled:bg-gray-400"
+                    >
+                      {promoLoading ? 'Verifying...' : promoData ? 'Applied' : 'Verify'}
+                    </button>
+                  </div>
+                  {promoError && (
+                    <p className="text-red-500 text-xs mt-1">{promoError}</p>
+                  )}
+                  {promoData && (
+                    <p className="text-green-600 text-xs mt-1">
+                      {parseFloat(promoData.discountpercentage).toString()}% discount applied!
+                    </p>
+                  )}
+                </div>
+              )}
 
               <button
                 className="w-full bg-blue-600 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700"
