@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCourses, fetchUserCourses, fetchCourseDetail } from "../../redux/slices/coursesSlice";
@@ -50,9 +50,31 @@ const Section2 = () => {
   const { container, fadeUp } = makeVariants(prefersReduced);
   const { items: courses, loading, page, hasMore } = useSelector((state) => state.courses);
 
+  // Memoized courses with processed URLs to prevent flickering
+  const processedCourses = useMemo(() => {
+    return courses.map(course => ({
+      ...course,
+      processedBannerUrl: (() => {
+        const bannerUrl = course.thumbnail_url || course.banner_url;
+        if (!bannerUrl) return null;
+        if (bannerUrl.includes('https%3A//')) {
+          const decodedPart = decodeURIComponent(bannerUrl.split('https%3A//')[1]);
+          return 'https://' + decodedPart.split('?')[0];
+        }
+        return bannerUrl;
+      })(),
+      processedInstructorUrl: course.instructor_profile_url 
+        ? (course.instructor_profile_url.startsWith('http') 
+            ? course.instructor_profile_url 
+            : `https://storage.googleapis.com/digilancing_storage/${course.instructor_profile_url}`)
+        : instructorIcon
+    }));
+  }, [courses]);
+
   const [filterLoading, setFilterLoading] = useState(false);
   const [loadingCourse, setLoadingCourse] = useState(null);
   const [filter, setFilter] = useState("all");
+  const [failedImages, setFailedImages] = useState(new Set());
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   const guide_code = user?.guide_code;
@@ -86,7 +108,7 @@ const Section2 = () => {
     }
   };
 
-  const filteredCourses = courses.filter((course) => {
+  const filteredCourses = processedCourses.filter((course) => {
     if (filter === "my") return course.lock === false;
     return true;
   });
@@ -176,7 +198,7 @@ const handleWatchClick = async (course) => {
         >
           {filteredCourses.map((course, index) => (
             <motion.div
-              key={`${course.course_code}-${index}`}
+              key={course.course_code}
               className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white shadow-lg relative"
               whileHover={{
                 scale: 1.03,
@@ -199,9 +221,12 @@ const handleWatchClick = async (course) => {
                   }`}
                 >
                   <img
-                    src={course.thumbnail_url}
+                    src={failedImages.has(`banner-${course.course_code}`) ? '/default-course-banner.jpg' : (course.processedBannerUrl || '/default-course-banner.jpg')}
                     alt={course.title}
                     className="object-cover w-full rounded-2xl h-full"
+                    onError={() => {
+                      setFailedImages(prev => new Set(prev).add(`banner-${course.course_code}`));
+                    }}
                   />
                 </div>
               </div>
@@ -229,9 +254,12 @@ const handleWatchClick = async (course) => {
                   <div className="flex-grow" />
                 <div className="flex items-center py-3 space-x-2">
                   <img
-                    src={course.instructor_profile_url || instructorIcon}
+                    src={failedImages.has(`instructor-${course.course_code}`) ? instructorIcon : course.processedInstructorUrl}
                     alt={course.instructor_name || "Instructor"}
                     className="w-10 h-10 rounded-full object-cover"
+                    onError={() => {
+                      setFailedImages(prev => new Set(prev).add(`instructor-${course.course_code}`));
+                    }}
                   />
                   <div>
                     <p className="text-sm text-[#A8A8A8]">Instructor</p>
