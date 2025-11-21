@@ -50,9 +50,26 @@ const DetailedCourse = () => {
   };
 
   const decodeHtml = (html) => {
-    const txt = document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
+    let decoded = html;
+    // Manual replacement for common HTML entities
+    decoded = decoded.replace(/&quot;/g, '"');
+    decoded = decoded.replace(/&amp;/g, '&');
+    decoded = decoded.replace(/&lt;/g, '<');
+    decoded = decoded.replace(/&gt;/g, '>');
+    decoded = decoded.replace(/&#39;/g, "'");
+    
+    // Repeat until no more entities are found
+    let prevDecoded;
+    do {
+      prevDecoded = decoded;
+      decoded = decoded.replace(/&quot;/g, '"');
+      decoded = decoded.replace(/&amp;/g, '&');
+      decoded = decoded.replace(/&lt;/g, '<');
+      decoded = decoded.replace(/&gt;/g, '>');
+      decoded = decoded.replace(/&#39;/g, "'");
+    } while (decoded !== prevDecoded);
+    
+    return decoded;
   };
 
   const fixVimeoUrl = (html) => {
@@ -72,32 +89,62 @@ const DetailedCourse = () => {
   
   const parseCurriculum = (curriculumStr) => {
     if (!curriculumStr) return [];
+    
     try {
-      let decoded = decodeHtml(curriculumStr);
-      const outerParsed = JSON.parse(decoded);
+      // Step 1: Decode HTML entities
+      let decoded = curriculumStr
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/\\&quot;/g, '"')
+        .replace(/\\\\&quot;/g, '"');
       
-      // Extract all curriculum items from the keys
-      const curriculumItems = [];
-      Object.keys(outerParsed).forEach(key => {
+      // Step 2: Parse the main JSON
+      const parsed = JSON.parse(decoded);
+      
+      // Step 3: Extract lessons from object keys
+      const lessons = [];
+      Object.keys(parsed).forEach(key => {
         try {
           const lesson = JSON.parse(key);
-          curriculumItems.push(lesson);
+          lessons.push({
+            class_title: lesson.class_title,
+            duration: `${lesson.duration} min`,
+            class_url: lesson.class_url
+          });
         } catch (e) {
-          console.log('Error parsing lesson:', e);
+          // Skip invalid keys
         }
       });
       
-      return curriculumItems;
+      return lessons;
     } catch (e) {
-      console.log('Curriculum parse error:', e);
       return [];
     }
   };
   
-  let curriculum = parseCurriculum(course.curriculum);
+  // Handle curriculum - can be array or complex string
+  let curriculum = [];
+  
+  if (Array.isArray(course.curriculum)) {
+    // New format: curriculum is already an array
+    curriculum = course.curriculum.map(lesson => ({
+      class_title: lesson.class_title,
+      duration: `${lesson.duration} min`,
+      class_url: lesson.class_url
+    }));
+  } else if (typeof course.curriculum === 'string') {
+    // Old format: curriculum is a complex encoded string
+    curriculum = parseCurriculum(course.curriculum);
+  }
+  
+  console.log('Final curriculum:', curriculum);
   
   console.log('Raw curriculum string:', course.curriculum);
   console.log('Parsed curriculum:', curriculum);
+  
+
   
   const fixedPlaylistUrl = course.playlist_url;
   const defaultVideo = fixedPlaylistUrl || (curriculum[0]?.class_url);
@@ -167,6 +214,8 @@ const DetailedCourse = () => {
 
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Curriculum</h2>
+            
+
             
             <div className="space-y-3">
               {curriculum?.length ? (
