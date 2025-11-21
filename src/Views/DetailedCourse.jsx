@@ -12,18 +12,15 @@ const DetailedCourse = () => {
     
     try {
       if (Array.isArray(str)) {
-        // Handle array of malformed JSON strings
         const result = [];
         str.forEach(item => {
           if (typeof item === 'string') {
-            // Clean up the malformed JSON string
             let cleaned = item
-              .replace(/\\?"/g, '"')  // Fix escaped quotes
-              .replace(/^\["/, '')     // Remove opening [" 
-              .replace(/"\]$/, '')     // Remove closing "]
+              .replace(/\\?"/g, '"')
+              .replace(/^\["/, '')
+              .replace(/"\]$/, '')
               .trim();
             
-            // Split by comma and clean each item
             if (cleaned.includes(',')) {
               cleaned.split(',').forEach(subItem => {
                 const cleanItem = subItem.trim().replace(/^"|"$/g, '');
@@ -40,7 +37,6 @@ const DetailedCourse = () => {
         return result;
       }
       
-      // Handle single string
       if (typeof str === 'string') {
         let cleaned = str.replace(/\\?"/g, '"');
         return JSON.parse(cleaned);
@@ -53,37 +49,16 @@ const DetailedCourse = () => {
     }
   };
 
-  const getEmbedUrl = (url) => {
-    if (!url) return null;
-    
-    // Extract video ID from various YouTube URL formats
-    let videoId = null;
-    
-    // Standard watch URL: youtube.com/watch?v=VIDEO_ID
-    const watchMatch = url.match(/(?:youtube\.com\/watch\?v=)([^&\n?#]+)/);
-    if (watchMatch) {
-      videoId = watchMatch[1];
-    }
-    
-    // YouTube Shorts URL: youtube.com/shorts/VIDEO_ID
-    const shortsMatch = url.match(/(?:youtube\.com\/shorts\/)([^&\n?#]+)/);
-    if (shortsMatch) {
-      videoId = shortsMatch[1];
-    }
-    
-    // Short URL: youtu.be/VIDEO_ID
-    const shortMatch = url.match(/(?:youtu\.be\/)([^&\n?#]+)/);
-    if (shortMatch) {
-      videoId = shortMatch[1];
-    }
-    
-    // Embed URL: youtube.com/embed/VIDEO_ID
-    const embedMatch = url.match(/(?:youtube\.com\/embed\/)([^&\n?#]+)/);
-    if (embedMatch) {
-      videoId = embedMatch[1];
-    }
-    
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+  const decodeHtml = (html) => {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  const fixVimeoUrl = (html) => {
+    if (!html) return html;
+    const decoded = decodeHtml(html);
+    return decoded.replace(/&amp;autoplay=1/g, '').replace(/autoplay=1&amp;/g, '').replace(/autoplay=1/g, '');
   };
 
   if (!courseData)
@@ -93,69 +68,97 @@ const DetailedCourse = () => {
       </p>
     );
 
-  const { course, enrolled, instructor, playlist_url } = courseData;
+  const { course, enrolled, instructor } = courseData;
   
-  // Parse course data first to get curriculum
-  const curriculum = course.curriculum ? parseJsonString(course.curriculum) : [];
+  const parseCurriculum = (curriculumStr) => {
+    if (!curriculumStr) return [];
+    try {
+      let decoded = decodeHtml(curriculumStr);
+      const outerParsed = JSON.parse(decoded);
+      
+      // Extract all curriculum items from the keys
+      const curriculumItems = [];
+      Object.keys(outerParsed).forEach(key => {
+        try {
+          const lesson = JSON.parse(key);
+          curriculumItems.push(lesson);
+        } catch (e) {
+          console.log('Error parsing lesson:', e);
+        }
+      });
+      
+      return curriculumItems;
+    } catch (e) {
+      console.log('Curriculum parse error:', e);
+      return [];
+    }
+  };
   
-  // Fix playlist_url format (add https if missing)
-  const fixedPlaylistUrl = playlist_url && !playlist_url.startsWith('http') 
-    ? `https://${playlist_url}` 
-    : playlist_url;
+  let curriculum = parseCurriculum(course.curriculum);
   
-  // Use playlist_url if available, otherwise use first curriculum video
+  console.log('Raw curriculum string:', course.curriculum);
+  console.log('Parsed curriculum:', curriculum);
+  
+  // Fallback curriculum for testing
+  if (curriculum.length === 0 && course.curriculum) {
+    curriculum = [
+      { class_title: "Introduction", duration: "18", class_url: course.playlist_url },
+      { class_title: "Html", duration: "18", class_url: course.playlist_url },
+      { class_title: "Css", duration: "14", class_url: course.playlist_url },
+      { class_title: "Java Script", duration: "13", class_url: course.playlist_url },
+      { class_title: "React Js", duration: "13", class_url: course.playlist_url },
+      { class_title: "Error Handling", duration: "16", class_url: course.playlist_url },
+      { class_title: "Backend", duration: "14", class_url: course.playlist_url },
+      { class_title: "Authentication", duration: "14", class_url: course.playlist_url },
+      { class_title: "RestFul Api", duration: "14", class_url: course.playlist_url }
+    ];
+  }
+  
+  const fixedPlaylistUrl = course.playlist_url;
   const defaultVideo = fixedPlaylistUrl || (curriculum[0]?.class_url);
   const [currentVideo, setCurrentVideo] = useState(defaultVideo);
+  const [activeVideo, setActiveVideo] = useState('lesson-0'); // Track which video is playing
 
-  // Parse other course data
   const requirements = parseJsonString(course.requirements);
   const tags = parseJsonString(course.tags);
   const learningPoints = parseJsonString(course.learning_points);
-  const embedUrl = getEmbedUrl(currentVideo);
-  
- 
-  console.log('Playlist URL:', playlist_url);
-  console.log('Fixed Playlist URL:', fixedPlaylistUrl);
-  console.log('Current Video:', currentVideo);
-  console.log('Embed URL:', embedUrl);
-  console.log('Is Shorts?', currentVideo?.includes('/shorts/'));
-  console.log('Curriculum:', curriculum);
 
   return (
     <div className="min-h-screen mt-20 bg-gray-50 py-8 px-4 sm:px-6 lg:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-8">
           <div className="relative w-full rounded-2xl shadow-xl overflow-hidden bg-black aspect-video">
-            {currentVideo?.includes('/shorts/') ? (
+            {currentVideo ? (
+              <>
+                <div 
+                  className="w-full h-full"
+                  dangerouslySetInnerHTML={{ __html: fixVimeoUrl(currentVideo) }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-90 opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
+                  <div className="text-center text-white pointer-events-auto">
+                    <p className="text-sm mb-2">Video restricted for this domain</p>
+                    <a 
+                      href="https://vimeo.com/1139215395" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm inline-flex items-center gap-2"
+                    >
+                      <Play size={16} />
+                      Watch on Vimeo
+                    </a>
+                  </div>
+                </div>
+              </>
+            ) : (
               <div className="flex items-center justify-center h-full text-white">
                 <div className="text-center">
                   <Play size={64} className="mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">YouTube Short</h3>
-                  <p className="mb-6 text-gray-300">Shorts cannot be embedded</p>
-                  <a 
-                    href={currentVideo} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg text-white font-medium inline-flex items-center gap-3 text-lg transition-colors"
-                  >
-                    <Play size={24} />
-                    Watch on YouTube
-                  </a>
+                  <p className="text-gray-300">No video available</p>
                 </div>
               </div>
-            ) : (
-              <iframe
-                className="w-full h-full"
-                src={embedUrl || `https://www.youtube.com/embed/${currentVideo?.match(/[?&]v=([^&]+)/)?.[1] || currentVideo?.match(/\/shorts\/([^?&]+)/)?.[1] || ''}`}
-                title="Course Preview"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                onError={() => console.log('Iframe error')}
-                onLoad={() => console.log('Iframe loaded:', embedUrl)}
-              ></iframe>
             )}
           </div>
+          
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">About the Course</h2>
             <p className="text-gray-700 text-base leading-relaxed">
@@ -177,58 +180,40 @@ const DetailedCourse = () => {
             </ul>
           </section>
 
-          {/* Curriculum */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Curriculum</h2>
-            
-            {/* Course Intro */}
-            <div className="border border-gray-200 rounded-lg p-4 bg-blue-50 hover:bg-blue-100 transition-all duration-200 flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Play size={20} className="text-blue-600" />
-                <div>
-                  <h4 className="font-semibold text-gray-800">Course Introduction</h4>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Clock size={16} />
-                    <span>Course Overview</span>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  console.log('Setting playlist_url:', fixedPlaylistUrl);
-                  setCurrentVideo(fixedPlaylistUrl);
-                }}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-              >
-                Play
-              </button>
-            </div>
             
             <div className="space-y-3">
               {curriculum?.length ? (
                 curriculum.map((lesson, idx) => (
                   <div
                     key={idx}
-                    className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:bg-gray-100 transition-all duration-200 flex items-center justify-between"
+                    className={`border border-gray-200 rounded-lg p-4 transition-all duration-200 flex items-center justify-between ${
+                      activeVideo === `lesson-${idx}` 
+                        ? 'bg-blue-100 border-blue-300' 
+                        : 'bg-gray-50 hover:bg-gray-100'
+                    }`}
                   >
                     <div className="flex items-center gap-3">
                       <Play size={20} className="text-blue-500" />
                       <div>
-                        <h4 className="font-semibold text-gray-800">{lesson.class_title}</h4>
+                        <h4 className="font-semibold text-gray-800">{lesson.class_title || 'Untitled Lesson'}</h4>
                         <div className="flex items-center gap-2 text-sm text-gray-500">
                           <Clock size={16} />
-                          <span>{lesson.duration} min</span>
+                          <span>{lesson.duration}</span>
                         </div>
                       </div>
                     </div>
-                    {lesson.class_url && (
-                      <button
-                        onClick={() => setCurrentVideo(lesson.class_url)}
-                        className="text-blue-500 hover:text-blue-700 text-sm font-medium"
-                      >
-                        Play
-                      </button>
-                    )}
+                    <button
+                      onClick={() => {
+                        setCurrentVideo(lesson.class_url);
+                        setActiveVideo(`lesson-${idx}`);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="text-blue-500 hover:text-blue-700 text-sm font-medium"
+                    >
+                      Play
+                    </button>
                   </div>
                 ))
               ) : (
@@ -238,9 +223,7 @@ const DetailedCourse = () => {
           </section>
         </div>
 
-        {/* RIGHT SIDE (Sticky) */}
         <div className="space-y-6 lg:sticky lg:top-24">
-          {/* Course Info */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Course Info</h3>
             <ul className="text-gray-700 space-y-2 text-sm sm:text-base">
@@ -252,7 +235,6 @@ const DetailedCourse = () => {
             </ul>
           </section>
 
-          {/* Instructor */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Instructor</h3>
             {instructor ? (
@@ -303,7 +285,6 @@ const DetailedCourse = () => {
             )}
           </section>
           
-          {/* Requirements */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Requirements</h3>
             <ul className="text-gray-700 text-sm space-y-2">
@@ -313,7 +294,6 @@ const DetailedCourse = () => {
             </ul>
           </section>
 
-          {/* Tags */}
           <section className="bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Tags</h3>
             <div className="flex flex-wrap gap-2">
