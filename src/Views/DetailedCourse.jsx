@@ -99,21 +99,6 @@ const DetailedCourse = () => {
   console.log('Raw curriculum string:', course.curriculum);
   console.log('Parsed curriculum:', curriculum);
   
-  // Fallback curriculum for testing
-  if (curriculum.length === 0 && course.curriculum) {
-    curriculum = [
-      { class_title: "Introduction", duration: "18", class_url: course.playlist_url },
-      { class_title: "Html", duration: "18", class_url: course.playlist_url },
-      { class_title: "Css", duration: "14", class_url: course.playlist_url },
-      { class_title: "Java Script", duration: "13", class_url: course.playlist_url },
-      { class_title: "React Js", duration: "13", class_url: course.playlist_url },
-      { class_title: "Error Handling", duration: "16", class_url: course.playlist_url },
-      { class_title: "Backend", duration: "14", class_url: course.playlist_url },
-      { class_title: "Authentication", duration: "14", class_url: course.playlist_url },
-      { class_title: "RestFul Api", duration: "14", class_url: course.playlist_url }
-    ];
-  }
-  
   const fixedPlaylistUrl = course.playlist_url;
   const defaultVideo = fixedPlaylistUrl || (curriculum[0]?.class_url);
   const [currentVideo, setCurrentVideo] = useState(defaultVideo);
