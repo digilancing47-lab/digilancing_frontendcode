@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckCircle, Play, Clock, Lock } from "lucide-react";
 
@@ -88,8 +88,25 @@ const DetailedCourse = () => {
 
   const { course, enrolled, instructor } = courseData;
   
-  // Check if user is logged in by checking for token
-  const isLoggedIn = !!localStorage.getItem('token');
+  // Check if user is logged in by checking for authToken in sessionStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('authToken'));
+  
+  // Update login status when component mounts or when storage changes
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      setIsLoggedIn(!!sessionStorage.getItem('authToken'));
+    };
+    
+    // Check on mount
+    checkLoginStatus();
+    
+    // Listen for storage changes (when user logs in/out in another tab)
+    window.addEventListener('storage', checkLoginStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkLoginStatus);
+    };
+  }, []);
   
   const parseCurriculum = (curriculumStr) => {
     if (!curriculumStr) return [];
