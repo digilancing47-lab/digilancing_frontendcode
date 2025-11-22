@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { CheckCircle, Play, Clock } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CheckCircle, Play, Clock, Lock } from "lucide-react";
 
 const DetailedCourse = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { courseData } = location.state || {};
 
   // Utility functions
@@ -86,6 +87,9 @@ const DetailedCourse = () => {
     );
 
   const { course, enrolled, instructor } = courseData;
+  
+  // Check if user is logged in by checking for token
+  const isLoggedIn = !!localStorage.getItem('token');
   
   const parseCurriculum = (curriculumStr) => {
     if (!curriculumStr) return [];
@@ -219,37 +223,55 @@ const DetailedCourse = () => {
             
             <div className="space-y-3">
               {curriculum?.length ? (
-                curriculum.map((lesson, idx) => (
-                  <div
-                    key={idx}
-                    className={`border border-gray-200 rounded-lg p-4 transition-all duration-200 flex items-center justify-between ${
-                      activeVideo === `lesson-${idx}` 
-                        ? 'bg-blue-100 border-blue-300' 
-                        : 'bg-gray-50 hover:bg-gray-100'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Play size={20} className="text-blue-500" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800">{lesson.class_title || 'Untitled Lesson'}</h4>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Clock size={16} />
-                          <span>{lesson.duration}</span>
+                curriculum.map((lesson, idx) => {
+                  const isLocked = !isLoggedIn && idx > 0;
+                  
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        if (isLocked) {
+                          navigate('/login');
+                        } else {
+                          setCurrentVideo(lesson.class_url);
+                          setActiveVideo(`lesson-${idx}`);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                      }}
+                      className={`border border-gray-200 rounded-lg p-4 transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                        activeVideo === `lesson-${idx}` 
+                          ? 'bg-blue-100 border-blue-300' 
+                          : isLocked 
+                            ? 'bg-gray-100 opacity-60 hover:opacity-80'
+                            : 'bg-gray-50 hover:bg-gray-100'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        {isLocked ? (
+                          <Lock size={20} className="text-gray-400" />
+                        ) : (
+                          <Play size={20} className="text-blue-500" />
+                        )}
+                        <div>
+                          <h4 className={`font-semibold ${
+                            isLocked ? 'text-gray-500' : 'text-gray-800'
+                          }`}>
+                            {lesson.class_title || 'Untitled Lesson'}
+                          </h4>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <Clock size={16} />
+                            <span>{lesson.duration}</span>
+                          </div>
                         </div>
                       </div>
+                      <span className={`text-sm font-medium ${
+                        isLocked ? 'text-gray-400' : 'text-blue-500'
+                      }`}>
+                        {isLocked ? 'Locked' : 'Play'}
+                      </span>
                     </div>
-                    <button
-                      onClick={() => {
-                        setCurrentVideo(lesson.class_url);
-                        setActiveVideo(`lesson-${idx}`);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      className="text-blue-500 hover:text-blue-700 text-sm font-medium"
-                    >
-                      Play
-                    </button>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <p className="text-gray-400">No curriculum available</p>
               )}
