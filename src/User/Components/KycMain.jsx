@@ -194,14 +194,28 @@ const KYCForm = () => {
             })
           });
           
-          if (response.ok) {
+          const responseData = await response.json();
+          
+          if (response.status === 201) {
+            // KYC approved
             setCurrentStage(3);
+          } else if (response.status === 400) {
+            // Handle rejection or validation errors
+            if (responseData.details && responseData.details.status === 'REJECTED') {
+              setErrorMessage(`Name Mismatch Detected!\n\nYour Digilancing name: "${formData.fullName}"\nBank account holder name: "${responseData.details.registered_name}"\n\nThe name in your Digilancing account doesn't match your bank account holder name. Please contact customer care to update your name in Digilancing to match your bank account.`);
+            } else {
+              setErrorMessage(responseData.error || 'Validation failed. Please check your details.');
+            }
+            setShowError(true);
+          } else if (response.status === 404) {
+            setErrorMessage('Customer not found. Please contact support.');
+            setShowError(true);
           } else {
             setErrorMessage('Failed to create and validate fund account. Please try again.');
             setShowError(true);
           }
         } catch (error) {
-          setErrorMessage('Error creating fund account. Please try again.');
+          setErrorMessage('Network error. Please check your connection and try again.');
           setShowError(true);
         } finally {
           setNextLoading(false);
