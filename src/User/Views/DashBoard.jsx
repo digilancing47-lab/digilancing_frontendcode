@@ -164,7 +164,27 @@ const DashBoard = () => {
               </div>
               <div>
                 <div className="grid max-w-screen-xl mx-auto gap-2 md:grid-cols-3">
-                  {data?.courseDetails.map((item, index) => (
+                  {(() => {
+                    const filteredCourses = data?.courseDetails
+                      .filter((item, index, self) => 
+                        index === self.findIndex(course => course.id === item.id)
+                      )
+                      .filter(item => item.id !== 64) || [];
+                    
+                    // Add fallback course if we have less than 3 courses
+                    if (filteredCourses.length < 3) {
+                      const fallbackCourse = {
+                        id: 'fallback-1',
+                        title: 'Digital Marketing',
+                        description: 'Master digital marketing strategies to grow your online presence and business.',
+                        thumbnail_url: 'https://storage.googleapis.com/digilancing_storage/courses_thumbnail/Digital%20marketing.avif',
+                        duration: '20 hours'
+                      };
+                      filteredCourses.push(fallbackCourse);
+                    }
+                    
+                    return filteredCourses;
+                  })().map((item, index) => (
                     <motion.div
                       key={index}
                       className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-lg transition-transform transform hover:scale-105 relative"
@@ -174,9 +194,12 @@ const DashBoard = () => {
                     >
                       <div className="relative p-2 w-full">
                         <img
-                          src={item.thumbnail_url}
+                          src={item.thumbnail_url || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTVlN2ViIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzZiNzI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNvdXJzZSBJbWFnZTwvdGV4dD48L3N2Zz4='}
                           alt={item.title}
                           className="object-cover rounded-xl w-full h-full"
+                          onError={(e) => {
+                            e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTVlN2ViIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzZiNzI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNvdXJzZSBJbWFnZTwvdGV4dD48L3N2Zz4=';
+                          }}
                         />
                       </div>
 

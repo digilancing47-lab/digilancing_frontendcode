@@ -31,9 +31,9 @@ const BestInstructors = ({ topInstructors = [] }) => {
             {/* Profile Info */}
             <div className="flex items-center">
               <img
-                src={instructor.profile_url || '/default-avatar.png'}
+                src={ '/ArunKumar.jpg' || instructor.profile_url}
                 alt={instructor.name}
-                className="w-14 h-14 rounded-xl object-cover mr-4"
+                className="w-17 h-17 rounded-xl object-cover mr-4"
               />
               <div>
                 <h3 className="font-semibold text-lg">{instructor.name}</h3>

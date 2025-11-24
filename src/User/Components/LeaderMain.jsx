@@ -75,7 +75,7 @@ export default function LeaderBoard() {
       type: "All Time Earning",
       name: data?.allTimeTopSingle?.fullname || "",
       amount: `₹${Number(
-        data?.allTimeTopSingle?.earning_amount || 0
+        data?.allTimeTopSingle?.total_amount || 0
       ).toLocaleString("en-IN")}`,
       img: data?.allTimeTopSingle?.customer_image || "",
       bg: "bg-[#F97316]",
