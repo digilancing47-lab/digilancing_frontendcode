@@ -182,26 +182,10 @@ const DetailedCourse = () => {
         <div className="lg:col-span-2 space-y-8">
           <div className="relative w-full rounded-2xl shadow-xl overflow-hidden bg-black aspect-video">
             {currentVideo ? (
-              <>
-                <div 
-                  className="w-full h-full"
-                  dangerouslySetInnerHTML={{ __html: fixVimeoUrl(currentVideo) }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-90 opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
-                  <div className="text-center text-white pointer-events-auto">
-                    <p className="text-sm mb-2">Video restricted for this domain</p>
-                    <a 
-                      href="https://vimeo.com/1139215395" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm inline-flex items-center gap-2"
-                    >
-                      <Play size={16} />
-                      Watch on Vimeo
-                    </a>
-                  </div>
-                </div>
-              </>
+              <div 
+                className="w-full h-full"
+                dangerouslySetInnerHTML={{ __html: fixVimeoUrl(currentVideo) }}
+              />
             ) : (
               <div className="flex items-center justify-center h-full text-white">
                 <div className="text-center">
