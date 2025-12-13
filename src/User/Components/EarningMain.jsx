@@ -214,28 +214,28 @@ export default function EarningsDashboard() {
           label: "Today's Earning",
           amount: inrFormatter.format(Number(apiData.today?.total || 0)),
           count: apiData.today?.count,
-          gradient: "from-indigo-600 via-blue-500 to-blue-600",
+          gradient: "from-[#3B81F1] via-[#2664EB] to-[#2664EB]",
         },
         {
           id: "last7",
           label: "Last 7 Days Earnings",
           amount: inrFormatter.format(Number(apiData.last7Days?.total || 0)),
           count: apiData.last7Days?.count,
-          gradient: "from-indigo-600 via-blue-500 to-blue-600",
+          gradient: "from-[#25D0F5] via-[#3C83F7] to-[#3C83F7]",
         },
         {
           id: "last30",
           label: "Last 30 Days Earnings",
           amount: inrFormatter.format(Number(apiData.last30Days?.total || 0)),
           count: apiData.last30Days?.count,
-          gradient: "from-indigo-600 via-blue-500 to-blue-600",
+          gradient: "from-[#15B8A4] via-[#17A34C] to-[#17A34C]",
         },
         {
           id: "allTime",
           label: "All Time Earning",
           amount: inrFormatter.format(Number(apiData.allTime?.total || 0)),
           count: apiData.allTime?.count,
-           gradient: "from-indigo-600 via-blue-500 to-blue-600",
+           gradient: "from-[#32C0F6] via-[#3F7FFF] to-[#3F7FFF]",
         },
       ]
     : [];
@@ -343,13 +343,13 @@ export default function EarningsDashboard() {
   return (
     <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-4 md:p-6">
       {/* Profile Card */}
-     <div className=" bg-[#003366] text-white text-center text-lg sm:text-2xl md:text-2xl h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
+     <div className=" text-center text-lg sm:text-2xl md:text-2xl h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
         <div className="flex flex-col items-center">
           {image ? (
               <img
                 src={image}
                 alt="Profile"
-                className="w-28 h-28 rounded-full object-cover"
+                className="w-34 h-34 border-6 border-[#20D5E8] rounded-full object-cover"
               />
             ) : (
               <div className="w-28 h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-4xl uppercase" 
@@ -358,8 +358,8 @@ export default function EarningsDashboard() {
                 {name?.slice(0, 2)}
               </div>
             )}
-          <h2 className="text-white text-2xl font-bold mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
-          <p className="text-gray-200 text-xl mt-1">{user?.email || ""}</p>
+          <h2 className="text-black text-2xl font-bold mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
+          <p className="text-black text-lg mt-1">{user?.email || ""}</p>
         </div>
         <button
           onClick={() => {
