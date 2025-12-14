@@ -235,7 +235,7 @@ export default function EarningsDashboard() {
           label: "All Time Earning",
           amount: inrFormatter.format(Number(apiData.allTime?.total || 0)),
           count: apiData.allTime?.count,
-           gradient: "from-[#32C0F6] via-[#3F7FFF] to-[#3F7FFF]",
+           gradient: "from-[#047CFF] via-[#047CFF] to-[#00B4F8]",
         },
       ]
     : [];
