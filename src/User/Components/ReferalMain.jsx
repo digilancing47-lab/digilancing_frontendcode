@@ -152,7 +152,8 @@ export default function ReferralDetails() {
 
       {/* Table */}
       <div className="w-full max-w-7xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-        <table className="w-full text-sm text-left border-collapse min-w-[900px]">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left border-collapse min-w-[900px]">
           <thead className="bg-[#003B73] text-white uppercase text-xs tracking-wide">
             <tr>
               <th className="py-3 px-4">S.no</th>
@@ -211,7 +212,8 @@ export default function ReferralDetails() {
               ))
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
 
         {/* Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center px-4 py-4 text-sm text-gray-600 bg-gray-100 border-t gap-3">

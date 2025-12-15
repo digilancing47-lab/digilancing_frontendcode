@@ -460,39 +460,41 @@ const KYCForm = () => {
       <div className="w-full max-w-4xl bg-[#0b3b70] cursor-default rounded-2xl shadow-lg p-6 sm:p-8 text-white">
         {/* Step Progress */}
         {currentStage < 3 && (
-        <div className="flex overflow-x-auto items-center justify-start sm:justify-center space-x-4 sm:space-x-8 mb-8">
-          {[
-            { stage: 1, title: "Personal Details" },
-            { stage: 2, title: "Bank Details" },
-            { stage: 3, title: "Verification" },
-          ].map((item, idx) => (
-            <React.Fragment key={item.stage}>
-              <div className="flex flex-col items-center min-w-[70px] flex-shrink-0">
-                <div
-                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
-                    currentStage > item.stage
-                      ? "bg-green-500 border-green-500"
-                      : currentStage === item.stage
-                      ? "bg-white border-white text-[#0b3b70]"
-                      : "bg-transparent border-gray-400"
-                  }`}
-                >
-                  {currentStage > item.stage ? (
-                    <Check className="w-5 h-5 text-white" />
-                  ) : (
-                    <span className="text-sm font-bold">{item.stage}</span>
-                  )}
+        <div className="mb-8">
+          <div className="flex items-start justify-center w-full">
+            {[
+              { stage: 1, title: "Personal Details" },
+              { stage: 2, title: "Bank Details" },
+              { stage: 3, title: "Verification" },
+            ].map((item, idx) => (
+              <React.Fragment key={item.stage}>
+                <div className="flex flex-col items-center w-24 sm:w-auto">
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 flex items-center justify-center mb-2 ${
+                      currentStage > item.stage
+                        ? "bg-green-500 border-green-500"
+                        : currentStage === item.stage
+                        ? "bg-white border-white text-[#0b3b70]"
+                        : "bg-transparent border-gray-400"
+                    }`}
+                  >
+                    {currentStage > item.stage ? (
+                      <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    ) : (
+                      <span className="text-sm sm:text-base font-bold">{item.stage}</span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-center font-medium">{`Stage ${item.stage}`}</p>
+                  <span className="text-xs sm:text-sm font-semibold text-center leading-tight">{item.title}</span>
                 </div>
-                <p className="text-xs mt-1 text-center">{`Stage ${item.stage}`}</p>
-                <span className="text-sm font-semibold text-center">{item.title}</span>
-              </div>
-              {idx < 2 && (
-                <div className={`flex-1 h-0.5 ${
-                  currentStage > item.stage + 1 ? "bg-green-500" : "bg-gray-400"
-                }`}></div>
-              )}
-            </React.Fragment>
-          ))}
+                {idx < 2 && (
+                  <div className={`w-12 sm:w-20 h-0.5 mt-5 sm:mt-6 ${
+                    currentStage > item.stage ? "bg-green-500" : "bg-gray-400"
+                  }`}></div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
         )}
 

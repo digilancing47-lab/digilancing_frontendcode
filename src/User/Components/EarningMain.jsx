@@ -5,6 +5,48 @@ import { motion } from "framer-motion";
 import { API_BASE } from "../../apiBase";
 import { useNavigate } from "react-router-dom";
 
+// Animated Counter Component
+function AnimatedCounter({ targetAmount, duration = 1500 }) {
+  const [count, setCount] = useState(0);
+  const target = Number(targetAmount) || 0;
+
+  useEffect(() => {
+    if (target === 0) {
+      setCount(0);
+      return;
+    }
+
+    const startTime = Date.now();
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.floor(target * easeOut);
+      
+      setCount(currentCount);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(target);
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }, [target, duration]);
+
+  const formatAmount = (amount) => {
+    const formatted = new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount);
+    return formatted.replace('₹', '₹ ');
+  };
+
+  return formatAmount(count);
+}
+
 // Premium modal (kept in the same file for convenience)
 function PremiumDateRangeModal({
   modalOpen,
@@ -145,6 +187,10 @@ export default function EarningsDashboard() {
     maximumFractionDigits: 0,
   });
 
+  const formatAmount = (amount) => {
+    return inrFormatter.format(amount).replace('₹', '₹ ');
+  };
+
   useEffect(() => {
     const sessionKeysToTry = [
       "dashboard",
@@ -212,28 +258,28 @@ export default function EarningsDashboard() {
         {
           id: "today",
           label: "Today's Earning",
-          amount: inrFormatter.format(Number(apiData.today?.total || 0)),
+          rawAmount: Number(apiData.today?.total || 0),
           count: apiData.today?.count,
           gradient: "from-[#3B81F1] via-[#2664EB] to-[#2664EB]",
         },
         {
           id: "last7",
           label: "Last 7 Days Earnings",
-          amount: inrFormatter.format(Number(apiData.last7Days?.total || 0)),
+          rawAmount: Number(apiData.last7Days?.total || 0),
           count: apiData.last7Days?.count,
           gradient: "from-[#25D0F5] via-[#3C83F7] to-[#3C83F7]",
         },
         {
           id: "last30",
           label: "Last 30 Days Earnings",
-          amount: inrFormatter.format(Number(apiData.last30Days?.total || 0)),
+          rawAmount: Number(apiData.last30Days?.total || 0),
           count: apiData.last30Days?.count,
           gradient: "from-[#15B8A4] via-[#17A34C] to-[#17A34C]",
         },
         {
           id: "allTime",
           label: "All Time Earning",
-          amount: inrFormatter.format(Number(apiData.allTime?.total || 0)),
+          rawAmount: Number(apiData.allTime?.total || 0),
           count: apiData.allTime?.count,
            gradient: "from-[#047CFF] via-[#047CFF] to-[#00B4F8]",
         },
@@ -343,23 +389,23 @@ export default function EarningsDashboard() {
   return (
     <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-4 md:p-6">
       {/* Profile Card */}
-     <div className=" text-center text-lg sm:text-2xl md:text-2xl h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
+     <div className=" text-center text-lg sm:text-2xl md:text-2xl h-48 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
         <div className="flex flex-col items-center">
           {image ? (
               <img
                 src={image}
                 alt="Profile"
-                className="w-34 h-34 border-6 border-[#20D5E8] rounded-full object-cover"
+                className="w-28 h-28 sm:w-34 sm:h-34 border-4 sm:border-6 border-[#20D5E8] rounded-full object-cover"
               />
             ) : (
-              <div className="w-28 h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-4xl uppercase" 
+              <div className="w-28 h-28 sm:w-28 sm:h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-3xl sm:text-4xl uppercase" 
                onClick={() => navigate("/Profile")}
                 style={{cursor:"pointer"}}>
                 {name?.slice(0, 2)}
               </div>
             )}
-          <h2 className="text-black text-2xl font-bold mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
-          <p className="text-black text-lg mt-1">{user?.email || ""}</p>
+          <h2 className="text-black text-base sm:text-2xl font-bold mt-1 sm:mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
+          <p className="text-black text-xs sm:text-lg mt-0.5 sm:mt-1">{user?.email || ""}</p>
         </div>
         <button
           onClick={() => {
@@ -372,7 +418,7 @@ export default function EarningsDashboard() {
       </div>
 
       {/* Earnings Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6 pt-3 md:pt-5 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-6 pt-3 md:pt-5 w-full">
         {loading && <div className="col-span-full text-center text-white">Loading...</div>}
 
         {!loading && earningsCards.length === 0 && (
@@ -394,7 +440,7 @@ export default function EarningsDashboard() {
                 <div className="text-sm font-semibold text-white/90">{customRangeResult.total_records} Referrals</div>
               </div>
               <h3 className="text-3xl font-bold mt-2">
-                {inrFormatter.format(Number(customRangeResult.total_earning || 0))}
+                {formatAmount(Number(customRangeResult.total_earning || 0))}
               </h3>
             </div>
 
@@ -418,7 +464,7 @@ export default function EarningsDashboard() {
                           </div>
                         </div>
                         <div className="text-sm font-semibold">
-                          {inrFormatter.format(Number(c.amount || c.earning_amount || c.total || 0))}
+                          {formatAmount(Number(c.amount || c.earning_amount || c.total || 0))}
                         </div>
                       </div>
                     ))}
@@ -434,12 +480,14 @@ export default function EarningsDashboard() {
         {earningsCards.map((item) => (
           <button
             key={item.id}
-            className={`rounded-xl px-5 h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
+            className={`rounded-xl px-4 sm:px-5 h-[100px] sm:h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
           >
             <div className="flex items-center justify-between">
-              <p className="text-lg">{item.label}</p>
+              <p className="text-sm sm:text-lg leading-tight">{item.label}</p>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold mt-2">{item.amount}</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mt-1 sm:mt-2">
+              <AnimatedCounter targetAmount={item.rawAmount} />
+            </h3>
           </button>
         ))}
 
