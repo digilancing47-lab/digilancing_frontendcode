@@ -10,7 +10,7 @@ const Earning = () => {
         <div className="lg:ml-64">
           <AfHeader />
         </div>
-        <div className="lg:ml-65 lg:mt-2 mt-20">
+        <div className="lg:ml-65 mt-12 md:mt-2">
           <EarningMain />
         </div>
       </div>

@@ -76,10 +76,6 @@ function PremiumDateRangeModal({
         <div className="relative bg-gradient-to-b from-white/95 to-zinc-50/90 p-6">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="rounded-full bg-amber-100/70 p-2 ring-1 ring-amber-200">
-                <Sparkles className="h-5 w-5 text-amber-600" />
-              </div>
-
               <div>
                 <h3 className="text-lg font-semibold text-zinc-900">Select Date Range</h3>
                 <p className="text-sm text-zinc-500">Choose a custom range </p>
@@ -260,21 +256,21 @@ export default function EarningsDashboard() {
           label: "Today's Earning",
           rawAmount: Number(apiData.today?.total || 0),
           count: apiData.today?.count,
-          gradient: "from-[#3B81F1] via-[#2664EB] to-[#2664EB]",
+          gradient: "from-[#277AFF] via-[#2375F8] to-[#2375F8]",
         },
         {
           id: "last7",
           label: "Last 7 Days Earnings",
           rawAmount: Number(apiData.last7Days?.total || 0),
           count: apiData.last7Days?.count,
-          gradient: "from-[#25D0F5] via-[#3C83F7] to-[#3C83F7]",
+          gradient: "from-[#307CF7] via-[#307CF7] to-[#20D1F7]",
         },
         {
           id: "last30",
           label: "Last 30 Days Earnings",
           rawAmount: Number(apiData.last30Days?.total || 0),
           count: apiData.last30Days?.count,
-          gradient: "from-[#15B8A4] via-[#17A34C] to-[#17A34C]",
+          gradient: "from-[#0CA746] via-[#0CA746] to-[#0CBFA9]",
         },
         {
           id: "allTime",
@@ -387,15 +383,15 @@ export default function EarningsDashboard() {
 
 
   return (
-    <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-4 md:p-6">
+    <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center px-4 md:px-6">
       {/* Profile Card */}
-     <div className=" text-center text-lg sm:text-2xl md:text-2xl h-48 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
+     <div className=" text-center py-2 md:py-10 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
         <div className="flex flex-col items-center">
           {image ? (
               <img
                 src={image}
                 alt="Profile"
-                className="w-28 h-28 sm:w-34 sm:h-34 border-4 sm:border-6 border-[#20D5E8] rounded-full object-cover"
+                className="w-26 h-26 md:w-34 md:h-34 border-4 sm:border-6 border-[#20D5E8] rounded-full object-cover"
               />
             ) : (
               <div className="w-28 h-28 sm:w-28 sm:h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-3xl sm:text-4xl uppercase" 
@@ -404,8 +400,8 @@ export default function EarningsDashboard() {
                 {name?.slice(0, 2)}
               </div>
             )}
-          <h2 className="text-black text-base sm:text-2xl font-bold mt-1 sm:mt-3 capitalize">{user?.fullname || "Unknown"}</h2>
-          <p className="text-black text-xs sm:text-lg mt-0.5 sm:mt-1">{user?.email || ""}</p>
+          <h2 className="text-black text-lg sm:text-xl md:text-3xl lg:text-3xl font-bold mt-3 md:mt-4 capitalize">{user?.fullname || "Unknown"}</h2>
+          <p className="text-black text-[16px] sm:text-base md:text-lg lg:text-3xl mt-0.5">{user?.email || ""}</p>
         </div>
         <button
           onClick={() => {
@@ -480,13 +476,13 @@ export default function EarningsDashboard() {
         {earningsCards.map((item) => (
           <button
             key={item.id}
-            className={`rounded-xl px-4 sm:px-5 h-[100px] sm:h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
+            className={`rounded-xl px-4 sm:px-5 h-[95px] md:h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm sm:text-lg leading-tight">{item.label}</p>
+              <p className="text-[16px] sm:text-lg leading-tight">{item.label}</p>
             </div>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mt-1 sm:mt-2">
-              <AnimatedCounter targetAmount={item.rawAmount} />
+            <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold mt-1 sm:mt-2">
+              <AnimatedCounter targetAmount={item.rawAmount} /> /-
             </h3>
           </button>
         ))}

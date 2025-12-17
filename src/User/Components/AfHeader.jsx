@@ -60,74 +60,50 @@ const AfHeader = () => {
     <>
       {/* Fixed Mobile Header */}
       <div className="fixed top-0 left-0 w-full z-50 bg-[#002B54] px-4 py-2 flex items-center justify-between lg:hidden ">
-        {/* Hamburger Icon */}
-        <button
-          onClick={() => setIsSidebarOpen(prev => !prev)}
-          className="inline-flex items-center p-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002B54]"
-        >
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-            />
-          </svg>
-        </button>
+        {/* Company Logo */}
+        <div>
+          <img 
+            src="/white.svg" 
+            alt="Digilancing" 
+            className="h-6 w-auto"
+          />
+        </div>
 
-        {/* Profile Avatar */}
-        <div className="relative" ref={dropdownRef}>
+        {/* Profile Avatar and Hamburger Menu */}
+        <div className="flex items-center justify-center gap-2">
+          {/* Profile Avatar */}
+          <div>
+            <button
+              onClick={() => navigate('/Profile')}
+              className="focus:outline-none"
+            >
+              {image ? (
+                <img
+                  src={image}
+                  alt="Profile"
+                  className="w-8 h-8 mt-2 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 mt-2 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-xs uppercase">
+                  {name?.slice(0, 2)}
+                </div>
+              )}
+            </button>
+          </div>
+
+          {/* Hamburger Icon */}
           <button
-            onClick={() => setIsDropdownOpen(prev => !prev)}
-            className="focus:outline-none"
+            onClick={() => setIsSidebarOpen(prev => !prev)}
+            className="inline-flex items-center p-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002B54]"
           >
-            {image ? (
-              <img
-                src={image}
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover"
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
               />
-            ) : (
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-lg uppercase">
-                {name?.slice(0, 2)}
-              </div>
-            )}
+            </svg>
           </button>
-
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg z-50">
-              <div className="px-4 py-2 border-b">
-                <p className="text-sm font-semibold text-gray-800">{name}</p>
-                <p className="text-xs text-gray-500 truncate">{email}</p>
-              </div>
-              <a
-                href="/DashBoard"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                 style={{cursor:"pointer"}}
-              >
-                Dashboard
-              </a>
-              <a
-                href="/courses"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                 style={{cursor:"pointer"}}
-              >
-                Courses
-              </a>
-              <a
-                href="/Profile"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                style={{cursor:"pointer"}}
-              >
-                Profile
-              </a>
-              <button
-                onClick={handleLogoutClick}
-                className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
         </div>
       </div>
 

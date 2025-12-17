@@ -150,7 +150,7 @@ useEffect(() => {
 
 console.log(referedpersondetails)
   return (
-    <div className="min-h-screen bg-[#002E5D] flex flex-col items-center py-5 px-6">
+    <div className="min-h-screen bg-[#002E5D] flex flex-col items-center py-4 sm:py-6 px-3 sm:px-6">
       {/* Modal - Cropper */}
       {image && (
         <div
@@ -236,89 +236,88 @@ console.log(referedpersondetails)
       )}
 
       {/* Profile Header Card */}
-      <div className="w-full max-w-6xl bg-gradient-to-r from-[#0a4a7a] to-[#083b66] rounded-2xl p-3 flex items-center gap-5 shadow-lg">
-        <div className="relative">
+      <div className="w-full max-w-6xl bg-gradient-to-r from-[#0a4a7a] to-[#083b66] rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-lg">
+        <div className="relative flex-shrink-0">
            {userprofile ? (
               <img
                 src={userprofile}
                 alt="Profile"
-                className="w-[180px] rounded-xl object-cover"
+                className="w-24 h-24 sm:w-32 sm:h-32 lg:w-[180px] lg:h-[140px] rounded-xl object-cover"
               />
             ) : (
-            <div className="w-[180px] h-[140px] rounded-xl flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-4xl uppercase" 
+            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-[180px] lg:h-[140px] rounded-xl flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-xl sm:text-2xl lg:text-4xl uppercase" 
                onClick={() => navigate("/Profile")}
                 style={{cursor:"pointer"}}>
                 {fullname?.slice(0, 2)}
               </div>
             )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-center sm:text-left flex-1">
           <div className="">
-            <h2 className="text-3xl capitalize font-semibold text-white">{fullname}</h2>
-            <p className="text-gray-200 text-[16px]">{email}</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl capitalize font-semibold text-white">{fullname}</h2>
+            <p className="text-gray-200 text-sm sm:text-base">{email}</p>
           </div>
 
           <input id="upload-input" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
-          <div className="flex items-center gap-3 mt-3">
-            <label htmlFor="upload-input" title="Edit profile" className="px-4 py-1.5 cursor-pointer bg-[#0283FF] text-white rounded-lg text-sm">
+          <div className="flex items-center justify-center sm:justify-start gap-3 mt-3">
+            <label htmlFor="upload-input" title="Edit profile" className="px-4 py-2 cursor-pointer bg-[#0283FF] text-white rounded-lg text-sm hover:bg-[#0066cc] transition-colors">
               Edit Profile
             </label>
           </div>
         </div>
       </div>
 
-      {/* Main Grid (rest of your layout unchanged) */}
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      {/* Main Grid */}
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
         {/* Personal Details */}
-        <div className="md:col-span-2">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <h3 className="text-black text-2xl font-semibold mb-4">Personal Details</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                <label className="text-[#6B7280] text-sm">Name</label>
-                <input type="text" value={fullname} readOnly className="w-full capitalize font-normal rounded-lg text-[#1F2937]" />
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <h3 className="text-black text-xl sm:text-2xl font-semibold mb-4">Personal Details</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                <label className="text-[#6B7280] text-sm block mb-1">Name</label>
+                <div className="w-full capitalize font-normal text-[#1F2937] text-sm sm:text-base">{fullname}</div>
               </div>
-              <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                <label className="text-[#6B7280] text-sm">Email</label>
-                <input type="text" value={email} readOnly className="w-full capitalize font-normal rounded-lg text-[#1F2937]" />
+              <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                <label className="text-[#6B7280] text-sm block mb-1">Email</label>
+                <div className="w-full font-normal text-[#1F2937] text-sm sm:text-base break-all">{email}</div>
               </div>
-              <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                <label className="text-[#6B7280] text-sm">Phone</label>
-                <input type="text" value={phone} readOnly className="w-full capitalize font-normal rounded-lg text-[#1F2937]" />
+              <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                <label className="text-[#6B7280] text-sm block mb-1">Phone</label>
+                <div className="w-full capitalize font-normal text-[#1F2937] text-sm sm:text-base">{phone}</div>
               </div>
-              <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                <label className="text-[#6B7280] text-sm">State</label>
-                <input type="text" value={state} readOnly className="w-full capitalize font-normal rounded-lg text-[#1F2937]" />
+              <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                <label className="text-[#6B7280] text-sm block mb-1">State</label>
+                <div className="w-full capitalize font-normal text-[#1F2937] text-sm sm:text-base">{state}</div>
               </div>
             </div>
 
-            <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl mt-4 md:mt-10 relative">
-              <label className="text-[#6B7280] text-sm">Current Plan</label>
-
-              <div className="flex items-center justify-between rounded-lg text-black relative">
-                <span>{currentPlan}</span>
+            <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl mt-4 sm:mt-6 lg:mt-10 relative">
+              <label className="text-[#6B7280] text-sm block mb-1">Current Plan</label>
+              <div className="flex items-center justify-between rounded-lg text-black relative pr-16 sm:pr-20">
+                <span className="text-sm sm:text-base">{currentPlan}</span>
               </div>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#0283FF]/10 text-[#0283FF] font-normal px-4 py-2 rounded-full text-sm">Active</span>
+              <span className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-[#0283FF]/10 text-[#0283FF] font-normal px-2 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm">Active</span>
             </div>
           </div>
 
-          <div className="bg-[#ffffff] rounded-xl mt-3 p-6 shadow-lg">
+          <div className="bg-[#ffffff] rounded-xl mt-3 p-4 sm:p-6 shadow-lg">
             <h3 className="text-black font-semibold text-lg mb-4">Quick Links</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-              <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                <label className="text-[#6B7280] text-sm mb-2">Community Link</label>
-                <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer truncate">https://chat.whatsapp.com/JWeWyMWV5KGxIRzTiLxX</div>
+            <div className="grid grid-cols-1 gap-3 sm:gap-4">
+              <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                <label className="text-[#6B7280] text-sm block mb-2">Community Link</label>
+                <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer text-xs sm:text-sm break-all">https://chat.whatsapp.com/JWeWyMWV5KGxIRzTiLxX</div>
               </div>
-              <div className="py-3 grid grid-cols-1  md:grid-cols-2 rounded-2xl">
-                <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                  <label className="text-[#6B7280] text-sm mb-2">Content Factory (Hindi)</label>
-                  <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer">Join Now →</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                  <label className="text-[#6B7280] text-sm block mb-2">Content Factory (Hindi)</label>
+                  <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer text-sm hover:text-[#0066cc] transition-colors">Join Now →</div>
                 </div>
-                <div className="bg-[#f1f1f1] px-4 py-3 rounded-2xl">
-                  <label className="text-[#6B7280] text-sm mb-2">Content Factory (English)</label>
-                  <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer">Join Now →</div>
+                <div className="bg-[#f1f1f1] px-3 sm:px-4 py-3 rounded-2xl">
+                  <label className="text-[#6B7280] text-sm block mb-2">Content Factory (English)</label>
+                  <div className="w-full font-normal rounded-lg text-[#0283FF] cursor-pointer text-sm hover:text-[#0066cc] transition-colors">Join Now →</div>
                 </div>
               </div>
             </div>
@@ -327,34 +326,34 @@ console.log(referedpersondetails)
         </div>
 
         {/* Right Sidebar */}
-        <div className="space-y-6">
-          <div className="bg-[#ffffff] rounded-xl p-6 shadow-lg">
-            <h3 className="text-black font-semibold mb-4">Sponsor Details</h3>
+        <div className="space-y-4 sm:space-y-6">
+          <div className="bg-[#ffffff] rounded-xl p-4 sm:p-6 shadow-lg">
+            <h3 className="text-black font-semibold mb-4 text-base sm:text-lg">Sponsor Details</h3>
             {referedpersondetails ? (
               <div className="flex items-center gap-3">
                 {referedpersondetails?.customer_image ? (
                   <img
                     src={referedpersondetails?.customer_image}
                     alt="Profile"
-                    className="w-16 h-16 rounded-lg object-cover"
+                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-2xl uppercase" 
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-lg sm:text-2xl uppercase flex-shrink-0" 
                    onClick={() => navigate("/Profile")}
                     style={{cursor:"pointer"}}>
                     {referedpersondetails?.fullname?.slice(0, 2)}
                   </div>
                 )}
-                <div className="">
-                  <h4 className="text-black text-[16px] font-medium">{referedpersondetails?.fullname}</h4>
-                  <p className="text-[#6B7280] text-xs">{referedpersondetails?.email}</p>
-                  <p className="text-[#6B7280] text-xs">{referedpersondetails?.phone}</p>
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-black text-sm sm:text-base font-medium truncate">{referedpersondetails?.fullname}</h4>
+                  <p className="text-[#6B7280] text-xs sm:text-sm truncate">{referedpersondetails?.email}</p>
+                  <p className="text-[#6B7280] text-xs sm:text-sm">{referedpersondetails?.phone}</p>
                 </div>
               </div>
             ) : (
               <div className="text-center py-4">
-                <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-gray-100">
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-gray-100">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
@@ -364,13 +363,13 @@ console.log(referedpersondetails)
             )}
           </div>
 
-          <div className="bg-[#ffffff] rounded-xl p-6 shadow-lg">
-            <h3 className="text-black font-semibold mb-4">Contact Support</h3>
-            <p className="text-sm bg-white text-black rounded-2xl px-2 pb-3 mb-3">
-              <span className="font-semibold text-lg">+91-9825136881</span> <br />
-              <span className="text-[#6B7280]">Monday-Sunday: 09:00AM - 09:00PM</span>
-            </p>
-            <button className="w-full bg-[#0283FF] hover:bg-[#0c7bdc] text-white py-3 rounded-xl cursor-pointer font-medium transition">Contact Support</button>
+          <div className="bg-[#ffffff] rounded-xl p-4 sm:p-6 shadow-lg">
+            <h3 className="text-black font-semibold mb-4 text-base sm:text-lg">Contact Support</h3>
+            <div className="text-sm bg-white text-black rounded-2xl px-2 pb-3 mb-3">
+              <span className="font-semibold text-base sm:text-lg">+91-9825136881</span> <br />
+              <span className="text-[#6B7280] text-xs sm:text-sm">Monday-Sunday: 09:00AM - 09:00PM</span>
+            </div>
+            <button className="w-full bg-[#0283FF] hover:bg-[#0c7bdc] text-white py-2.5 sm:py-3 rounded-xl cursor-pointer font-medium transition text-sm sm:text-base">Contact Support</button>
           </div>
         </div>
       </div>

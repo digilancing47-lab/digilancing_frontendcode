@@ -47,32 +47,46 @@ const LinkGenerator = () => {
   };
 
   return (
-  <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-6">
-      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[300px] rounded-4xl mb-3 overflow-hidden">
-             <img src='/LinkGenerator.avif' alt="Webinar Background" className="absolute inset-0 w-full h-full object-cover" />
-             <div className="relative flex flex-col items-center justify-center h-full">
-               <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">LINK GENERATOR</h1>
+  <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-3 sm:p-6">
+      <div className="relative w-full cursor-default text-[#ffffff] text-center h-[200px] sm:h-[300px] rounded-2xl sm:rounded-4xl mb-3 overflow-hidden">
+             <img src='/LinkGenerator.avif' alt="Link Generator Background" className="absolute inset-0 w-full h-full object-cover" />
+             <div className="relative flex flex-col items-center justify-center h-full px-4">
+               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-wide">LINK GENERATOR</h1>
              </div>
            </div>
-      <div className="w-full bg-[#0b3b70] p-6 rounded-2xl shadow-lg relative mt-5">
-        <h2 className="text-lg font-semibold mb-4 text-white">Affiliate Link Generator</h2>
-        <hr className="border-gray-500 mb-6" />
-        <div className="mb-6">
-          <label className="block mb-2 font-medium text-white">My Access code:</label>
-          <div className="flex gap-3">
-            <input type="text" value={guide_code} disabled  className="flex-1 px-3 py-2 rounded-md text-black bg-white"/>
-            <button onClick={handleCopyCode} className="bg-white text-black cursor-pointer px-4 py-2 rounded-lg shadow font-semibold">
-              Share code
+      <div className="w-full max-w-4xl bg-[#0b3b70] p-4 sm:p-6 rounded-2xl shadow-lg relative mt-3 sm:mt-5">
+        <h2 className="text-base sm:text-lg font-semibold mb-4 text-white">Affiliate Link Generator</h2>
+        <hr className="border-gray-500 mb-4 sm:mb-6" />
+        
+        {/* Access Code Section */}
+        <div className="mb-4 sm:mb-6">
+          <label className="block mb-2 font-medium text-white text-sm sm:text-base">My Access code:</label>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <input 
+              type="text" 
+              value={guide_code} 
+              disabled  
+              className="flex-1 px-3 py-2 rounded-md text-black bg-white text-sm sm:text-base"
+            />
+            <button 
+              onClick={handleCopyCode} 
+              className="bg-white text-black cursor-pointer px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base whitespace-nowrap hover:bg-gray-100 transition-colors"
+            >
+              Share Code
             </button>
           </div>
         </div>
+        
+        {/* Access Link Section */}
         <div>
-          <label className="block mb-2 font-medium text-white">Access Link:</label>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <label className="block mb-2 font-medium text-white text-sm sm:text-base">Access Link:</label>
+          
+          {/* Package Selection */}
+          <div className="mb-3">
             <select
               value={selectedPackage}
               onChange={(e) => setSelectedPackage(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-md text-white bg-[#00335B]"
+              className="w-full px-3 py-2 rounded-md text-white bg-[#00335B] text-sm sm:text-base"
             >
               <option value="">-- Select package --</option>
               {packages.map((pkg) => (
@@ -81,26 +95,29 @@ const LinkGenerator = () => {
                 </option>
               ))}
             </select>
-
+          </div>
+          
+          {/* Generated Link and Actions */}
+          <div className="space-y-3">
             <input
               type="text"
               value={generatedLink}
               readOnly
-              placeholder="Referral Link"
-              className="flex-1 px-3 py-2 rounded-md text-black bg-white"
+              placeholder="Generated referral link will appear here"
+              className="w-full px-3 py-2 rounded-md text-black bg-white text-sm sm:text-base"
             />
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
                 onClick={generateReferralLink}
-                className="bg-[#00335B] text-white px-4 py-2 rounded-lg shadow font-semibold"
+                className="flex-1 sm:flex-none bg-[#00335B] text-white px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base hover:bg-[#002a4a] transition-colors"
               >
                 Generate Link
               </button>
 
               <button
                 onClick={handleCopyLink}
-                className="bg-white text-black px-4 py-2 rounded-lg shadow font-semibold"
+                className="flex-1 sm:flex-none bg-white text-black px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!generatedLink}
               >
                 Copy Link
@@ -109,15 +126,16 @@ const LinkGenerator = () => {
           </div>
         </div>
 
+        {/* Success Notifications */}
         {popup && (
-          <div className="absolute top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow">
+          <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg shadow text-xs sm:text-sm z-10">
             ✅ Access code copied!
           </div>
         )}
 
         {linkPopup && (
-          <div className="absolute top-16 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow">
-            ✅ Access code Link copied!
+          <div className="absolute top-12 sm:top-16 right-2 sm:right-4 bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg shadow text-xs sm:text-sm z-10">
+            ✅ Link copied!
           </div>
         )}
       </div>

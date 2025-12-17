@@ -80,7 +80,7 @@ const LeftNav = () => {
     ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
     lg:top-[2vh] lg:left-2 lg:w-64 lg:h-[96vh] lg:translate-x-0
     ${isOpen ? 'rounded-none' : 'lg:rounded-3xl'} lg:rounded-3xl
-    w-[50vw] max-w-sm
+    w-[60vw] max-w-sm
   `}
         aria-label="Sidebar"
       >
@@ -88,7 +88,7 @@ const LeftNav = () => {
 
         <div className="h-full bg-[#F3F5F2] shadow-xl flex flex-col p-2 lg:rounded-3xl rounded-none lg:w-72 lg:h-full lg:relative lg:flex-shrink-0 transition-all duration-300 ease-in-out overflow-auto">
           {/* Logo Section */}
-          <div className="flex items-center justify-between  h-16">
+          <div className="flex items-center justify-between pr-3 pt-3 h-16">
            <span
   className="text-xl font-bold text-[#2B3FF5] flex items-center gap-2"
   style={{ fontFamily: "Finance" }}
@@ -97,7 +97,7 @@ const LeftNav = () => {
   <img
     src="/Black.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
     alt="Digilancing Logo"
-    className="w-40 h-7 object-contain"
+    className="w-34 h-7 object-contain"
   />
 </span>
 
@@ -110,9 +110,9 @@ const LeftNav = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex-grow">
+          <div className="flex-grow mt-4">
             <ul>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/DashBoard"
                   className={`flex items-center text-[16px]  py-3 px-3 font-semibold  ${activeMenu === 'DashBoard' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
@@ -121,7 +121,7 @@ const LeftNav = () => {
                   Dashboard
                 </Link>
               </li>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/Courses"
                   className={`flex items-center text-[16px] py-3 px-3 font-semibold  ${activeMenu === 'courses' ? 'border-l-4 border-[#003B73] text-[#003B73] ' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
@@ -130,7 +130,7 @@ const LeftNav = () => {
                   Courses
                 </Link>
               </li>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/Certificates"
                   className={`flex items-center text-[16px]  py-3 px-3 font-semibold  ${activeMenu === 'certificates' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
@@ -139,7 +139,7 @@ const LeftNav = () => {
                   Certificates
                 </Link>
               </li>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/AffiliatePanel"
                   className={`flex items-center text-[16px]  py-3 px-3 font-semibold p-2  ${activeMenu === 'affiliate' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
@@ -148,7 +148,7 @@ const LeftNav = () => {
                   Affiliate Panel
                 </Link>
               </li>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/Contact"
                   className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'support' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
@@ -157,7 +157,7 @@ const LeftNav = () => {
                   Support
                 </Link>
               </li>
-              <li className="mb-2">
+              <li className="md-1 md:mb-2">
                 <Link
                   to="/Upgrade"
                   className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'support' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
