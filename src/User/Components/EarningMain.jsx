@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, X, Sparkles } from "lucide-react";
+import { Calendar, X, Sparkles, Upload, FileImage, FileVideo } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { API_BASE } from "../../apiBase";
@@ -45,6 +45,391 @@ function AnimatedCounter({ targetAmount, duration = 1500 }) {
   };
 
   return formatAmount(count);
+}
+
+// Success Modal
+function SuccessModal({ modalOpen, setModalOpen }) {
+  if (!modalOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-indigo-900/40 backdrop-blur-sm"
+        onClick={() => setModalOpen(false)}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.18 }}
+        className="relative z-10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl"
+      >
+        <div className="relative bg-gradient-to-b from-white/95 to-zinc-50/90 p-6">
+          <div className="flex flex-col items-center text-center">
+            <div className="p-3 rounded-full bg-green-100 mb-4">
+              <Sparkles className="h-8 w-8 text-green-600" />
+            </div>
+            
+            <h3 className="text-lg font-semibold text-zinc-900 mb-2">Request Submitted!</h3>
+            <p className="text-sm text-zinc-600 mb-6">
+              Your industry earning request has been submitted successfully. Please wait for admin approval.
+            </p>
+            
+            <button
+              onClick={() => setModalOpen(false)}
+              className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all"
+            >
+              Great!
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// Pending Request Modal
+function PendingRequestModal({ modalOpen, setModalOpen }) {
+  if (!modalOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-indigo-900/40 backdrop-blur-sm"
+        onClick={() => setModalOpen(false)}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.18 }}
+        className="relative z-10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl"
+      >
+        <div className="relative bg-gradient-to-b from-white/95 to-zinc-50/90 p-6">
+          <div className="flex flex-col items-center text-center">
+            <div className="p-3 rounded-full bg-orange-100 mb-4">
+              <Upload className="h-8 w-8 text-orange-600" />
+            </div>
+            
+            <h3 className="text-lg font-semibold text-zinc-900 mb-2">Request Pending</h3>
+            <p className="text-sm text-zinc-600 mb-6">
+              You have a pending request. Please wait for admin approval.
+            </p>
+            
+            <button
+              onClick={() => setModalOpen(false)}
+              className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
+            >
+              Understood
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// Industry Earning Upload Modal
+function IndustryEarningModal({
+  modalOpen,
+  setModalOpen,
+  guide_code,
+  onSuccess
+}) {
+  const [amount, setAmount] = useState('');
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(null);
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const getFileExtension = (filename) => {
+    return filename.split('.').pop().toLowerCase();
+  };
+
+  const isImageFile = (file) => {
+    const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    return imageTypes.includes(getFileExtension(file.name));
+  };
+
+  const isVideoFile = (file) => {
+    const videoTypes = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'];
+    return videoTypes.includes(getFileExtension(file.name));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!amount || !file || !guide_code) {
+      setError('Please fill all required fields');
+      return;
+    }
+
+    if (isNaN(amount) || Number(amount) <= 0) {
+      setError('Please enter a valid amount');
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      // Step 1: Get signed URL
+      const fileExtension = getFileExtension(file.name);
+      const signedUrlResponse = await fetch(
+        `${API_BASE}/api/v_1/industry-earning/signed-url?guide_code=${guide_code}&file_extension=${fileExtension}`
+      );
+
+      if (!signedUrlResponse.ok) {
+        throw new Error('Failed to get upload URL');
+      }
+
+      const { uploadUrl, objectName } = await signedUrlResponse.json();
+
+      // Step 2: Upload file to signed URL
+      const uploadResponse = await fetch(uploadUrl, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type,
+        },
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error('Failed to upload file');
+      }
+
+      // Step 3: Raise industry earning request
+      const requestResponse = await fetch(
+        `${API_BASE}/api/v_1/industry-earning/raise-request`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            guide_code: guide_code,
+            amount: Number(amount),
+            uploaded_url: `https://storage.googleapis.com/digilancing_storage/${objectName}`,
+          }),
+        }
+      );
+
+      if (!requestResponse.ok) {
+        throw new Error('Failed to submit earning request');
+      }
+
+      const result = await requestResponse.json();
+      
+      // Reset form
+      setAmount('');
+      setFile(null);
+      setModalOpen(false);
+      
+      // Call success callback if provided
+      if (onSuccess) {
+        onSuccess(result);
+      }
+      
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.message || 'Failed to submit request');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const resetModal = () => {
+    setAmount('');
+    setFile(null);
+    setError(null);
+    setDragActive(false);
+  };
+
+  if (!modalOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-indigo-900/40 backdrop-blur-sm"
+        onClick={() => {
+          setModalOpen(false);
+          resetModal();
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.18 }}
+        className="relative z-10 w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl"
+      >
+        <div className="relative bg-gradient-to-b from-white/95 to-zinc-50/90 p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
+                <Upload className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-zinc-900">Industry Earning</h3>
+                <p className="text-sm text-zinc-500">Upload your industry earning proof</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setModalOpen(false);
+                resetModal();
+              }}
+              aria-label="Close"
+              className="-mr-2 cursor-pointer rounded-lg p-2 hover:bg-zinc-100"
+            >
+              <X className="h-5 w-5 text-zinc-600" />
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {/* Amount Input */}
+            <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">
+              <label className="flex w-full flex-col">
+                <span className="text-sm font-medium text-zinc-700 mb-2">Total Amount *</span>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter earning amount"
+                  className="w-full rounded-lg border px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-300"
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </label>
+            </div>
+
+            {/* File Upload */}
+            <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">
+              <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                Upload Proof (Image or Video) *
+              </label>
+              
+              <div
+                className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                  dragActive
+                    ? 'border-blue-400 bg-blue-50'
+                    : file
+                    ? 'border-green-400 bg-green-50'
+                    : 'border-zinc-300 hover:border-zinc-400'
+                }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  accept="image/*,video/*"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  required
+                />
+                
+                {file ? (
+                  <div className="flex items-center justify-center gap-3">
+                    {isImageFile(file) ? (
+                      <FileImage className="h-8 w-8 text-green-600" />
+                    ) : isVideoFile(file) ? (
+                      <FileVideo className="h-8 w-8 text-green-600" />
+                    ) : (
+                      <Upload className="h-8 w-8 text-green-600" />
+                    )}
+                    <div>
+                      <p className="text-sm font-medium text-green-700">{file.name}</p>
+                      <p className="text-xs text-green-600">
+                        {(file.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <Upload className="h-12 w-12 text-zinc-400 mx-auto mb-3" />
+                    <p className="text-sm text-zinc-600 mb-1">
+                      <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
+                    </p>
+                    <p className="text-xs text-zinc-500">
+                      Images: JPG, PNG, GIF, WebP | Videos: MP4, AVI, MOV, WebM
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="rounded-lg bg-red-50 border border-red-200 p-3">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="flex items-center justify-end gap-3 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setModalOpen(false);
+                  resetModal();
+                }}
+                className="px-4 py-2 text-sm font-medium text-zinc-700 bg-zinc-100 rounded-lg hover:bg-zinc-200 transition-colors"
+              >
+                Cancel
+              </button>
+              
+              <button
+                type="submit"
+                disabled={uploading || !amount || !file}
+                className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                {uploading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Submitting...
+                  </div>
+                ) : (
+                  'Submit Request'
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </motion.div>
+    </div>
+  );
 }
 
 // Premium modal (kept in the same file for convenience)
@@ -177,6 +562,12 @@ export default function EarningsDashboard() {
   const [customError, setCustomError] = useState(null);
   const [showCustomDetails, setShowCustomDetails] = useState(false);
 
+  // industry earning upload modal state
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [pendingModalOpen, setPendingModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [checkingPending, setCheckingPending] = useState(false);
+
   const inrFormatter = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -248,6 +639,52 @@ export default function EarningsDashboard() {
 
     fetchDashboard();
   }, [guide_code]);
+
+  // Check if user can upload (no pending requests)
+  const checkUploadPermission = async () => {
+    if (!guide_code) return;
+    
+    try {
+      const res = await fetch(`${API_BASE}/api/v_1/industry-earning/check-pending/${guide_code}`);
+      if (!res.ok) throw new Error('Failed to check upload permission');
+      
+      const result = await res.json();
+      setCanUpload(result.can_upload);
+      
+      if (!result.can_upload) {
+        setPendingMessage('You have a pending request. Please wait for admin approval.');
+      }
+    } catch (error) {
+      console.error('Error checking upload permission:', error);
+      // Allow upload on error to not block users
+      setCanUpload(true);
+    }
+  };
+
+  const handleUploadClick = async () => {
+    if (!guide_code) return;
+    
+    setCheckingPending(true);
+    
+    try {
+      const res = await fetch(`${API_BASE}/api/v_1/industry-earning/check-pending/${guide_code}`);
+      if (!res.ok) throw new Error('Failed to check upload permission');
+      
+      const result = await res.json();
+      
+      if (result.can_upload) {
+        setUploadModalOpen(true);
+      } else {
+        setPendingModalOpen(true);
+      }
+    } catch (error) {
+      console.error('Error checking upload permission:', error);
+      // Allow upload on error to not block users
+      setUploadModalOpen(true);
+    } finally {
+      setCheckingPending(false);
+    }
+  };
 
   const earningsCards = apiData
     ? [
@@ -403,14 +840,29 @@ export default function EarningsDashboard() {
           <h2 className="text-black text-lg sm:text-xl md:text-3xl lg:text-3xl font-bold mt-3 md:mt-4 capitalize">{user?.fullname || "Unknown"}</h2>
           <p className="text-black text-[16px] sm:text-base md:text-lg lg:text-3xl mt-0.5">{user?.email || ""}</p>
         </div>
-        <button
-          onClick={() => {
-            setModalOpen(!modalOpen);
-          }}
-          className="absolute cursor-pointer hover:scale-105 top-4 right-4 bg-white p-2 rounded-full shadow"
-        >
-          <Calendar className="w-5 h-5 text-gray-700" />
-        </button>
+        <div className="absolute top-4 right-4 flex gap-2">
+          <button
+            onClick={handleUploadClick}
+            disabled={checkingPending}
+            className="cursor-pointer hover:scale-105 bg-white p-2 rounded-full shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Upload Industry Earning"
+          >
+            {checkingPending ? (
+              <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+            ) : (
+              <Upload className="w-5 h-5 text-gray-700" />
+            )}
+          </button>
+          <button
+            onClick={() => {
+              setModalOpen(!modalOpen);
+            }}
+            className="cursor-pointer hover:scale-105 bg-white p-2 rounded-full shadow"
+            title="Select Date Range"
+          >
+            <Calendar className="w-5 h-5 text-gray-700" />
+          </button>
+        </div>
       </div>
 
       {/* Earnings Cards */}
@@ -497,6 +949,29 @@ export default function EarningsDashboard() {
         )}
 
       </div>
+
+      {/* Success Modal */}
+      <SuccessModal
+        modalOpen={successModalOpen}
+        setModalOpen={setSuccessModalOpen}
+      />
+
+      {/* Pending Request Modal */}
+      <PendingRequestModal
+        modalOpen={pendingModalOpen}
+        setModalOpen={setPendingModalOpen}
+      />
+
+      {/* Industry Earning Upload Modal */}
+      <IndustryEarningModal
+        modalOpen={uploadModalOpen}
+        setModalOpen={setUploadModalOpen}
+        guide_code={guide_code}
+        onSuccess={(result) => {
+          console.log('Industry earning submitted:', result);
+          setSuccessModalOpen(true);
+        }}
+      />
 
       {/* Premium modal used here */}
       <PremiumDateRangeModal
