@@ -135,16 +135,16 @@ const AfHeader = () => {
               </span>
             </div>
             <div className="flex items-center gap-5 pr-5 ml-auto justify-end">
-              <a href="/DashBoard" className="text-gray-400 hover:text-gray-600 transition">
+              <a href="/DashBoard" className="text-black-400 hover:text-black-800 transition">
                 Dashboard
               </a>
-              <a href="/courses" className="text-gray-400 hover:text-gray-600 transition">
+              <a href="/courses" className="text-black-400 hover:text-black-800 transition">
                 Courses
               </a>
                
               <h1
                 onClick={handleLogoutClick}
-                className="text-gray-400 cursor-pointer hover:text-gray-600 transition"
+                className="text-red-600 cursor-pointer hover:text-red-800 transition"
               >
                 Logout
               </h1>
