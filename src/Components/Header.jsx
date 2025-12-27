@@ -584,9 +584,9 @@ const Header = ({ isDarkMode }) => {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
-                        aria-label="Logout"
-                      >
+                       className="flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer bg-gray-200 hover:bg-gray-300 focus:outline-none transition"
+              aria-label="Logout"
+            >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6 text-gray-700"
@@ -595,13 +595,14 @@ const Header = ({ isDarkMode }) => {
                           stroke="currentColor"
                           strokeWidth={2}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
-                          />
+                         <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
+                />
                         </svg>
-                      </button>
+              <span className="text-sm text-gray-700">Logout</span>
+            </button>
                     </div>
                   </div>
                 )}
