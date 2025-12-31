@@ -91,7 +91,7 @@ const AboutUs = () => {
                 </h2>
 
                 <div className="grid md:grid-cols-2 gap-12">
-                    {/* Karthik */}
+                  
                     <motion.div
                         className="bg-white/5 rounded-2xl p-8 shadow-lg hover:bg-white/10 transition-all"
                         initial={fadeIn.initial}
@@ -117,7 +117,7 @@ const AboutUs = () => {
                         </p>
                     </motion.div>
 
-                    {/* Pavan */}
+        
                     <motion.div
                         className="bg-white/5 rounded-2xl p-8 shadow-lg hover:bg-white/10 transition-all"
                         initial={fadeIn.initial}
@@ -126,7 +126,7 @@ const AboutUs = () => {
                     >
                         <img
                             src={AkshayKumar}
-                            alt="Pavan"
+                            alt=""
                             className="rounded-xl mb-6"
                             loading="lazy"
                         />
@@ -135,7 +135,7 @@ const AboutUs = () => {
                         <p className="text-gray-300 text-justify leading-relaxed text-sm">
                             Akshay Kumar, with a background at IDBI Bank, brings financial expertise,
                             sales acumen, and administration to DIGILANCING.
-                            She believes education should not end with information,
+                            he believes education should not end with information,
                             but begin with action — skills that generate sustainable income.
                         </p>
                     </motion.div>
