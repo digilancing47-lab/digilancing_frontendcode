@@ -21,7 +21,7 @@ const Contact = () => {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState({ email: false, phone: false });
 
-  const emailAddr = "Digilancing47@gmail.com";
+  const emailAddr = "team@digilancing.com";
   const phoneNum = "+91 80081 09303";
 
   const onChange = (e) => {
