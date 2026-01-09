@@ -191,7 +191,7 @@ const handleWatchClick = async (course) => {
 
       {!filterLoading && (
         <motion.div
-          className="grid max-w-screen-xl mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10"
+          className="grid max-w-screen-xl mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10  py-6"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -199,7 +199,7 @@ const handleWatchClick = async (course) => {
           {filteredCourses.map((course, index) => (
             <motion.div
               key={course.course_code}
-              className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white shadow-lg relative"
+              className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white relative"
               whileHover={{
                 scale: 1.03,
                 boxShadow: "0px 10px 20px rgba(0,0,0,0.15)",
@@ -296,7 +296,7 @@ const handleWatchClick = async (course) => {
       )}
 
       {hasMore && filter === "all" && (
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 py-7">
           <button
             onClick={handleLoadMore}
             disabled={loading}

@@ -63,6 +63,7 @@ const Header = ({ isDarkMode }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  const location = useLocation();
   const isRegisterPage = location.pathname === '/Register';
   const isLoginPage = location.pathname === '/login';
   const isForgotPassword = location.pathname === '/ForgotPassword';
@@ -408,10 +409,12 @@ const Header = ({ isDarkMode }) => {
         <motion.div
           initial={false}
           animate={{
-            backgroundColor: scrolled
+            backgroundColor: isDarkMode
+              ? "rgba(255,255,255,0.95)"
+              : scrolled
               ? "rgba(255,255,255,0.95)"
               : "rgba(255,255,255,0)",
-            boxShadow: scrolled
+            boxShadow: (scrolled || isDarkMode)
               ? "0 2px 10px rgba(0,0,0,0.1)"
               : "0px 0px 0px rgba(0,0,0,0)",
           }}

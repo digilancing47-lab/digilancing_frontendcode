@@ -131,7 +131,7 @@ const Certificatesmain = () => {
             {items.map((cert, index) => (
               <div
                 key={index}
-                className="relative font-outfit cursor-default bg-white shadow-md border border-[#e0e0e0] rounded-2xl p-4 flex flex-col"
+                className="relative font-outfit cursor-default bg-white border border-[#e0e0e0] rounded-2xl p-4 flex flex-col"
               >
                 {/* Thumbnail */}
                 <div className="mb-3 overflow-hidden rounded-lg">
