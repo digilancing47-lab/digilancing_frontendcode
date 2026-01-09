@@ -68,8 +68,9 @@ const AuthGuard = ({ children }) => {
 function App() {
 
   return (
-    <Router>
-      <ScrollToTop />
+    <div className="app-container bg-[#002B54] min-h-screen">
+      <Router>
+        <ScrollToTop />
       <Routes>
         <Route path="/" element={<><Header /><Home /></>} />
         <Route path="/login" element={<><Header /><Login /></>} />
@@ -115,7 +116,8 @@ function App() {
         <Route path="/TermsAndConditions" element={<><Header isDarkMode={true} /><TermsAndConditions /></>} />
 
       </Routes>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

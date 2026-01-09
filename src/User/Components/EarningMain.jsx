@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Calendar, X, Sparkles, Upload, FileImage, FileVideo } from "lucide-react";
 import { motion } from "framer-motion";
+import "./EarningsCards.css";
 
 import { API_BASE } from "../../apiBase";
 import { useNavigate } from "react-router-dom";
@@ -714,7 +715,7 @@ export default function EarningsDashboard() {
           label: "All Time Earning",
           rawAmount: Number(apiData.allTime?.total || 0),
           count: apiData.allTime?.count,
-           gradient: "from-[#047CFF] via-[#047CFF] to-[#00B4F8]",
+          gradient: "from-[#047CFF] via-[#047CFF] to-[#00B4F8]",
         },
       ]
     : [];
@@ -875,21 +876,23 @@ export default function EarningsDashboard() {
         {customRangeResult && (
           <div className="col-span-full sm:col-span-2">
             <div
-              className="rounded-xl p-5 text-white shadow-lg bg-gradient-to-r from-green-500 via-cyan-500 to-indigo-600 text-left cursor-pointer"
+              className="earnings-card earnings-card-custom cursor-pointer"
               onClick={() => setShowCustomDetails((s) => !s)}
             >
-              <div className="flex items-center justify-between">
-                <p className="text-xl font-semibold">
-                  Custom Range
-                  <span className="ml-2 text-xs text-white/80">
-                    {customRangeResult.startingdata} → {customRangeResult.endingdata}
-                  </span>
-                </p>
-                <div className="text-sm font-semibold text-white/90">{customRangeResult.total_records} Referrals</div>
+              <div className="earnings-card-content">
+                <div className="flex items-center justify-between">
+                  <p className="earnings-card-label">
+                    Custom Range
+                    <span className="ml-2 text-xs text-white/80">
+                      {customRangeResult.startingdata} → {customRangeResult.endingdata}
+                    </span>
+                  </p>
+                  <div className="text-sm font-semibold text-white/90">{customRangeResult.total_records} Referrals</div>
+                </div>
+                <h3 className="earnings-card-amount">
+                  {formatAmount(Number(customRangeResult.total_earning || 0))}
+                </h3>
               </div>
-              <h3 className="text-3xl font-bold mt-2">
-                {formatAmount(Number(customRangeResult.total_earning || 0))}
-              </h3>
             </div>
 
             {/* details list if available */}

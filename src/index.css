@@ -2,7 +2,23 @@
 
 @import "tailwindcss";
 
+/* Global Background Theme */
+:root {
+  --app-bg-primary: #002B54;
+}
 
+/* Global background for consistent blue theme */
+html, body, #root {
+  background-color: var(--app-bg-primary) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure all main containers maintain blue background */
+.app-container, .page-container, .main-wrapper {
+  background-color: var(--app-bg-primary) !important;
+}
 
 @theme {
   --font-outfit: "Outfit", sans-serif;
