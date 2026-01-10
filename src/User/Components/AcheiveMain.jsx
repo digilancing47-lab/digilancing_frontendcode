@@ -92,7 +92,7 @@ const stats = [
 
 const AchievementPage = () => {
   return (
-    <div className="bg-[#032B55] min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center ">
       {/* Header */}
       <div className="w-full bg-white rounded-4xl py-10 flex flex-col items-center px-4 text-center">
         <img src={f1} alt="Trophy" className="h-20 w-20" />

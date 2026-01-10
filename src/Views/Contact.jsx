@@ -80,7 +80,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#021E3A] text-white flex items-center justify-center px-6 py-24 sm:py-28 cursor-default overflow-hidden">
+    <div className="contact-page relative min-h-screen bg-[#021E3A] text-white flex items-center justify-center px-6 py-24 sm:py-28 cursor-default overflow-hidden">
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"

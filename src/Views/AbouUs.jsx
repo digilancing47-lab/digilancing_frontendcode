@@ -22,7 +22,7 @@ const AboutUs = () => {
 
     return (
         <>
-        <div className="min-h-screen cursor-default bg-[#002B54]">
+        <div className="about-page min-h-screen cursor-default bg-[#002B54]">
             {/* Hero Section */}
             <div className="relative bg-gradient-to-r from-[#002B54] to-[#003E7F]">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 py-28 grid md:grid-cols-2 gap-10 items-center">
@@ -85,6 +85,7 @@ const AboutUs = () => {
             </div>
 
             {/* Founders Section */}
+            
             <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24">
                 <h2 className="text-4xl font-bold text-center text-white mb-16">
                     Meet Our <span className="text-white">Founders</span>

@@ -7,7 +7,7 @@ import KycMain from "../Components/KycMain";
 
 const Kyc = () => {
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[#002B54]">
+    <div className="affiliate-panel flex flex-col lg:flex-row min-h-screen">
       <AfLeftNav />
       <div className="flex-1 p-4 ">
         <div className="lg:ml-64">

@@ -359,10 +359,10 @@ export default function MainDashboard() {
 
 
   return (
-    <main className="flex-1 p-0 bg-[#002E5D] relative">
+    <main className="flex-1 p-0 bg-[#002B54] relative">
       {/* Full-page translucent loader overlay */}
       {loading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30 ">
           <div className="bg-white rounded-xl px-6 py-4 flex items-center gap-4 shadow-lg">
             <div className="w-10 h-10 border-4 border-t-transparent rounded-full animate-spin" />
             <div>
@@ -372,7 +372,7 @@ export default function MainDashboard() {
           </div>
         </div>
       )}
-      <div className="flex flex-col text-[#000000] font-sans">
+      <div className="flex flex-col text-[#000000] affiliate-panel font-sans">
         {/* Top Section */}
         <div className="bg-[#EBF5EB] rounded-4xl p-4">
           <div className="flex flex-col lg:flex-row gap-6">
