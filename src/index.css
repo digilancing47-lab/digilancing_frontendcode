@@ -7,23 +7,54 @@
   --app-bg-primary: #002B54;
 }
 
-/* Global background for consistent blue theme */
+/* Global blue background theme */
 html, body, #root {
-  background-color: var(--app-bg-primary) !important;
+  background: var(--app-bg-primary);
   min-height: 100vh;
   margin: 0;
   padding: 0;
 }
 
-/* Ensure all main containers maintain blue background */
-.app-container, .page-container, .main-wrapper {
-  background-color: var(--app-bg-primary) !important;
+/* Page-specific white backgrounds */
+.courses-page, .certificates-page, .dashboard-page {
+  background: #ffffff !important;
+  min-height: 100vh;
+}
+
+/* Force all sections to be white on these pages */
+.courses-page section, .certificates-page section, .dashboard-page section {
+  background: #ffffff !important;
+}
+
+/* Override Section1 background for certificates page */
+.certificates-page section[class*="bg-[#f5f8fa]"] {
+  background: #ffffff !important;
+}
+
+.certificates-page .hero-section section {
+  background: #ffffff !important;
+}
+
+/* Remove content section styling */
+.courses-page .content-section, .certificates-page .content-section {
+  background-color: #ffffff;
+  border-radius: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.dashboard-page .hero-section {
+  background: var(--app-bg-primary);
 }
 
 @theme {
   --font-outfit: "Outfit", sans-serif;
 }
 
+/* Smooth transition for page backgrounds */
+.page-transition {
+  transition: background-color 0.3s ease;
+}
 
 /* Add this to your global CSS or Tailwind globals */
 .hide-scrollbar::-webkit-scrollbar {
@@ -33,7 +64,6 @@ html, body, #root {
   -ms-overflow-style: none;  /* for IE and Edge */
   scrollbar-width: none;     /* for Firefox */
 }
-
 
 .custom-dot {
   width: 10px;
@@ -51,8 +81,6 @@ html, body, #root {
   height: 12px;
 }
 
-
-
 /* Swiper custom dots */
 .custom-swiper-pagination .swiper-pagination-bullet {
   width: 8px;
@@ -68,7 +96,6 @@ html, body, #root {
   background: linear-gradient(90deg, #5E4BDA, #2C71A1);
   border-radius: 9999px;
 }
-
 
 /* FullCalendar Light Theme Styling */
 .calendar-light .fc {

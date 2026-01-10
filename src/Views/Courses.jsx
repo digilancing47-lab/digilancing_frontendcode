@@ -7,7 +7,7 @@ import Note from "../Components/Note"
 
 const Courses = () => {
     return (
-             <div  className='cursor-default' >
+             <div  className='cursor-default courses-page' >
                 <Section1 />
                 <Section2/>
                 <Section3 />

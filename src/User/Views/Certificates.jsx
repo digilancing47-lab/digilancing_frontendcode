@@ -4,11 +4,14 @@ import Certificatesmain from '../Components/Certificatesmain';
 import Footer from '../../Components/Footer';
 const Certificates = () => {
   return (
-    <div>
-        <Section1/>
-        <Certificatesmain/>
-        <Footer/>
-
+    <div className='certificates-page'>
+        <div className="hero-section">
+            <Section1/>
+        </div>
+        <div className="content-section">
+            <Certificatesmain/>
+            <Footer/>
+        </div>
     </div>
   )
 }

@@ -24,7 +24,7 @@ const GreetingSection = () => {
 
     return (
         <div
-            className="relative rounded-4xl p-6  cursor-default text-white flex flex-col lg:flex-row justify-between items-start overflow-visible min-h-[24rem]"
+            className="relative rounded-3xl p-6 cursor-default text-white flex flex-col lg:flex-row justify-between items-start gap-6 min-h-[20rem]"
             style={{ background: 'linear-gradient(to bottom right, #4852F4 0%, #6A50FF 100%)' }}
         >
             {/* Left Content */}
@@ -48,8 +48,7 @@ const GreetingSection = () => {
 
             {/* Right Card */}
             <div
-                className="w-full max-w-[330px] h-[360px] bg-white text-black p-4 rounded-3xl mt-6
-    md:absolute md:top-[18%] md:right-6 md:mt-0"
+                className="w-full max-w-[300px] h-[360px] bg-white text-black p-4 rounded-2xl mt-6 lg:mt-0 flex-shrink-0"
             >
 
                 <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-4 py-1 rounded-md">

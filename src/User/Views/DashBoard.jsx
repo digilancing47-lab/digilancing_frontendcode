@@ -103,11 +103,12 @@ const DashBoard = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row p-2 bg-gray-50 min-h-screen">
-      <LeftNav />
-      <div className="flex-1 lg:ml-72 mt-5 p-6 mr-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+    <div className="dashboard-page">
+      <div className="flex flex-col lg:flex-row p-2 min-h-screen">
+        <LeftNav />
+        <div className="flex-1 lg:ml-72 mt-5 p-6 mr-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
 
           <div className="flex items-center justify-end gap-2 w-full">
             <div className="relative w-full max-w-[400px]">
@@ -260,7 +261,6 @@ const DashBoard = () => {
           <BestInstructors topInstructors={data?.topInstructors} />
         </motion.div>
 
-
         <motion.div
           className="lg:col-span-4"
           variants={fadeIn}
@@ -270,6 +270,7 @@ const DashBoard = () => {
         >
           <SupportSystem />
         </motion.div>
+        </div>
       </div>
       
       {/* Custom Alert */}

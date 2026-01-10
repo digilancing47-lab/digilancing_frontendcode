@@ -36,6 +36,9 @@ const Section1 = () => {
   const location = useLocation();
   const { container, fadeUp } = makeVariants(prefersReduced);
 
+  const isCoursesOrCertificatesPage = location.pathname === "/courses" || location.pathname === "/Certificates";
+  const backgroundClass = isCoursesOrCertificatesPage ? "bg-white" : "bg-[#f5f8fa]";
+
   let buttonText = "Our Courses";
   let heading = "Designed by Experts Trusted by Learners";
   let subheading =
@@ -50,7 +53,7 @@ const Section1 = () => {
 
   return (
     <motion.section
-      className="text-center font-outfit py-16 px-4 bg-[#f5f8fa] mt-[70px] will-change-transform transform-gpu"
+      className={`text-center font-outfit py-16 px-4 ${backgroundClass} mt-[70px] will-change-transform transform-gpu`}
       initial="hidden"
       animate="visible"
       variants={container}

@@ -68,7 +68,7 @@ const AuthGuard = ({ children }) => {
 function App() {
 
   return (
-    <div className="app-container bg-[#002B54] min-h-screen">
+    <div className="app-container min-h-screen">
       <Router>
         <ScrollToTop />
       <Routes>
