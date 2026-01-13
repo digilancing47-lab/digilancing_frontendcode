@@ -18,6 +18,8 @@ import {
 
 import Card from "../Components/Card";
 import RegisterHeader from "../Components/RegsiterHeader";
+import TermsContent from "../Components/TermsContent";
+import PrivacyContent from "../Components/PrivacyContent";
 
 import TickBlue from "../assets/Tick_2.svg";
 import TickPurple from "../assets/Tick_3.svg";
@@ -379,6 +381,12 @@ const Register = () => {
       return;
     }
 
+    if (!termsAccepted) {
+      setShowTermsError(true);
+      return;
+    }
+    setShowTermsError(false);
+
     setIsProcessing(true);
     setErrorMessage("");
     setErrorStatus(null);
@@ -471,6 +479,10 @@ const Register = () => {
   const [promoData, setPromoData] = useState(null)
   const [promoLoading, setPromoLoading] = useState(false)
   const [promoError, setPromoError] = useState('')
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [showTermsError, setShowTermsError] = useState(false)
+  const [showTermsModal, setShowTermsModal] = useState(false)
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
   const startRazorpayPayment = async (packagedata) => {
     try {
@@ -955,10 +967,59 @@ const Register = () => {
                 </div>
               )}
 
+              {/* Terms & Conditions Checkbox */}
+              <div className="mb-4">
+                <label className="flex items-start gap-2 text-sm text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={(e) => {
+                      setTermsAccepted(e.target.checked);
+                      setShowTermsError(false);
+                    }}
+                    className="mt-0.5 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    aria-describedby={showTermsError ? "terms-error" : undefined}
+                  />
+                  <span>
+                    I agree to the{" "}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowTermsModal(true);
+                      }}
+                      className="text-blue-600 hover:text-blue-700 underline cursor-pointer"
+                    >
+                      Terms & Conditions
+                    </button>
+                    {" "}and{" "}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowPrivacyModal(true);
+                      }}
+                      className="text-blue-600 hover:text-blue-700 underline cursor-pointer"
+                    >
+                      Privacy Policy
+                    </button>
+                  </span>
+                </label>
+                {showTermsError && (
+                  <p id="terms-error" className="text-red-500 text-xs mt-1" role="alert">
+                    Please accept the Terms & Conditions and Privacy Policy to proceed.
+                  </p>
+                )}
+              </div>
+
               <button
-                className="w-full bg-blue-600 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700"
+                className={`w-full py-3 rounded-lg transition-colors ${
+                  !termsAccepted
+                    ? "bg-gray-400 cursor-not-allowed text-gray-600"
+                    : "bg-blue-600 cursor-pointer text-white hover:bg-blue-700"
+                }`}
                 onClick={handleSubmit}
-                disabled={loading}
+                disabled={loading || !termsAccepted}
               >
                 {loading ? "Processing..." : "Place an Order"}
               </button>
@@ -1154,6 +1215,74 @@ const Register = () => {
           <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
+
+      {/* Terms & Conditions Modal */}
+      <AnimatePresence>
+        {showTermsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001] p-4"
+            onClick={() => setShowTermsModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-6 border-b">
+                <h2 className="text-2xl font-bold text-gray-800">Terms & Conditions</h2>
+                <button
+                  onClick={() => setShowTermsModal(false)}
+                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto max-h-[70vh]">
+                <TermsContent />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Privacy Policy Modal */}
+      <AnimatePresence>
+        {showPrivacyModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001] p-4"
+            onClick={() => setShowPrivacyModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-6 border-b">
+                <h2 className="text-2xl font-bold text-gray-800">Privacy Policy</h2>
+                <button
+                  onClick={() => setShowPrivacyModal(false)}
+                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto max-h-[70vh]">
+                <PrivacyContent />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
