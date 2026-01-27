@@ -521,8 +521,8 @@ export default function MainDashboard() {
                   </div>
                 </div>
 
-                {/* Leaderboard */}
-                <div className="bg-[#F9FAFB] rounded-2xl p-4 sm:p-6 shadow-sm">
+               
+                {/* <div className="bg-[#F9FAFB] rounded-2xl p-4 sm:p-6 shadow-sm">
                   <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
                     <h3 className="font-semibold text-xl">Leaderboard</h3>
                     <p className="text-sm font-semibold text-gray-500">Position #{customerrank}</p>
@@ -548,7 +548,7 @@ export default function MainDashboard() {
                       </>
                     ) : (
                       LeaderBoard.map((u, i) => {
-                        const image = u.customer_image; // fallback if null
+                        const image = u.customer_image; 
                         const name = u.fullname;
                         const amount = `₹${parseFloat(u.total).toLocaleString("en-IN")}`;
 
@@ -578,7 +578,7 @@ export default function MainDashboard() {
                       })
                     )}
                   </div>
-                </div>
+                </div> */}
 
               </div>
             </div>

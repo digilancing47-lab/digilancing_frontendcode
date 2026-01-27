@@ -20,7 +20,7 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
         { path: "/ReferalDetails", key: "referaldetails", label: "Referal Details", icon: <Users className="w-5 h-5 mr-2" /> },
         { path: "/Qualification", key: "qualification", label: "Qualification", icon: <BookOpen className="w-5 h-5 mr-2" /> },
         { path: "/Earning", key: "earning", label: "Earning", icon: <BarChart2 className="w-5 h-5 mr-2" /> },
-        { path: "/LeaderBoard", key: "leaderboard", label: "LeaderBoard", icon: <Award className="w-5 h-5 mr-2" /> }
+        // { path: "/LeaderBoard", key: "leaderboard", label: "LeaderBoard", icon: <Award className="w-5 h-5 mr-2" /> }
     ];
 //      { path: "/PayoutDetails", key: "payoutdetails", label: "Payout Details", icon: <CreditCard className="w-5 h-5 mr-2" /> },
     const getActiveMenu = () => {
