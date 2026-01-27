@@ -381,7 +381,7 @@ const Register = () => {
       return;
     }
 
-    if (!termsAccepted) {
+    if (!termsAccepted || !privacyAccepted) {
       setShowTermsError(true);
       return;
     }
@@ -480,6 +480,7 @@ const Register = () => {
   const [promoLoading, setPromoLoading] = useState(false)
   const [promoError, setPromoError] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
   const [showTermsError, setShowTermsError] = useState(false)
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
@@ -967,8 +968,8 @@ const Register = () => {
                 </div>
               )}
 
-              {/* Terms & Conditions Checkbox */}
-              <div className="mb-4">
+              {/* Terms & Conditions Checkboxes */}
+              <div className="mb-4 space-y-3">
                 <label className="flex items-start gap-2 text-sm text-gray-700 cursor-pointer">
                   <input
                     type="checkbox"
@@ -978,7 +979,6 @@ const Register = () => {
                       setShowTermsError(false);
                     }}
                     className="mt-0.5 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    aria-describedby={showTermsError ? "terms-error" : undefined}
                   />
                   <span>
                     I agree to the{" "}
@@ -992,7 +992,21 @@ const Register = () => {
                     >
                       Terms & Conditions
                     </button>
-                    {" "}and{" "}
+                  </span>
+                </label>
+                
+                <label className="flex items-start gap-2 text-sm text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => {
+                      setPrivacyAccepted(e.target.checked);
+                      setShowTermsError(false);
+                    }}
+                    className="mt-0.5 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                  />
+                  <span>
+                    I agree to the{" "}
                     <button
                       type="button"
                       onClick={(e) => {
@@ -1005,21 +1019,22 @@ const Register = () => {
                     </button>
                   </span>
                 </label>
+                
                 {showTermsError && (
-                  <p id="terms-error" className="text-red-500 text-xs mt-1" role="alert">
-                    Please accept the Terms & Conditions and Privacy Policy to proceed.
+                  <p className="text-red-500 text-xs mt-1" role="alert">
+                    Please accept both Terms & Conditions and Privacy Policy to proceed.
                   </p>
                 )}
               </div>
 
               <button
                 className={`w-full py-3 rounded-lg transition-colors ${
-                  !termsAccepted
+                  !termsAccepted || !privacyAccepted
                     ? "bg-gray-400 cursor-not-allowed text-gray-600"
                     : "bg-blue-600 cursor-pointer text-white hover:bg-blue-700"
                 }`}
                 onClick={handleSubmit}
-                disabled={loading || !termsAccepted}
+                disabled={loading || !termsAccepted || !privacyAccepted}
               >
                 {loading ? "Processing..." : "Place an Order"}
               </button>
