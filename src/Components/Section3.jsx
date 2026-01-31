@@ -105,9 +105,9 @@ const Section3 = ({ onCardSelect }) => {
 
           // Store package data in session
           sessionStorage.setItem('packageData', JSON.stringify(response.data.data));
-
-          let filteredPackages = apiPackages.filter(pkg => pkg.id !== "DIGI0001");
-
+          
+          let filteredPackages = apiPackages;
+          
           if (isUpgradePage) {
             const currentPackageId = sessionStorage.getItem("packageId");
             const upgradeMap = {
@@ -129,6 +129,7 @@ const Section3 = ({ onCardSelect }) => {
             );
           }
 
+          console.log('Final Filtered Packages:', filteredPackages.map(p => p.id));
           setPackages(filteredPackages);
           dispatch(setDefaultPackages(filteredPackages));
         }
@@ -205,7 +206,8 @@ const Section3 = ({ onCardSelect }) => {
           sessionStorage.setItem('packageData', JSON.stringify(fallbackApiData));
         }
         
-        let filteredPackages = fallbackPackages.filter(pkg => pkg.id !== "DIGI0001");
+        let filteredPackages = fallbackPackages;
+        
         if (isUpgradePage) {
           const currentPackageId = sessionStorage.getItem("packageId");
           const upgradeMap = {
@@ -395,14 +397,13 @@ const Section3 = ({ onCardSelect }) => {
             className="text-3xl md:text-4xl lg:text-5xl font-semibold font-['Outfit'] leading-snug bg-gradient-to-r from-[#5E4BDA] to-[#2C71A1] bg-clip-text text-transparent"
             variants={fadeUp}
           >
-            Choose Your Path to Success
+            Unlock Your Potential with the Perfect Plan
           </motion.h2>
           <motion.p
             className="mt-2 text-[#797979] text-[14px] sm:text-lg font-light max-w-2xl mx-auto"
             variants={fadeUp}
           >
-            Transform your freelancing career with our comprehensive learning
-            bundles, designed for every stage of your journey
+            Choose a package tailored to your goals and start your journey to mastering in-demand skills and building a thriving freelance career
           </motion.p>
         </div>
       )}

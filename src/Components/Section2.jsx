@@ -55,7 +55,7 @@ const Section2 = () => {
         <motion.div className="lg:w-1/2 text-center lg:text-left" variants={slideLeft}>
           {/* About Us Button */}
           <motion.button
-            className="bg-gradient-to-r from-[#5C4CD8] to-[#3D64B5] text-white px-6 py-2 rounded-full font-semibold transition shadow-md mb-6"
+            className="bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white px-6 py-2 rounded-full font-semibold transition shadow-md mb-6"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import section40 from "../assets/section40.svg";
-import section41 from "../assets/section41.svg";
+import section40 from "/Mastering_Skills_1.avif";
+import section41 from "/Mastering_Skills_2.avif";
 import section42 from "../assets/section42.svg";
-import section43 from "../assets/section43.svg";
+import section43 from "/Mastering_Skills_4.avif";
 
 const steps = [
   {
@@ -148,7 +148,7 @@ const Section4 = () => {
 
   return (
     <motion.section
-      className="text-white font-outfit max-w-screen-xl mx-auto h-auto py-16 px-6 lg:px-20"
+      className="text-white font-outfit container mx-auto h-auto py-16 px-6 lg:px-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
@@ -157,21 +157,21 @@ const Section4 = () => {
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
         <motion.span
-          className="bg-[#5E4BDA] text-white text-sm font-medium px-4 py-1 rounded-full inline-block"
+          className="bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black text-sm font-medium px-4 py-1 rounded-full inline-block"
           variants={fadeUp}
         >
           How it works
         </motion.span>
         <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mt-4" variants={fadeUp}>
-          Your Roadmap to Mastering Skills
+          Your Journey to Success
         </motion.h2>
-        <motion.p className="mt-4 text-[#C0C6D0] text-base sm:text-lg font-light" variants={fadeUp}>
-          Turn learning into earning. Master the skills that matter, transform your future, and step confidently toward growth and financial independence.
+        <motion.p className="mt-4 text-[#eeeeee] text-base sm:text-lg font-light" variants={fadeUp}>
+          From enrollment to certification, discover how our streamlined learning path helps you master in-demand skills and launch your freelance career
         </motion.p>
       </div>
 
       {/* Desktop/Tablet (md+) – clickable list + animated panel */}
-      <div className="mt-12 bg-[#112B4C] lg:h-[500px] rounded-3xl md:p-6 max-w-screen-xl mx-auto hidden md:flex items-center lg:items-stretch">
+      <div className="mt-12 bg-white/10 backdrop-blur-md border border-white/20 lg:h-[500px] rounded-3xl md:p-6 w-full mx-auto hidden md:flex items-center lg:items-stretch">
         {/* Left list */}
         <div className="relative space-y-4 pt-5 lg:gap-5 p-2 pb-3 flex flex-col w-full lg:max-w-[300px]">
           {steps.map((step) => {
@@ -190,7 +190,7 @@ const Section4 = () => {
                 {/* Animated left accent for active item */}
                 <motion.span
                   layout
-                  className={`absolute left-0 top-0 h-full rounded-tl-xl rounded-bl-xl ${isActive ? "bg-[#0181f9a6]" : "bg-transparent"}`}
+                  className={`absolute left-0 top-0 h-full rounded-tl-xl rounded-bl-xl ${isActive ? "bg-[#06b6d4]" : "bg-transparent"}`}
                   style={{ width: isActive ? 6 : 0 }}
                   transition={{ type: "spring", stiffness: 250, damping: 24 }}
                 />
@@ -199,7 +199,7 @@ const Section4 = () => {
                 {isActive && (
                   <motion.span
                     layoutId="activeGradient"
-                    className="absolute inset-0 rounded-tl-xl rounded-bl-xl bg-gradient-to-r from-[#0181f9a6] via-[#0181f970] to-[#ffffff00] border-b border-l border-t border-[#127adcb7]"
+                    className="absolute inset-0 rounded-tl-xl rounded-bl-xl bg-gradient-to-r from-[#06b6d4]/60 via-[#3b82f6]/40 to-transparent border-b border-l border-t border-[#06b6d4]/70"
                     transition={{ type: "spring", stiffness: 200, damping: 24 }}
                   />
                 )}
@@ -209,7 +209,7 @@ const Section4 = () => {
         </div>
 
         {/* Right content area with slide/fade between steps */}
-        <div className="bg-white rounded-3xl p-2 md:p-6 flex flex-row gap-4 items-center w-full max-w-[750px] mx-auto overflow-hidden">
+        <div className="bg-white rounded-3xl p-2 md:p-6 flex flex-row gap-4 items-center w-full  mx-auto overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={activeStep}

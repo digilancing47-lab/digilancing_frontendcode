@@ -9,15 +9,15 @@ import Note from "../Components/Note"
 
 const Home = () => {
     return (
-        <div style={{ backgroundColor: '#002B54' }} className='cursor-default' >
+        <div  className='cursor-default bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]' >
             <Section1 />
             <Section2 />
             <div className='bg-white mx-auto '>
                 <Section3 />
             </div>
-            <div className='bg-[#0B2342]'>
+  
                  <Section4/>    
-            </div>
+         
             <Section5 />       
             <Section7 />
             <Note

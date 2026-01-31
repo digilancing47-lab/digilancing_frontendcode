@@ -1,5 +1,5 @@
 import React from "react";
-import section1 from '../assets/Main_image.svg';
+import section1 from '/Bgimage.avif';
 import Lock from '../assets/Lock.svg';
 import { motion } from "framer-motion";
 import { useNavigate} from 'react-router-dom';
@@ -32,7 +32,7 @@ const Section1 = () => {
    
   return (
     <motion.section
-      className="w-full max-w-screen-xl mx-auto pt-12 bg-[#002B54]"
+      className="w-full container  mx-auto pt-12 "
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.25 }}
@@ -42,44 +42,55 @@ const Section1 = () => {
         {/* Left Side */}
         <div className="text-center flex-1 px-1 lg:text-left">
           <motion.h1
-            className="text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white mb-2.5"
+            className="text-2xl sm:text-4xl md:text-4xl lg:text-4xl 2xl:text-5xl font-bold text-white mb-2.5"
             variants={fadeUp}
-          >
-            Turn skills into Success With{" "}
-            <motion.span
-              className="inline-block bg-gradient-to-r from-[#0078FF] to-[#ffffff] bg-clip-text text-transparent text-5xl md:text-5xl lg:text-6xl xl:text-7xl"
+          ><motion.span
+              className="inline-block bg-gradient-to-r from-[#63b4ff] to-[#2c99ff] bg-clip-text text-transparent pb-6 text-5xl md:text-5xl lg:text-6xl xl:text-7xl"
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 3, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
             >
               DIGILANCING
-            </motion.span>
+            </motion.span><br/>
+            <span className="mt-3">Skills Over Degrees.{" "}Create Your Own Career Path.</span>
           </motion.h1>
 
           <motion.p
             className="text-white mb-6 text-[14px] px-5 md:px-0 md:text-lg lg:text-xl"
             variants={fadeUp}
           >
-            Learn from Experts, grow your digital skills and start earning on your own terms
+           Learn practical digital skills, build real projects, and unlock freelance & remote opportunities worldwide.
           </motion.p>
 
-          <motion.button
-            className="bg-[#FDDB5D] hover:scale-105 hover:bg-[#FCCC4D] cursor-pointer text-black px-8 py-3 rounded-xl font-semibold transition-transform duration-300 shadow-md mb-4"
-            variants={fadeUp}
-            whileHover={{ y: -2, scale: 1.04 }}
-            whileTap={{ scale: 0.98 }}
-             onClick={() => navigate('/Register')}
-          >
-            Start Learning Today
-          </motion.button>
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
+            <motion.button
+              className="bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] cursor-pointer text-black px-10 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg"
+              variants={fadeUp}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/Register')}
+            >
+              Register Now
+            </motion.button>
+
+            <motion.button
+              className="bg-white/10 backdrop-blur-sm border border-white/30 cursor-pointer text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:bg-white/20"
+              variants={fadeUp}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/Courses')}
+            >
+              Explore Courses
+            </motion.button>
+          </div>
 
           <motion.div
-            className="hidden py-3 lg:flex items-center gap-2"
+            className="hidden py-3  pt-10 lg:flex items-center gap-2"
             variants={fadeUp}
             transition={{ delay: 0.1 }}
           >
             <img src={Lock} alt="" className="w-6" />
             <p className="text-white text-[14px]">
-              Safe and Secure Platform | Trusted by 1,000+ Learners
+              Secure Learning • Expert Mentors • Global Opportunities
             </p>
           </motion.div>
         </div>
@@ -89,7 +100,7 @@ const Section1 = () => {
           <motion.img
             src={section1}
             alt="Hero"
-            className="w-full"
+            className="w-full max-w-3xl"
             // gentle float & tilt for liveliness
             animate={{ y: [0, -10, 0], rotate: [0, 1.2, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}

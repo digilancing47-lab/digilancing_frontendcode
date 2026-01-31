@@ -30,11 +30,13 @@ const slideVariant = {
 
 const CardGrid = ({ onCardClick, selectedCard }) => {
   const packages = useSelector((state) => state.register.packages);
+  
+  console.log('CardGrid packages from Redux:', packages.map(p => p.id));
 
   return (
     <>
       {/* Desktop Grid */}
-      <div className="mt-10 hidden sm:grid px-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:px-8 lg:px-5">
+      <div className="mt-10 hidden sm:grid px-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:px-8 lg:px-5">
         {packages.map((pkg, i) => (
           <motion.div
             key={i}
@@ -44,7 +46,9 @@ const CardGrid = ({ onCardClick, selectedCard }) => {
             viewport={{ once: true }}
             whileHover={{ y: -6, scale: 1.02 }}
             whileTap={{ scale: 0.99 }}
-            className="will-change-transform cursor-pointer relative"
+            className={`will-change-transform cursor-pointer relative h-full ${
+              pkg.id === 'DIGI0001' ? '2xl:block hidden' : ''
+            }`}
             onClick={() => onCardClick(pkg)}
             animate={{
               scale: selectedCard?.id === pkg.id ? 1.05 : 1,

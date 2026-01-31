@@ -107,7 +107,7 @@ const Header = ({ isDarkMode }) => {
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
 
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
 <h1
@@ -172,7 +172,7 @@ const Header = ({ isDarkMode }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
 <h1
@@ -239,7 +239,7 @@ const Header = ({ isDarkMode }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
 <h1
@@ -304,7 +304,7 @@ const Header = ({ isDarkMode }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
 <h1
@@ -371,7 +371,7 @@ const Header = ({ isDarkMode }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
               <h1 onClick={() => { navigate('/') }} className={`font-outfit text-2xl cursor-pointer mt-2.5 md:mt-0 font-bold ${scrolled || isDarkMode ? 'text-black' : 'text-white'}`}>DIGILANCING</h1>
@@ -423,7 +423,7 @@ const Header = ({ isDarkMode }) => {
           className="cursor-default py-3 lg:py-0 px-2  fixed top-0 w-full z-50 backdrop-blur-sm"
         >
 
-          <div className="px-3 max-w-screen-xl mx-auto flex justify-between items-center h-full">
+          <div className="px-3 container mx-auto flex justify-between items-center h-full">
             {/* Logo */}
             <div className="flex items-center overflow-hidden gap-2 pr-2">
 <h1
@@ -554,7 +554,7 @@ const Header = ({ isDarkMode }) => {
                     </Link>
                     <Link
                       to="/Register"
-                      className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}
+                      className={`${scrolled || isDarkMode ? 'bg-[#0183FF] text-white' : 'bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black'} py-2.5  font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}
                     >
                       <span>Register</span>
                     </Link>
