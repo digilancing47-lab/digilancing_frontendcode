@@ -1,8 +1,9 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const PrivacyContent = () => {
   return (
-    <div className="space-y-6 text-gray-800 leading-relaxed text-sm">
+    <div className="space-y-4">
       {[
         {
           title: "1. Introduction",
@@ -387,12 +388,23 @@ const PrivacyContent = () => {
           ),
         },
       ].map((section, index) => (
-        <div key={index}>
-          <h3 className="text-lg font-semibold text-blue-700 border-l-4 border-blue-700 pl-3 mb-2">
-            {section.title}
-          </h3>
-          <div>{section.content}</div>
-        </div>
+        <motion.div 
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05, duration: 0.4 }}
+          className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+        >
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+              {section.title}
+            </h3>
+          </div>
+          <div className="px-6 py-5 text-gray-700 text-sm leading-relaxed space-y-3">
+            {section.content}
+          </div>
+        </motion.div>
       ))}
     </div>
   );

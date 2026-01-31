@@ -5,14 +5,14 @@ import Footer from "../Components/Footer";
 const Disclaimer = () => {
   return (
     <>
-    <div className="min-h-screen mt-24 bg-gradient-to-br from-[#003B73] to-[#001F3F] py-10 px-4 sm:py-16 sm:px-6 lg:px-8">
-      <div className="w-full max-w-screen-xl mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-10 lg:p-12">
+    <div className="min-h-screen mt-10 bg-white py-10 px-4 sm:py-16 sm:px-6 lg:px-8">
+      <div className="w-full container mx-auto bg-white p-8 sm:p-12 lg:p-16">
         {/* Header */}
-        <header className="text-right sm:mb-12">
-          <h1 className="text-lg sm:text-xl md:text-5xl font-bold uppercase mb-2 text-gray-700">
-            DISCLAIMER
+        <header className="text-center mb-12 pb-8 border-b-2 border-[#1e3a8a]">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-[#1e3a8a]">
+            Disclaimer
           </h1>
-           <h2 className="text-lg sm:text-xl md:text-2xl font-normal uppercase  text-gray-500">
+           <h2 className="text-xl sm:text-2xl text-gray-600">
             Digilancing Private Limited
           </h2>
         </header>
@@ -23,7 +23,7 @@ const Disclaimer = () => {
         </div>
 
         {/* Content */}
-        <div className="space-y-8 sm:space-y-10 text-gray-700 leading-relaxed text-base sm:text-lg lg:text-xl">
+        <div className="space-y-10 text-gray-700 leading-relaxed text-base sm:text-lg">
           <p>
             Welcome to Digilancing Private Limited. By accessing our website,
             enrolling in our programs, or using any of our services, you
@@ -89,8 +89,8 @@ const Disclaimer = () => {
                 "Your use of our website or services constitutes your acceptance of this Disclaimer. If you do not agree with any part of this notice, you must refrain from using our platform or purchasing our offerings.",
             },
           ].map((section, index) => (
-            <div key={index}>
-              <h3 className="text-lg sm:text-xl font-semibold text-[#003B73] border-l-4 border-[#003B73] pl-3 mb-2">
+            <div key={index} className="border-l-4 border-[#3b82f6] pl-6">
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#1e3a8a] mb-3">
                 {section.title}
               </h3>
               <div>{section.content}</div>

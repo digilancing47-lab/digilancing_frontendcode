@@ -842,21 +842,21 @@ const TermsAndConditions = () => {
 
   return (
     <>
-     <div className="min-h-screen  mt-24 bg-gradient-to-br from-[#003B73] to-[#001F3F] py-10 px-4 sm:py-16 sm:px-6 lg:px-8">
-      <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-10 lg:p-12">
+     <div className="min-h-screen mt-10 bg-white py-10 px-4 sm:py-16 sm:px-6 lg:px-8">
+      <div className="w-full container mx-auto bg-white p-8 sm:p-12 lg:p-16">
         {/* Header */}
-        <header className="text-right sm:mb-8">
-          <h1 className="text-lg sm:text-xl md:text-5xl font-bold uppercase mb-2 text-gray-700">
-            TERMS & CONDITIONS
+        <header className="text-center mb-12 pb-8 border-b-2 border-[#1e3a8a]">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-[#1e3a8a]">
+            Terms & Conditions
           </h1>
-            <h2 className="text-lg sm:text-xl md:text-2xl font-normal uppercase  text-gray-500">Digilancing Private Limited — Effective Date: {effectiveDate}</h2>
+            <h2 className="text-xl sm:text-2xl text-gray-600">Digilancing Private Limited — Effective Date: {effectiveDate}</h2>
         </header>
 
         {/* Content */}
-        <main className="mt-6 space-y-8 text-gray-800 leading-relaxed text-sm md:text-base lg:text-lg">
+        <main className="space-y-10 text-gray-700 leading-relaxed text-base sm:text-lg">
           {sections.map((section, idx) => (
-            <section key={section.id || idx} className="space-y-3">
-              <h2 className="text-lg sm:text-xl font-semibold text-[#003B73] border-l-4 border-[#003B73] pl-3">
+            <section key={section.id || idx} className="border-l-4 border-[#3b82f6] pl-6">
+              <h2 className="text-xl sm:text-2xl font-semibold text-[#1e3a8a] mb-3">
                 {section.title}
               </h2>
 

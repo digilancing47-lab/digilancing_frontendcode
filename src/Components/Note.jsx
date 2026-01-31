@@ -10,14 +10,19 @@ const LoginNotice = ({ message }) => {
 
   return (
     <motion.div
-      className="max-w-7xl mx-auto px-6 lg:px-12 py-7 mb-10 bg-yellow-50 border-l-4 border-yellow-400 rounded-md shadow-sm"
-      initial={{ opacity: 0, y: 25 }}
-      animate={{ opacity: 1, y: 18 }}
-      transition={{ duration: 0.6 }}
+      className="continer mx-auto px-6 lg:px-12 py-4 bg-white"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <p className="text-m text-yellow-900 font-medium">
-        <span className="font-semibold">Note:</span> {message}
-      </p>
+      <div className="relative bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 rounded-xl p-4 shadow-sm overflow-hidden">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400/10 rounded-full blur-2xl" />
+        <div className="relative flex items-center gap-3 px-3 py-2">
+          <p className="text-gray-700 text-[16px]">
+            <span className="font-semibold text-gray-900">Note:</span> {message}
+          </p>
+        </div>
+      </div>
     </motion.div>
   );
 };

@@ -1,205 +1,208 @@
-import React, { useState, useEffect } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { motion } from "framer-motion";
-import LeftQuote from "../assets/LeftQuote.svg";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
+/* =======================
+   TESTIMONIAL DATA
+======================= */
 const testimonials = [
-  { id: 1, text: "The courses helped me master digital marketing quickly. The content was practical, and I could apply it immediately to my business.", name: "Aarav S.", location: "Mumbai", rating: 4, image: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { id: 2, text: "I loved how structured and easy-to-follow the lessons were. The support team was always ready to help, making learning stress-free.", name: "Divya N.", location: "Bangalore", rating: 5, image: "https://randomuser.me/api/portraits/women/45.jpg" },
-  { id: 3, text: "I got a really good discount on a premium resort. Booking took just a few steps and the final confirmation came quickly. Highly recommend!", name: "Ritika T.", location: "Pune", rating: 5, image: "https://randomuser.me/api/portraits/women/65.jpg" },
-  { id: 4, text: "Amazing platform! I learned so much and the community was super supportive throughout the journey.", name: "Karan P.", location: "Delhi", rating: 5, image: "https://randomuser.me/api/portraits/men/41.jpg" },
-  { id: 5, text: "The instructors are highly knowledgeable and engaging. I felt confident applying my skills at work immediately.", name: "Sneha R.", location: "Hyderabad", rating: 4, image: "https://randomuser.me/api/portraits/women/21.jpg" },
+  {
+    id: 1,
+    type: "text",
+    text: "Before I joined this bundle, I had no idea where to start with freelancing. I had skills but didn't know how to turn them into income.",
+    name: "Radhika Sharma",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    verified: true,
+  },
+  {
+    id: 2,
+    type: "text",
+    text: "I used to think freelancing meant working late nights. Now I don't feel like I'm just hustling.",
+    name: "Rishav Verma",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    verified: true,
+  },
+  {
+    id: 3,
+    type: "text",
+    text: "Most courses just teach. This one got me to take action from day one.",
+    name: "Shivali Chauhan",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/women/65.jpg",
+    verified: true,
+  },
+  {
+    id: 4,
+    type: "video",
+    name: "Nitesh",
+    rating: 4,
+    thumbnail: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
+    verified: true,
+  },
+  {
+    id: 5,
+    type: "text",
+    text: "I was stuck in the learning loop. This bundle helped me break that cycle.",
+    name: "Gargi Sandhu",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/women/21.jpg",
+    verified: true,
+  },
+  {
+    id: 6,
+    type: "video",
+    name: "Kritika",
+    rating: 4,
+    thumbnail: "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg",
+    verified: true,
+  },
 ];
 
-// Framer Motion variants
-const container = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { when: "beforeChildren", staggerChildren: 0.12 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
-const cardVariant = {
-  hidden: { opacity: 0, y: 22, scale: 0.98 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 90, damping: 16 } },
-};
+/* =======================
+   CARD COMPONENTS
+======================= */
+
+const TextCard = ({ t, index }) => (
+  <div 
+    className="group relative bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-lg p-7 flex flex-col justify-between hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 overflow-hidden"
+    style={{ animationDelay: `${index * 100}ms` }}
+  >
+    {/* Gradient Accent */}
+    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/10 to-purple-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+    
+    {/* Quote Icon */}
+    <div className="absolute top-4 left-4 text-6xl text-orange-500/10 font-serif leading-none">"</div>
+    
+    <div className="relative z-10">
+      <p className="text-gray-700 text-[15px] leading-relaxed mb-6 italic">
+        {t.text}
+      </p>
+
+      <div className="flex items-center gap-3">
+        <div className="relative">
+          <img
+            src={t.image}
+            alt={t.name}
+            className="w-12 h-12 rounded-full object-cover ring-2 ring-orange-400/30 group-hover:ring-orange-400 transition-all"
+          />
+          {t.verified && (
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white text-[10px]">
+              ✓
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1">
+          <p className="font-semibold text-sm text-gray-900">{t.name}</p>
+          <div className="flex text-orange-400 text-sm leading-none mt-1">
+            {"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const VideoCard = ({ t, index }) => (
+  <div 
+    className="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100"
+    style={{ animationDelay: `${index * 100}ms` }}
+  >
+    <div className="relative overflow-hidden">
+      <img
+        src={t.thumbnail}
+        alt={t.name}
+        className="w-full h-[260px] object-cover group-hover:scale-110 transition-transform duration-700"
+      />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+      
+      {/* Play Button */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative">
+          <div className="absolute inset-0 bg-orange-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+          <div className="relative w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white text-xl shadow-2xl group-hover:scale-110 transition-transform cursor-pointer">
+            <span className="ml-1">▶</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Duration Badge */}
+      <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">
+        2:34
+      </div>
+    </div>
+
+    <div className="p-5 flex items-center gap-3 bg-gradient-to-br from-white to-gray-50">
+      <div className="flex-1">
+        <p className="font-semibold text-gray-900">{t.name}</p>
+        <div className="flex text-orange-400 text-sm leading-none mt-1">
+          {"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}
+        </div>
+      </div>
+      {t.verified && (
+        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs">
+          ✓
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+/* =======================
+   MAIN SECTION
+======================= */
 
 const Section5 = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(3);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-
-  // responsive itemsPerView
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) setItemsPerView(1);
-      else if (window.innerWidth < 1024) setItemsPerView(2);
-      else setItemsPerView(4);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // clones for seamless loop
-  const extendedTestimonials = [
-    ...testimonials.slice(-itemsPerView),
-    ...testimonials,
-    ...testimonials.slice(0, itemsPerView),
-  ];
-
-  const handleTransitionEnd = () => {
-    let resetIndex = currentIndex;
-    if (currentIndex >= testimonials.length) resetIndex = 0;
-    else if (currentIndex < 0) resetIndex = testimonials.length - 1;
-
-    if (resetIndex !== currentIndex) {
-      setIsTransitioning(false);
-      setCurrentIndex(resetIndex);
-      setTimeout(() => setIsTransitioning(true), 50);
-    }
-  };
-
-  const nextSlide = () => setCurrentIndex((p) => p + 1);
-  const prevSlide = () => setCurrentIndex((p) => p - 1);
-
-  // autoplay (pause on hover)
-  useEffect(() => {
-    if (isHovered) return;
-    const interval = setInterval(nextSlide, 3000);
-    return () => clearInterval(interval);
-  }, [isHovered]);
-
-  // active slide progress (for the bar)
-  const progressDuration = 3; // seconds (matches autoplay)
+  const navigate = useNavigate();
 
   return (
-    <motion.section
-      className="bg-white py-8 md:py-16 font-outfit px-6 lg:px-20"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={container}
-    >
-      {/* Top Heading */}
-      <div className="flex flex-col lg:flex-row max-w-screen-xl mx-auto justify-between items-center mb-12">
-        <div className="w-full">
-          <motion.span
-            className="bg-gradient-to-r from-[#5E4BDA] to-[#2C71A1] text-4xl md:text-4xl md:mb-2 bg-clip-text text-transparent font-medium block"
-            variants={fadeUp}
-          >
-            Testimonials
-          </motion.span>
-          <motion.h2
-            className="text-xl sm:text-2xl mt-2 lg:text-3xl font-semibold"
-            variants={fadeUp}
-          >
-            What Our Students Say About Us
-          </motion.h2>
+    <section className="relative bg-gradient-to-b from-gray-50 via-white to-gray-50 py-20 px-6 lg:px-20 font-outfit overflow-hidden">
+      {/* Background Decorations */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl" />
+      
+      <div className="relative z-10">
+        {/* Heading */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-block mb-4">
+            <span className="bg-gradient-to-r from-orange-500 to-purple-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-lg">
+              ⭐ 500+ Success Stories
+            </span>
+          </div>
+          <h2 className="text-4xl pt-6 lg:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+            What Our Freelancers Say
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Real stories. Real results. From freelancers who turned learning into income.
+          </p>
         </div>
-        <div className="w-full">
-          <motion.p
-            className="text-[#6B6A72] mt-2 md:mt-4 lg:mt-0 max-w-sm ml-auto text-text-left lg:text-right"
-            variants={fadeUp}
+
+        {/* Testimonial Grid - Bento Style */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {testimonials.map((t, index) =>
+            t.type === "video" ? (
+              <VideoCard key={t.id} t={t} index={index} />
+            ) : (
+              <TextCard key={t.id} t={t} index={index} />
+            )
+          )}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-gray-600 mb-4">Join 500+ freelancers building their dream careers</p>
+          <button 
+            onClick={() => navigate('/Register')}
+            className="group relative bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            Our students’ experiences reflect our commitment to their success.
-          </motion.p>
+            <span className="relative z-10">Start Your Journey Today</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-purple-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </button>
         </div>
       </div>
-
-      {/* Slider */}
-      <div
-        className="overflow-hidden relative py-8 md:py-16"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* autoplay progress bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 rounded-full overflow-hidden">
-          <motion.div
-            key={currentIndex} // restart animation per slide
-            initial={{ width: 0 }}
-            animate={{ width: "100%" }}
-            transition={{ duration: progressDuration, ease: "linear" }}
-            className="h-full bg-gradient-to-r from-[#5E4BDA] to-[#2C71A1]"
-          />
-        </div>
-
-        <div
-          className={`flex ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
-          style={{
-            transform: `translateX(-${(currentIndex + itemsPerView) * (100 / itemsPerView)}%)`,
-          }}
-          onTransitionEnd={handleTransitionEnd}
-        >
-          {extendedTestimonials.map((t, index) => (
-            <div
-              key={`${t.id}-${index}`}
-              className="px-2 md:px-4"
-              style={{ flex: `0 0 ${100 / itemsPerView}%` }}
-            >
-              <motion.div
-                className="bg-[#F0F7FF] p-6 py-10 min-h-[300px] rounded-2xl shadow-md flex flex-col relative justify-between"
-                variants={cardVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                whileHover={{ y: -6, rotate: 0.3, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 120, damping: 18 }}
-              >
-                <motion.img
-                  src={LeftQuote}
-                  alt=""
-                  className="absolute w-12 -top-5"
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.p
-                  className="text-gray-700 text-lg mb-6"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.1, duration: 0.4 }}
-                >
-                  {t.text}
-                </motion.p>
-
-                <div className="flex items-center gap-3">
-                  <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">{t.name}</h4>
-                    <p className="text-sm text-gray-500">{t.location}</p>
-                    <div className="flex text-yellow-400 leading-none select-none">
-                      {"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <div className="flex max-w-screen-xl justify-end mx-auto gap-2 pb-5 md:pb-0">
-        <motion.button
-          onClick={prevSlide}
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-16 h-16 flex items-center justify-center cursor-pointer rounded-full bg-[#F0F7FF] text-[#3384EC] hover:bg-[#3384EC] hover:text-white transition"
-        >
-          <FaArrowLeft size={24} />
-        </motion.button>
-        <motion.button
-          onClick={nextSlide}
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-16 h-16 flex items-center justify-center cursor-pointer rounded-full bg-[#F0F7FF] text-[#3384EC] hover:bg-[#3384EC] hover:text-white transition"
-        >
-          <FaArrowRight size={24} />
-        </motion.button>
-      </div>
-    </motion.section>
+    </section>
   );
 };
 
