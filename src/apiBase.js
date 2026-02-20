@@ -1,1 +1,1 @@
-export const API_BASE = "https://digilancingbackend-814385555133.asia-south1.run.app";
+export const API_BASE = "https://digilancingbackend-i5r2z2seiq-el.a.run.app";
