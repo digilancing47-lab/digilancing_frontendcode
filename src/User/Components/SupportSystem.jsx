@@ -19,7 +19,7 @@ const SupportSystem = () => {
             </div>
             <div>
               <p className="text-sm text-gray-600">We are here for you</p>
-              <p className="font-semibold text-lg">+91 9625136861</p>
+              <p className="font-semibold text-lg">+91 81214 63194</p>
               <p className="text-xs text-gray-500">Monday - Sunday 9:00AM - 05:00PM</p>
             </div>
           </div>
@@ -31,7 +31,7 @@ const SupportSystem = () => {
             </div>
             <div>
               <p className="text-sm text-gray-600">Let’s Connect On</p>
-              <p className="font-semibold text-lg">+91 9310246027</p>
+              <p className="font-semibold text-lg">+91 80081 09303</p>
               <p className="text-xs text-gray-500">Monday - Sunday 9:00AM - 05:00PM</p>
             </div>
           </div>
