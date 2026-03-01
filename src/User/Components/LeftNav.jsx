@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Headset, Package, Home, ArrowUpCircle, Award, Network, LogOut, X } from 'lucide-react';
+import { LayoutDashboard, Headset, Package, Home, ArrowUpCircle, Award, Network, LogOut, X, Briefcase } from 'lucide-react';
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +18,8 @@ const LeftNav = () => {
         return 'affiliate';
       case '/Upgrade':
         return 'upgrade';
+      case '/Careers':
+        return 'careers';
       case '/Support':
         return 'support';
       case '/LogOut':
@@ -160,10 +162,19 @@ const LeftNav = () => {
               <li className="md-1 md:mb-2">
                 <Link
                   to="/Upgrade"
-                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'support' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
+                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'upgrade' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
                 >
                   <ArrowUpCircle className="w-5 h-5 mr-3" />
                   Upgrade Package
+                </Link>
+              </li>
+              <li className="md-1 md:mb-2">
+                <Link
+                  to="/Careers"
+                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'careers' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
+                >
+                  <Briefcase className="w-5 h-5 mr-3" />
+                  Careers
                 </Link>
               </li>
             </ul>
