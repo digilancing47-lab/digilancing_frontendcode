@@ -18,8 +18,8 @@ const CareersMain = () => {
     const fetchJobs = async () => {
       try {
         const [recommendedRes, allJobsRes] = await Promise.all([
-          fetch('http://localhost:8080/api/v_1/linkedin-jobs/recommended'),
-          fetch(`http://localhost:8080/api/v_1/linkedin-jobs/list?page=${listPage}&limit=10`)
+          fetch(`${API_BASE}/api/v_1/linkedin-jobs/recommended`),
+          fetch(`${API_BASE}/api/v_1/linkedin-jobs/list?page=${listPage}&limit=10`)
         ]);
         const recommendedData = await recommendedRes.json();
         const allJobsData = await allJobsRes.json();
@@ -59,29 +59,37 @@ const CareersMain = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pt-28 pb-20">
+        <div className="max-w-7xl mx-auto px-4">
           <motion.div 
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Join Our Team
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+              Career Opportunities
             </h1>
-            <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-              Discover exciting career opportunities and grow with us
+            <p className="text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+              Join leading companies and take your career to the next level
             </p>
-            
-            <div className="max-w-2xl mx-auto">
+                   {/* Marketing Tools Image */}
+            <div className="max-w-5xl mx-auto">
+              <img 
+                src="/Marketingtools.avif" 
+                alt="Marketing Tools" 
+                className="w-full h-[300px] object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+            <div className="max-w-2xl mx-auto mt-10">
+              
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search jobs..."
-                  className="w-full pl-12 pr-4 py-3 bg-white rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  placeholder="Search by job title or keyword..."
+                  className="w-full pl-14 pr-6 py-4 bg-white/95 backdrop-blur rounded-xl shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
             </div>
@@ -89,17 +97,20 @@ const CareersMain = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Recommendations Carousel */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Recommended Jobs</h2>
+        <div className="mb-16">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">Recommended for You</h2>
+              <p className="text-slate-600">Curated opportunities matching your profile</p>
+            </div>
             <div className="flex gap-2">
-              <button onClick={() => setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)} className="p-2 rounded-lg bg-white shadow hover:bg-gray-50">
-                <ChevronLeft className="w-5 h-5" />
+              <button onClick={() => setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)} className="p-3 rounded-xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                <ChevronLeft className="w-5 h-5 text-slate-700" />
               </button>
-              <button onClick={() => setCurrentPage((prev) => (prev + 1) % totalPages)} className="p-2 rounded-lg bg-white shadow hover:bg-gray-50">
-                <ChevronRight className="w-5 h-5" />
+              <button onClick={() => setCurrentPage((prev) => (prev + 1) % totalPages)} className="p-3 rounded-xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                <ChevronRight className="w-5 h-5 text-slate-700" />
               </button>
             </div>
           </div>
@@ -108,27 +119,33 @@ const CareersMain = () => {
             <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
               {Array.from({ length: totalPages }).map((_, pageIdx) => (
                 <div key={pageIdx} className="min-w-full flex-shrink-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {(recommendedJobs || []).slice(pageIdx * JOBS_PER_PAGE, (pageIdx + 1) * JOBS_PER_PAGE).map((job) => (
-                      <div key={job.id} className="bg-white rounded-lg p-4 shadow hover:shadow-lg transition">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <Briefcase className="w-5 h-5 text-blue-600" />
-                          </div>
-                          <h3 className="font-semibold text-sm line-clamp-1">{job.title}</h3>
-                        </div>
-                        <div className="space-y-1 text-xs text-gray-600 mb-3">
-                          <div className="flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            <span>{job.location || job.company_address?.addressLocality || 'Remote'}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>{job.experience_level || 'Full-time'}</span>
+                      <div key={job.id} className="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                        <div className="flex items-start gap-4 mb-5">
+                          {job.company_logo ? (
+                            <img src={job.company_logo} alt={job.company_name} className="w-16 h-16 rounded-xl object-contain bg-slate-50 p-2 border border-slate-100" />
+                          ) : (
+                            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                              <Briefcase className="w-8 h-8 text-white" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-base line-clamp-2 mb-2 text-slate-900 group-hover:text-blue-600 transition-colors">{job.title}</h3>
+                            <p className="text-sm text-slate-600 line-clamp-1 font-semibold">{job.company_name}</p>
                           </div>
                         </div>
-                        <p className="text-green-600 font-semibold text-sm mb-3">{job.salary || 'Competitive'}</p>
-              <button onClick={(e) => { e.stopPropagation(); window.open(job.apply_url || job.link, '_blank'); }} className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700">Apply Now</button>
+                        <div className="space-y-3 mb-5 pb-5 border-b border-slate-100">
+                          <div className="flex items-center gap-2 text-sm text-slate-600">
+                            <MapPin className="w-4 h-4 flex-shrink-0 text-slate-400" />
+                            <span className="line-clamp-1">{job.location || job.company_address?.addressLocality || 'Remote'}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-slate-600">
+                            <Clock className="w-4 h-4 flex-shrink-0 text-slate-400" />
+                            <span>{job.experience_level !== 'not-specified' ? job.experience_level : 'Full-time'}</span>
+                          </div>
+                        </div>
+                        <button onClick={(e) => { e.stopPropagation(); window.open(job.apply_url || job.link, '_blank'); }} className="w-full px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-xs font-semibold hover:from-blue-700 hover:to-blue-800 transition-all">Apply Now</button>
                       </div>
                     ))}
                   </div>
@@ -139,56 +156,65 @@ const CareersMain = () => {
         </div>
         {/* All Jobs */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">All Openings</h2>
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">All Openings</h2>
+              <p className="text-slate-600">Explore all available positions</p>
+            </div>
             <div className="flex gap-3">
-              <select value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)} className="px-4 py-2 bg-white rounded-lg border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)} className="px-5 py-3 bg-white rounded-xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-slate-700">
                 {locations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
               </select>
-              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-4 py-2 bg-white rounded-lg border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-5 py-3 bg-white rounded-xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-slate-700">
                 {types.map(type => <option key={type} value={type}>{type}</option>)}
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
-              <div key={job.id} className="bg-white rounded-lg p-4 shadow hover:shadow-lg transition">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h3 className="font-semibold text-sm line-clamp-1">{job.title}</h3>
-                </div>
-                <div className="space-y-1 text-xs text-gray-600 mb-3">
-                  <div className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3" />
-                    <span>{job.location || job.company_address?.addressLocality || 'Remote'}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{job.experience_level || 'Full-time'}</span>
+              <div key={job.id} className="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                <div className="flex items-start gap-4 mb-5">
+                  {job.company_logo ? (
+                    <img src={job.company_logo} alt={job.company_name} className="w-16 h-16 rounded-xl object-contain bg-slate-50 p-2 border border-slate-100" />
+                  ) : (
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                      <Briefcase className="w-8 h-8 text-white" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-base line-clamp-2 mb-2 text-slate-900 group-hover:text-blue-600 transition-colors">{job.title}</h3>
+                    <p className="text-sm text-slate-600 line-clamp-1 font-semibold">{job.company_name}</p>
                   </div>
                 </div>
-                <p className="text-green-600 font-semibold text-sm mb-3">{job.salary || 'Competitive'}</p>
-                <button onClick={() => window.open(job.apply_url || job.link, '_blank')} className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700">Apply Now</button>
+                <div className="space-y-3 mb-5 pb-5 border-b border-slate-100">
+                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <MapPin className="w-4 h-4 flex-shrink-0 text-slate-400" />
+                    <span className="line-clamp-1">{job.location || job.company_address?.addressLocality || 'Remote'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <Clock className="w-4 h-4 flex-shrink-0 text-slate-400" />
+                    <span>{job.experience_level !== 'not-specified' ? job.experience_level : 'Full-time'}</span>
+                  </div>
+                </div>
+                <button onClick={() => window.open(job.apply_url || job.link, '_blank')} className="w-full px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-xs font-semibold hover:from-blue-700 hover:to-blue-800 transition-all">Apply Now</button>
               </div>
             ))}
           </div>
           
           {/* Pagination */}
-          <div className="flex items-center justify-center gap-2 mt-6">
+          <div className="flex items-center justify-center gap-3 mt-8">
             <button 
               onClick={() => setListPage(p => Math.max(1, p - 1))} 
               disabled={listPage === 1}
-              className="px-4 py-2 rounded-lg bg-white shadow hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed font-medium text-slate-700 transition-all"
             >
               Previous
             </button>
-            <span className="px-4 py-2 text-sm font-medium">Page {listPage} of {totalListPages}</span>
+            <span className="px-5 py-2.5 text-sm font-semibold text-slate-700">Page {listPage} of {totalListPages}</span>
             <button 
               onClick={() => setListPage(p => Math.min(totalListPages, p + 1))} 
               disabled={listPage === totalListPages}
-              className="px-4 py-2 rounded-lg bg-white shadow hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-blue-500 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed font-medium text-slate-700 transition-all"
             >
               Next
             </button>
