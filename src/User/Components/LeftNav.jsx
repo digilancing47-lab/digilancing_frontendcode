@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Headset, Package, Home, ArrowUpCircle, Award, Network, LogOut, X, Briefcase } from 'lucide-react';
+import CustomAlert from './CustomAlert';
 
 const LeftNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const Navigate = useNavigate();
   // Using useLocation to track the current path
   const location = useLocation();
@@ -50,13 +52,38 @@ const LeftNav = () => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  const handleLogoutClick = () => {
+    setShowLogoutAlert(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutAlert(false);
+    sessionStorage.clear();
+    Navigate("/");
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutAlert(false);
+  };
+
+  const navItems = [
+    { to: '/DashBoard', label: 'Dashboard', icon: LayoutDashboard, key: 'DashBoard', fillIcon: true },
+    { to: '/Courses', label: 'Courses', icon: Package, key: 'courses' },
+    { to: '/Certificates', label: 'Certificates', icon: Award, key: 'certificates', fillIcon: true },
+    { to: '/AffiliatePanel', label: 'Affiliate Panel', icon: Network, key: 'affiliate' },
+    { to: '/Contact', label: 'Support', icon: Headset, key: 'support' },
+    { to: '/Upgrade', label: 'Upgrade Package', icon: ArrowUpCircle, key: 'upgrade' },
+    { to: '/Careers', label: 'Careers', icon: Briefcase, key: 'careers' }
+  ];
+
   return (
     <>
       {/* Toggle Button for Sidebar */}
-      <button
+     
+  <button
         onClick={toggleSidebar}
         type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="inline-flex w-fit items-center p-2 mt-2 ms-3 text-sm text-white bg-gradient-to-r from-[#3b82f6] via-[#3b82f6] to-[#3b82f6] rounded-lg lg:hidden hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         aria-controls="sidebar"
       >
         <span className="sr-only">Open sidebar</span>
@@ -75,7 +102,6 @@ const LeftNav = () => {
         </svg>
       </button>
 
-
       <aside
         id="sidebar"
         className={`fixed top-0 left-0 z-40 h-screen transition-transform transform
@@ -88,7 +114,7 @@ const LeftNav = () => {
       >
 
 
-        <div className="h-full bg-[#F3F5F2] shadow-xl flex flex-col p-2 lg:rounded-3xl rounded-none lg:w-72 lg:h-full lg:relative lg:flex-shrink-0 transition-all duration-300 ease-in-out overflow-auto">
+        <div className="h-full bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] shadow-xl flex flex-col p-2 lg:rounded-3xl rounded-none lg:w-72 lg:h-full lg:relative lg:flex-shrink-0 transition-all duration-300 ease-in-out overflow-auto">
           {/* Logo Section */}
           <div className="flex items-center justify-between pr-3 pt-3 h-16">
            <span
@@ -97,15 +123,15 @@ const LeftNav = () => {
 >
  
   <img
-    src="/Black.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
+    src="/white.svg"   // 👉 replace this with your actual path (e.g., /assets/white_logo.png)
     alt="Digilancing Logo"
-    className="w-34 h-7 object-contain"
+    className="w-34 ml-2 h-7 object-contain"
   />
 </span>
 
             <button
               onClick={() => setIsOpen(false)} // Close the sidebar on clicking "X"
-              className="text-gray-500 hover:text-gray-700 lg:hidden"
+              className="text-white lg:hidden"
             >
               <X className="w-6 h-6" />
             </button>
@@ -114,80 +140,42 @@ const LeftNav = () => {
           {/* Navigation Links */}
           <div className="flex-grow mt-4">
             <ul>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/DashBoard"
-                  className={`flex items-center text-[16px]  py-3 px-3 font-semibold  ${activeMenu === 'DashBoard' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <LayoutDashboard className="w-5 h-5 mr-3 fill-[#002B54]" />
-                  Dashboard
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/Courses"
-                  className={`flex items-center text-[16px] py-3 px-3 font-semibold  ${activeMenu === 'courses' ? 'border-l-4 border-[#003B73] text-[#003B73] ' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <Package className="w-5 h-5 mr-3" />
-                  Courses
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/Certificates"
-                  className={`flex items-center text-[16px]  py-3 px-3 font-semibold  ${activeMenu === 'certificates' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <Award className="w-5 h-5 mr-3 fill-[#002B54]" />
-                  Certificates
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/AffiliatePanel"
-                  className={`flex items-center text-[16px]  py-3 px-3 font-semibold p-2  ${activeMenu === 'affiliate' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <Network className="w-5 h-5 mr-3" />
-                  Affiliate Panel
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/Contact"
-                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'support' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <Headset className="w-5 h-5 mr-3" />
-                  Support
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/Upgrade"
-                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'upgrade' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <ArrowUpCircle className="w-5 h-5 mr-3" />
-                  Upgrade Package
-                </Link>
-              </li>
-              <li className="md-1 md:mb-2">
-                <Link
-                  to="/Careers"
-                  className={`flex items-center text-[16px] py-3 px-3 font-semibold ${activeMenu === 'careers' ? 'border-l-4 border-[#003B73] text-[#003B73]' : 'text-gray-700 hover:bg-[#003B73] hover:rounded-md hover:text-white'}`}
-                >
-                  <Briefcase className="w-5 h-5 mr-3" />
-                  Careers
-                </Link>
-              </li>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.key} className="md-1 md:mb-2">
+                    <Link
+                      to={item.to}
+                      className={`flex items-center text-[16px] py-3 px-3 font-semibold transition-all duration-300 ${activeMenu === item.key ? 'bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl shadow-lg' : 'text-white hover:bg-white/5 rounded-md'}`}
+                    >
+                      <Icon className={`w-5 h-5 mr-3 ${item.fillIcon ? 'fill-[#3b82f6]' : ''}`} />
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
+            
+            {/* Logout Button */}
+            <button
+              onClick={handleLogoutClick}
+              className={`flex items-center text-[16px] py-3 px-3 font-semibold transition-all duration-300 ${activeMenu === 'logout' ? 'bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl shadow-lg' : 'text-white hover:bg-white/5 rounded-md'} w-full mt-2`}
+            >
+              <LogOut className="w-5 h-5 mr-3" />
+              Logout
+            </button>
           </div>
-          <div className="relative bg-[#dce8ff] rounded-3xl mt-12 p-6 sm:p-8 md:p-10 text-black w-full flex flex-col items-center justify-center overflow-visible">
+          <div 
+            onClick={() => Navigate('/Careers')} 
+            className="relative bg-white/10 backdrop-blur-sm border border-white/30 rounded-3xl mt-12 p-6 sm:p-8 md:p-10 text-white w-full flex flex-col items-center justify-center overflow-visible shadow-lg cursor-pointer hover:bg-white/15 transition-all duration-300">
 
             {/* Top circle (arrow) */}
-            <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#3976FB] flex items-center justify-center rounded-full z-10 shadow-lg'>
-              <h1 className='text-base sm:text-lg md:text-xl text-white'>→</h1>
+            <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#06b6d4] border-[0.5px] border-white backdrop-blur-sm flex items-center justify-center rounded-full z-10 shadow-lg'>
+              <h1 className='text-base sm:text-lg md:text-2xl text-white'>→</h1>
             </div>
 
             {/* Title */}
-            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 text-center z-0 whitespace-nowrap">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 text-center z-0 whitespace-nowrap text-white">
               Freelance career!
             </h2>
 
@@ -198,7 +186,6 @@ const LeftNav = () => {
                 src='/Freelance.png'
                 alt='Freelance career'
                 className='w-4/5 sm:w-3/4 md:w-2/3 lg:w-1/2 h-auto object-contain'
-                onClick={() => Navigate('/Freelancer')}
               />
             </div>
           </div>
@@ -219,6 +206,15 @@ const LeftNav = () => {
           onClick={toggleSidebar}
         ></div>
       )}
+      
+      {/* Custom Alert */}
+      <CustomAlert
+        isOpen={showLogoutAlert}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+        title="Confirm Logout"
+        message="Are you sure you want to logout? You will need to sign in again to access your account."
+      />
     </>
   );
 };

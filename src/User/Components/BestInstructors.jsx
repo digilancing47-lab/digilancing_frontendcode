@@ -5,6 +5,7 @@ const BestInstructors = ({ topInstructors = [] }) => {
   const Navigate = useNavigate()
   const [showAll, setShowAll] = useState(false);
   const instructorsToShow = showAll ? topInstructors : topInstructors.slice(0, 3);
+  const isLoading = !topInstructors || topInstructors.length === 0;
 
   return (
     <div className=" max-w-screen-xl ml-0 mt-8">
@@ -23,32 +24,48 @@ const BestInstructors = ({ topInstructors = [] }) => {
 
       {/* Instructor Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {instructorsToShow.map((instructor) => (
-          <div
-            key={instructor.id}
-            className="flex items-center justify-between p-2 border border-[#D9D9D9] rounded-xl shadow-sm bg-white"
-          >
-            {/* Profile Info */}
-            <div className="flex items-center">
-              <img
-                src={ '/ArunKumar.jpg' || instructor.profile_url}
-                alt={instructor.name}
-                className="w-17 h-17 rounded-xl object-cover mr-4"
-              />
-              <div>
-                <h3 className="font-semibold text-lg">{instructor.name}</h3>
-                <p className="text-sm text-gray-500">
-                  {instructor.total_courses} {instructor.total_courses > 1 ? 'Courses' : 'Course'}
-                </p>
+        {isLoading ? (
+          // Skeleton Loader
+          Array(3).fill(0).map((_, index) => (
+            <div key={index} className="flex items-center justify-between p-2 border border-[#D9D9D9] rounded-xl shadow-sm bg-white">
+              <div className="flex items-center">
+                <div className="w-17 h-17 rounded-xl bg-gray-200 animate-pulse mr-4"></div>
+                <div>
+                  <div className="h-5 bg-gray-200 rounded w-32 mb-2 animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+                </div>
               </div>
+              <div className="h-9 bg-gray-200 rounded-lg w-28 animate-pulse"></div>
             </div>
+          ))
+        ) : (
+          instructorsToShow.map((instructor) => (
+            <div
+              key={instructor.id}
+              className="flex items-center justify-between p-2 border border-[#D9D9D9] rounded-xl shadow-sm bg-white"
+            >
+              {/* Profile Info */}
+              <div className="flex items-center">
+                <img
+                  src={ '/ArunKumar.jpg' || instructor.profile_url}
+                  alt={instructor.name}
+                  className="w-17 h-17 rounded-xl object-cover mr-4"
+                />
+                <div>
+                  <h3 className="font-semibold text-lg">{instructor.name}</h3>
+                  <p className="text-sm text-gray-500">
+                    {instructor.total_courses} {instructor.total_courses > 1 ? 'Courses' : 'Course'}
+                  </p>
+                </div>
+              </div>
 
-            {/* Course Button */}
-            <button onClick={()=>{Navigate('/courses')}} className=" text-blue-400 scale-105 cursor-pointer underline underline-offset-4 text-sm font-semibold py-2 px-6 rounded-lg ">
-              View Courses
-            </button>
-          </div>
-        ))}
+              {/* Course Button */}
+              <button onClick={()=>{Navigate('/courses')}} className=" text-blue-400 scale-105 cursor-pointer underline underline-offset-4 text-sm font-semibold py-2 px-6 rounded-lg ">
+                View Courses
+              </button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
