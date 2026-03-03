@@ -15,8 +15,6 @@ import Contact from './Views/Contact'
 import ScrollToTop from './Components/ScrollToTop'
 import AboutUs from './Views/AbouUs'
 import ForgotPassword from './Views/ForgotPassword'
-import VerifyOtp from './Views/VerifyOtp'
-import ResetPassword from './Views/ResetPassword'
 import DashBoard from './User/Views/DashBoard'
 import AffiliatePanel from './User/Views/AffiliatePanel'
 import Offers from './User/Views/Offers'
@@ -85,8 +83,6 @@ function App() {
         <Route path="/AboutUs" element={<><Header /><AboutUs /></>} />
         <Route path="/Contact" element={<><Header /><Contact /></>} />
         <Route path="/ForgotPassword" element={<><Header /><ForgotPassword /></>} />
-        <Route path="/VerifyOtp" element={<><Header /><VerifyOtp /></>} />
-        <Route path="/ResetPassword" element={<><Header /><ResetPassword /></>} />
 
         <Route path="/ShareReferral/:referralCode" element={<ShareReferral />} />
 

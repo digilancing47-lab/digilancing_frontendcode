@@ -22,9 +22,9 @@ const AboutUs = () => {
 
     return (
         <>
-        <div className="about-page min-h-screen cursor-default bg-[#002B54]">
+        <div className="about-page min-h-screen cursor-default bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-r from-[#002B54] to-[#003E7F]">
+            <div className="relative bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6]">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 py-28 grid md:grid-cols-2 gap-10 items-center">
                     <motion.div
                         initial={fadeIn.initial}
@@ -67,21 +67,6 @@ const AboutUs = () => {
                         />
                     </motion.div>
                 </div>
-
-                {/* Wave Divider */}
-                <div className="absolute bottom-0 left-0 right-0">
-                    <svg
-                        className="w-full h-16"
-                        viewBox="0 0 1440 320"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fill="#002B54"
-                            fillOpacity="1"
-                            d="M0,192L48,176C96,160,192,128,288,106.7C384,85,480,75,576,96C672,117,768,171,864,186.7C960,203,1056,181,1152,154.7C1248,128,1344,96,1392,80L1440,64V320H0Z"
-                        ></path>
-                    </svg>
-                </div>
             </div>
 
             {/* Founders Section */}
@@ -94,18 +79,20 @@ const AboutUs = () => {
                 <div className="grid md:grid-cols-2 gap-12">
                   
                     <motion.div
-                        className="bg-white/5 rounded-2xl p-8 shadow-lg hover:bg-white/10 transition-all"
+                        className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-3 shadow-lg hover:bg-white/15 transition-all"
                         initial={fadeIn.initial}
                         animate={fadeIn.animate}
                         transition={fadeIn.transition}
                     >
                         <img
-                            src={ArunKumar}
+                          
+                             src={'https://storage.googleapis.com/digilancing_storage/ArunKumar%201.avif'}
                             alt=" "
-                            className="rounded-xl mb-6"
+                            className="rounded-3xl mb-6"
                             loading="lazy"
                         />
-                        <h3 className="text-2xl font-bold text-white mb-1">
+                        <div className="px-4 pb-3">
+                            <h3 className="text-2xl font-bold text-white mb-1">
                             Arun Kumar 
                         </h3>
                         <p className="text-white font-medium mb-4">Founder & CEO</p>
@@ -116,29 +103,32 @@ const AboutUs = () => {
                             His mission is to shift education from theory to execution,
                             equipping learners with real skills for real income.
                         </p>
+                        </div>
                     </motion.div>
 
         
                     <motion.div
-                        className="bg-white/5 rounded-2xl p-8 shadow-lg hover:bg-white/10 transition-all"
+                        className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-3 shadow-lg hover:bg-white/15 transition-all"
                         initial={fadeIn.initial}
                         animate={fadeIn.animate}
                         transition={{ delay: 0.2, duration: 0.6 }}
                     >
                         <img
-                            src={AkshayKumar}
+                             src={'https://storage.googleapis.com/digilancing_storage/AkshayKumar%201.avif'}
                             alt=""
-                            className="rounded-xl mb-6"
+                            className="rounded-3xl mb-6"
                             loading="lazy"
                         />
-                        <h3 className="text-2xl font-bold text-white mb-1">Akshay Kumar</h3>
-                        <p className="text-white font-medium mb-4">Co-Founder</p>
-                        <p className="text-gray-300 text-justify leading-relaxed text-sm">
-                            Akshay Kumar, with a background at IDBI Bank, brings financial expertise,
-                            sales acumen, and administration to DIGILANCING.
-                            he believes education should not end with information,
-                            but begin with action — skills that generate sustainable income.
-                        </p>
+                         <div className="px-4 pb-3">
+                             <h3 className="text-2xl font-bold text-white mb-1">Akshay Kumar</h3>
+                             <p className="text-white font-medium mb-4">Co-Founder</p>
+                             <p className="text-gray-300 text-justify leading-relaxed text-sm">
+                                 Akshay Kumar, with a background at IDBI Bank, brings financial expertise,
+                                 sales acumen, and administration to DIGILANCING.
+                                 he believes education should not end with information,
+                                 but begin with action — skills that generate sustainable income.
+                             </p>
+                         </div>
                     </motion.div>
                 </div>
             </div>
@@ -150,7 +140,7 @@ const AboutUs = () => {
                         What Makes <span className="bg-gradient-to-r from-[#0078FF] to-[#ffffff] bg-clip-text text-transparent">DIGILANCING</span> Different?
                     </h2>
 
-                    <div className="grid md:grid-cols-3 gap-10">
+                    <div className="grid md:grid-cols-3 gap-5">
                         {[
                             {
                                 icon: <Users className="w-10 h-10 text-[#ffffff] mx-auto mb-4" />,
@@ -170,7 +160,7 @@ const AboutUs = () => {
                         ].map((item, i) => (
                             <div
                                 key={i}
-                                className="bg-white/5 rounded-xl p-6 hover:bg-white/10 transition-all"
+                                className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 hover:bg-white/15 transition-all"
                             >
                                 {item.icon}
                                 <h3 className="text-xl font-semibold text-white mb-3">

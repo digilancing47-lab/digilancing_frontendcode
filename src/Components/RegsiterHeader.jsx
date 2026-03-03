@@ -1,53 +1,15 @@
 import React from 'react';
 import { FaCheck, FaGraduationCap, FaUserCircle, FaCreditCard } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  StepConnector,
-  stepConnectorClasses,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-// White connector line
-const WhiteConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22,
-  },
-  [`& .${stepConnectorClasses.line}`]: {
-    borderColor: '#fff',   // White line
-    borderTopWidth: 2,
-    borderRadius: 1,
-  },
-}));
-
-// Custom step icon component
-const StepIconComponent = ({ active, completed, icon }) => {
-  const icons = {
-    1: <FaGraduationCap className="text-lg sm:text-xl" />,
-    2: <FaUserCircle className="text-lg sm:text-xl" />,
-    3: <FaCreditCard className="text-lg sm:text-xl" />,
-  };
-
-  return (
-    <div
-      className={`w-10 h-10 flex items-center justify-center rounded-lg transition
-        ${completed || active
-          ? 'bg-white text-[#002B54]' // Active/completed step
-          : 'bg-transparent border-2 border-white text-white' // Pending step
-        }`}
-    >
-      {completed ? <FaCheck className="text-[#002B54] text-lg sm:text-xl" /> : icons[icon]}
-    </div>
-  );
-};
 
 const RegisterHeader = ({ step, setStep }) => {
   const navigate = useNavigate();
   const authToken = sessionStorage.getItem('authToken');
 
-  const steps = ['Course Selection', 'Sign up to Account', 'Payment'];
+  const steps = [
+    { label: 'Course Selection', icon: FaGraduationCap },
+    { label: 'Sign up to Account', icon: FaUserCircle }
+  ];
 
   const handleStepClick = (targetStep) => {
   if (targetStep === 1) {
@@ -85,24 +47,62 @@ const RegisterHeader = ({ step, setStep }) => {
         )}
       </div>
 
-      {/* Stepper aligned left on large screens */}
-      <div className="flex justify-center lg:justify-start lg:ml-[-90px]">
-        <Stepper
-          alternativeLabel
-          activeStep={step - 1}
-          connector={<WhiteConnector />}
-          className="text-white w-full max-w-4xl"
-        >
-          {steps.map((label, index) => (
-              <Step key={label} onClick={() => handleStepClick(index + 1)}>
-              <StepLabel
-                StepIconComponent={(props) => <StepIconComponent {...props} icon={index + 1} />}
-              >
-                <span className="text-xs sm:text-sm text-white">{label}</span>
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+      {/* Stepper - Circular Glassy Design */}
+      <div className="flex justify-center lg:justify-start items-start gap-4 flex-wrap">
+        {steps.map((stepItem, index) => {
+          const stepNumber = index + 1;
+          const isActive = step === stepNumber;
+          const isCompleted = step > stepNumber;
+          const Icon = stepItem.icon;
+
+          return (
+            <React.Fragment key={stepNumber}>
+              <div className={`flex items-start gap-4 ${isActive ? 'block' : 'hidden sm:flex'}`}>
+                <div
+                  onClick={() => handleStepClick(stepNumber)}
+                  className="flex flex-col items-center gap-2 cursor-pointer group"
+                >
+                  {/* Circle */}
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isCompleted
+                        ? 'bg-white/20 backdrop-blur-md border-2 border-white shadow-lg'
+                        : isActive
+                        ? 'bg-gradient-to-br from-[#3b82f6] to-[#06b6d4] border-2 border-white shadow-xl scale-110'
+                        : 'bg-white/10 backdrop-blur-sm border-2 border-white/50'
+                    } group-hover:scale-105`}
+                  >
+                    {isCompleted ? (
+                      <FaCheck className="text-white text-sm sm:text-base" />
+                    ) : (
+                      <Icon className={`text-sm sm:text-base ${isActive ? 'text-white' : 'text-white/70'}`} />
+                    )}
+                  </div>
+                  
+                  {/* Label */}
+                  <span
+                    className={`text-xs sm:text-sm text-center max-w-[100px] min-h-[32px] flex items-center justify-center transition-all ${
+                      isActive ? 'text-white font-semibold' : 'text-white/80'
+                    }`}
+                  >
+                    {stepItem.label}
+                  </span>
+                </div>
+
+                {/* Connector Line */}
+                {index < steps.length - 1 && (
+                  <div className="hidden sm:flex items-center pt-5">
+                    <div
+                      className={`h-0.5 w-12 lg:w-20 transition-all duration-300 ${
+                        step > stepNumber ? 'bg-white' : 'bg-white/30'
+                      }`}
+                    />
+                  </div>
+                )}
+              </div>
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );

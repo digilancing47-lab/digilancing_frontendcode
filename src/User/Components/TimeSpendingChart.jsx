@@ -16,7 +16,7 @@ const TimeSpendingChart = () => {
         datasets: [
             {
                 data: [4, 6, 7, 9, 4, 8, 6],
-                backgroundColor: '#B892FF',
+                backgroundColor: '#3b82f6',
                 borderRadius: 10, 
                 barThickness: 15,
             },
@@ -55,7 +55,7 @@ const TimeSpendingChart = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-4xl cursor-default border border-[#949191] w-full  mx-auto mt-5">
+        <div className="bg-white p-6 rounded-4xl border border-black/10 cursor-default border border-[#949191] w-full  mx-auto mt-5">
             <div className="flex justify-between items-start mb-2">
                 <div>
                     <h2 className="text-base font-semibold text-black">Focus Time</h2>

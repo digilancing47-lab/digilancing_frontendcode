@@ -199,11 +199,12 @@ const handleWatchClick = async (course) => {
           {filteredCourses.map((course, index) => (
             <motion.div
               key={course.course_code}
-              className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white relative"
+              className="w-full flex flex-col border border-black/10 rounded-2xl overflow-hidden backdrop-blur-md bg-white/30 shadow-lg relative cursor-pointer"
               whileHover={{
                 scale: 1.03,
                 boxShadow: "0px 10px 20px rgba(0,0,0,0.15)",
               }}
+              onClick={() => handleWatchClick(course)}
             >
               <div className="relative">
                 {course.lock && (
@@ -213,6 +214,15 @@ const handleWatchClick = async (course) => {
                       className="w-16 h-16"
                       alt="Upgrade to unlock"
                     />
+                  </div>
+                )}
+                {!course.lock && (
+                  <div className="absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-16 h-16 rounded-full backdrop-blur-md bg-blue-100 border border-blue-200 flex items-center justify-center hover:bg-white/50 transition shadow-lg">
+                      <svg className="w-8 h-8 text-blue-400 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
                   </div>
                 )}
                 <div
@@ -231,64 +241,67 @@ const handleWatchClick = async (course) => {
                 </div>
               </div>
 
-              <div className="flex flex-col flex-grow bg-white p-4">
-                <h3 className="font-semibold text-[12px] md:text-[16px] line-clamp-2">
+              <div className="flex flex-col flex-grow backdrop-blur-sm bg-white/40 p-4">
+                <h3 className="font-semibold text-[12px] md:text-[16px] line-clamp-2 text-gray-900">
                   {course.title}
                 </h3>
+                <p className="text-xs text-gray-700 mt-2 line-clamp-2">
+                  {course.description}
+                </p>
                 <div className="flex-grow" />
                 <div className="flex flex-wrap gap-2">
-                  <div className="flex items-center px-2 py-1 mt-3 rounded-full border border-[#D7D7D7] w-fit gap-2">
+                  <div className="flex items-center px-2  py-1 mt-3 rounded-full border border-blue-400/40 backdrop-blur-sm bg-white/30 w-fit gap-2">
                     <img src={timing_icon} className="w-5" alt="duration" />
-                    <p className="text-[12px] font-medium text-gray-500">
-                      {course.duration || "N/A"}
+                    <p className="text-[12px] font-medium text-gray-700">
+                      {(() => {
+                        if (!course.duration) return 'N/A';
+                        
+                        // Check if duration is already in "X hrs Y mins" format
+                        if (course.duration.includes('hrs') || course.duration.includes('min')) {
+                          return course.duration;
+                        }
+                        
+                        // Parse HH:MM:SS format
+                        const parts = course.duration.split(':');
+                        if (parts.length !== 3) return course.duration;
+                        
+                        const [hours, minutes] = parts.map(Number);
+                        if (isNaN(hours) || isNaN(minutes)) return course.duration;
+                        
+                        const totalMinutes = hours * 60 + minutes;
+                        const hrs = Math.floor(totalMinutes / 60);
+                        const mins = totalMinutes % 60;
+                        return `${hrs} hrs ${mins} mins`;
+                      })()}
                     </p>
                   </div>
-                  <div className="flex items-center px-2 py-1 mt-3 rounded-full border border-[#D7D7D7] w-fit gap-2">
+                  <div className="flex items-center px-2 py-1 mt-3 rounded-full  border border-blue-400/40  backdrop-blur-sm bg-white/30 w-fit gap-2">
                     <img src={Class_icon} className="w-5" alt="lessons" />
-                    <p className="text-[12px] font-medium text-gray-500">
+                    <p className="text-[12px] font-medium text-gray-700">
                       {course.playlist_count || 0} Lessons
                     </p>
                   </div>
                 </div>
                 
                   <div className="flex-grow" />
-                <div className="flex items-center py-3 space-x-2">
+                <div className="flex items-center border-t border-gray-200 mt-4 pt-2 space-x-2">
                   <img
                     src={failedImages.has(`instructor-${course.course_code}`) ? instructorIcon : course.processedInstructorUrl}
                     alt={course.instructor_name || "Instructor"}
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-full object-top object-cover"
                     onError={() => {
                       setFailedImages(prev => new Set(prev).add(`instructor-${course.course_code}`));
                     }}
                   />
                   <div>
                     <p className="text-sm text-[#A8A8A8]">Instructor</p>
-                    <p className="text-[18px] text-[#000]">
-                      {course.instructor_name || "TBA"}
+                    <p className="text-[16px] text-[#000]">
+                      {course.instructor_name || "Yet to be announced"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex-grow" />
-<motion.button
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
-  className={`w-full py-3 rounded-xl text-sm sm:text-base font-medium transition
-    ${
-      course.lock
-        ? "bg-gray-300 text-gray-600 hover:bg-gray-400 cursor-pointer"
-        : "bg-[#0162D9] text-white hover:bg-[#0150b3] cursor-pointer"
-    }`}
-  onClick={() => handleWatchClick(course)}
-
->
-  {loadingCourse === course.course_code
-    ? "Loading..."
-    : course.lock
-    ? "Upgrade to Watch"
-    : "Watch"}
-</motion.button>
-
               </div>
             </motion.div>
           ))}

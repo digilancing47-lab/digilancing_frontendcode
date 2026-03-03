@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // 👁️ Password toggle
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -95,22 +95,22 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#003B73] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] p-4">
       <motion.div
-        className="flex flex-col md:flex-row max-w-4xl w-full rounded-3xl overflow-hidden mt-15 shadow-lg"
+        className="flex flex-col md:flex-row max-w-5xl w-full rounded-3xl overflow-hidden mt-15 shadow-lg"
         initial="hidden"
         animate="show"
         variants={wrapperVariants}
       >
         <div className="flex-1">
           <img
-            src={loginImage}
+            src={'https://storage.googleapis.com/digilancing_storage/login%202.avif'}
             alt="Login Illustration"
             className="w-full h-full object-cover md:rounded-t-3xl md:rounded-tl-3xl sm:rounded-bl-none md:rounded-tr-none"
           />
         </div>
 
-        <div className="flex-1 bg-[#003B73] text-white py-10 md:p-10 flex flex-col relative md:border md:border-[#1C7BD5] md:rounded-tr-3xl md:rounded-br-3xl">
+        <div className="flex-1 bg-white/10 backdrop-blur-xl text-white py-10 md:p-10 flex flex-col relative border border-white/20 md:rounded-tr-3xl md:rounded-br-3xl shadow-2xl">
           <div className="absolute top-6 right-6 text-sm">
             No Account?{' '}
             <a href="/Register" className="underline hover:text-[#FDDB5D]">Sign up</a>

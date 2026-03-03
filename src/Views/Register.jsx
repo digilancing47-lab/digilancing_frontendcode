@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_BASE } from "../apiBase";
 import axios from "axios";
+import { ChevronDown } from "lucide-react";
 import {
   setStep,
   setReferral,
@@ -121,76 +122,6 @@ const Register = () => {
           });
           
           dispatch(setDefaultPackages(formattedPackages));
-        } else {
-          // Fallback data
-          const fallbackPackages = [
-            {
-              icon: Card1,
-              title: "Basic Package",
-              description: "Perfect for beginners starting their freelancing journey",
-              price: "2500",
-              mrpPrice: "3999",
-              features: ["15+ Hours of Content", "Basic Project Templates", "Community Support", "3 Real-World Projects"],
-              id: "DIGI0001",
-              iconImage: TickGreen,
-              buttonGradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)"
-            },
-            {
-              icon: Card2,
-              title: "Standard Package",
-              description: "Perfect for advanced learners looking to specialize",
-              price: "4000",
-              mrpPrice: "6999",
-              features: ["25+ Hours of Content", "Premium Project Templates", "1-on-1 Mentorship", "Priority Support", "5 Real-World Projects"],
-              id: "DIGI0002",
-              iconImage: TickBlue,
-              buttonGradient: "linear-gradient(135deg, #3384EC 0%, #108FBD 100%)"
-            },
-            {
-              icon: Card3,
-              title: "Advanced Package",
-              description: "For freelancers scaling their business",
-              price: "7000",
-              mrpPrice: "11999",
-              features: ["50+ Hours of Content", "Automation Tools", "Advanced Challenges", "Dedicated Community Group", "10 Live Projects"],
-              id: "DIGI0003",
-              iconImage: TickPurple,
-              buttonGradient: "linear-gradient(135deg, #A054F5 0%, #5E49E8 100%)"
-            },
-            {
-              icon: Card4,
-              title: "Premium Package",
-              description: "Become a top-tier freelancer with premium training",
-              price: "11000",
-              mrpPrice: "16999",
-              features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
-              id: "DIGI0004",
-              iconImage: TickRed,
-              buttonGradient: "linear-gradient(135deg, #F03B63 0%, #DD2975 100%)"
-            },
-            {
-              icon: Card5,
-              title: "Ultimate Package",
-              description: "Become a top-tier freelancer with premium training",
-              price: "15000",
-              mrpPrice: "22999",
-              features: ["100+ Hours of Content", "Lifetime Access", "Exclusive Webinars", "Direct Client Leads", "Unlimited Projects"],
-              id: "DIGI0005",
-              iconImage: TickOrange,
-              buttonGradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)"
-            }
-          ];
-          
-          const fallbackApiData = [
-            { id: 12, package_id: "DIGI0001", name: "Basic Package", mrp_amount: "3999", referral_amount: "2500" },
-            { id: 13, package_id: "DIGI0002", name: "Standard Package", mrp_amount: "6999", referral_amount: "4000" },
-            { id: 14, package_id: "DIGI0003", name: "Advanced Package", mrp_amount: "11999", referral_amount: "7000" },
-            { id: 15, package_id: "DIGI0004", name: "Premium Package", mrp_amount: "16999", referral_amount: "11000" },
-            { id: 16, package_id: "DIGI0005", name: "Ultimate Package", mrp_amount: "22999", referral_amount: "15000" }
-          ];
-          sessionStorage.setItem('packageData', JSON.stringify(fallbackApiData));
-          
-          dispatch(setDefaultPackages(fallbackPackages));
         }
       } catch (error) {
         console.error('Error fetching packages:', error);
@@ -405,8 +336,6 @@ const Register = () => {
     )
       .unwrap()
       .then((res) => {
-        setIsProcessing(false);
-
         // If backend resolved but returned success:false or message, show it.
         if (res && (res.error || res.success === false || res.message)) {
           const msg =
@@ -416,9 +345,10 @@ const Register = () => {
           setErrorMessage(msg);
           if (res.status) setErrorStatus(res.status);
           setErrorPopup(true);
+          setIsProcessing(false);
         } else {
-          // success -> go to payment
-          dispatch(setStep(3));
+          // success -> directly open Razorpay
+          startRazorpayPayment(res);
         }
       })
       .catch((err) => {
@@ -636,7 +566,7 @@ const Register = () => {
 
 
   return (
-    <div className="mx-auto px-4 cursor-default sm:px-6 lg:px-32 pt-16 lg:pt-20 gap-10 pb-10 bg-[#002B54] min-h-screen">
+    <div className="mx-auto px-4 cursor-default sm:px-6 lg:px-32 pt-16 lg:pt-20 gap-10 pb-10 bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]  min-h-screen">
       <RegisterHeader step={step} setStep={(s) => dispatch(setStep(s))} />
       <AnimatePresence mode="wait">
         {/* Step 1 */}
@@ -650,53 +580,48 @@ const Register = () => {
             className="space-y-8"
           >
             <div>
-              <div className="flex gap-2 items-center">
-                <input
-                  type="text"
-                  placeholder="Enter Access code"
-                  value={referral}
-                  onChange={(e) => dispatch(setReferral(e.target.value))}
-                  className={`w-full max-w-sm px-3 py-2 rounded-lg border ${referralVerified ? "border-green-500 bg-gray-100" : "border-gray-300 bg-white"
-                    } text-black`}
-                  aria-label="Referral code"
-                  disabled={referralVerified} // disable input after verified
-                />
+              <div className="flex gap-3 items-center max-w-md">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Enter Access code"
+                    value={referral}
+                    onChange={(e) => dispatch(setReferral(e.target.value))}
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 ${
+                      referralVerified
+                        ? "border-green-400 bg-green-50 text-gray-700"
+                        : "border-white/30 bg-white/10 backdrop-blur-sm text-white placeholder-white/60"
+                    } focus:outline-none `}
+                    aria-label="Referral code"
+                    disabled={referralVerified}
+                  />
+                  {referralVerified && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 text-green-600 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586 6.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-sm">Verified</span>
+                    </div>
+                  )}
+                </div>
 
-                {/* Verify button shown when not verified */}
-                {!referralVerified ? (
+                {!referralVerified && (
                   <button
                     onClick={handleVerify}
-                    className="px-4 py-2 bg-blue-600 text-white  cursor-pointer rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+                    className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-white/90 disabled:bg-white/50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap"
                     disabled={loading || !referral.trim()}
-                    aria-disabled={loading || !referral.trim()}
                   >
                     {loading ? "Verifying..." : "Verify"}
                   </button>
-                ) : (
-                  // Verified state: green tick + label
-                  <div
-                    className="flex items-center gap-2 text-green-600 font-medium"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586
-                           6.707 9.293a1 1 0 00-1.414 1.414l3
-                           3a1 1 0 001.414 0l7-7a1 1 0
-                           000-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Verified</span>
-                  </div>
                 )}
               </div>
             </div>
@@ -736,17 +661,17 @@ const Register = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col lg:flex-row gap-6 items-start"
+            className="flex flex-col lg:flex-row gap-4 items-start"
           >
             {/* Form */}
-            <div className="bg-[#003B73] p-6 rounded-xl space-y-4 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 max-w-3xl mx-auto lg:mx-0">
+            <div className="bg-white p-6 rounded-3xl space-y-4 w-full sm:w-11/12 md:w-3/4 lg:w-2/3 max-w-3xl mx-auto lg:mx-0 shadow-xl">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">First Name</label>
+                  <label className="text-gray-700 mb-2 font-medium">First Name</label>
                   <input
                     type="text"
                     placeholder="Enter your first name"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
                     value={formData.first_name || ''}
                     onChange={(e) => {
                       const firstName = e.target.value;
@@ -759,11 +684,11 @@ const Register = () => {
                   />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">Last Name</label>
+                  <label className="text-gray-700 mb-2 font-medium">Last Name</label>
                   <input
                     type="text"
                     placeholder="Enter your last name"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
                     value={formData.last_name || ''}
                     onChange={(e) => {
                       const lastName = e.target.value;
@@ -779,11 +704,11 @@ const Register = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">Email Address</label>
+                  <label className="text-gray-700 mb-2 font-medium">Email Address</label>
                   <input
                     type="email"
                     placeholder="Enter Email Address"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
                     value={formData.email}
                     onChange={(e) =>
                       dispatch(setFormData({ email: e.target.value }))
@@ -791,11 +716,11 @@ const Register = () => {
                   />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">Confirm Email Address</label>
+                  <label className="text-gray-700 mb-2 font-medium">Confirm Email Address</label>
                   <input
                     type="email"
                     placeholder="Confirm Email Address"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
                     value={formData.confirmEmail}
                     onChange={(e) =>
                       dispatch(setFormData({ confirmEmail: e.target.value }))
@@ -806,11 +731,11 @@ const Register = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">Mobile Number</label>
+                  <label className="text-gray-700 mb-2 font-medium">Mobile Number</label>
                  <input
   type="text"
   placeholder="Enter Mobile Number"
-  className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+  className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
   value={formData.phone}
   maxLength={10}
   onChange={(e) => {
@@ -823,11 +748,11 @@ const Register = () => {
 
                 </div>
                 <div className="flex flex-col flex-1">
-                  <label className="text-gray-200 mb-1">Password</label>
+                  <label className="text-gray-700 mb-2 font-medium">Password</label>
                   <input
                     type="password"
                     placeholder="Enter Password"
-                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white"
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
                     value={formData.password}
                     onChange={(e) =>
                       dispatch(setFormData({ password: e.target.value }))
@@ -838,75 +763,77 @@ const Register = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col flex-1">
-  <label className="text-gray-200 mb-1">State</label>
-  <select
-    className="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800"
-    value={formData.state}
-    onChange={(e) => dispatch(setFormData({ state: e.target.value }))}
-  >
-    <option value="">Select your State</option>
-    <option value="Andhra Pradesh">Andhra Pradesh</option>
-    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-    <option value="Assam">Assam</option>
-    <option value="Bihar">Bihar</option>
-    <option value="Chhattisgarh">Chhattisgarh</option>
-    <option value="Goa">Goa</option>
-    <option value="Gujarat">Gujarat</option>
-    <option value="Haryana">Haryana</option>
-    <option value="Himachal Pradesh">Himachal Pradesh</option>
-    <option value="Jharkhand">Jharkhand</option>
-    <option value="Karnataka">Karnataka</option>
-    <option value="Kerala">Kerala</option>
-    <option value="Madhya Pradesh">Madhya Pradesh</option>
-    <option value="Maharashtra">Maharashtra</option>
-    <option value="Manipur">Manipur</option>
-    <option value="Meghalaya">Meghalaya</option>
-    <option value="Mizoram">Mizoram</option>
-    <option value="Nagaland">Nagaland</option>
-    <option value="Odisha">Odisha</option>
-    <option value="Punjab">Punjab</option>
-    <option value="Rajasthan">Rajasthan</option>
-    <option value="Sikkim">Sikkim</option>
-    <option value="Tamil Nadu">Tamil Nadu</option>
-    <option value="Telangana">Telangana</option>
-    <option value="Tripura">Tripura</option>
-    <option value="Uttar Pradesh">Uttar Pradesh</option>
-    <option value="Uttarakhand">Uttarakhand</option>
-    <option value="West Bengal">West Bengal</option>
-    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-    <option value="Chandigarh">Chandigarh</option>
-    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
-    <option value="Delhi">Delhi</option>
-    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-    <option value="Ladakh">Ladakh</option>
-    <option value="Lakshadweep">Lakshadweep</option>
-    <option value="Puducherry">Puducherry</option>
-  </select>
-</div>
-
+                  <label className="text-gray-700 mb-2 font-medium">State</label>
+                  <div className="relative">
+                    <select
+                      className="flex-1 w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all appearance-none pr-10 text-sm"
+                      value={formData.state}
+                      onChange={(e) => dispatch(setFormData({ state: e.target.value }))}
+                    >
+                      <option value="">Select your State</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                      <option value="Assam">Assam</option>
+                      <option value="Bihar">Bihar</option>
+                      <option value="Chhattisgarh">Chhattisgarh</option>
+                      <option value="Goa">Goa</option>
+                      <option value="Gujarat">Gujarat</option>
+                      <option value="Haryana">Haryana</option>
+                      <option value="Himachal Pradesh">Himachal Pradesh</option>
+                      <option value="Jharkhand">Jharkhand</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Madhya Pradesh">Madhya Pradesh</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Manipur">Manipur</option>
+                      <option value="Meghalaya">Meghalaya</option>
+                      <option value="Mizoram">Mizoram</option>
+                      <option value="Nagaland">Nagaland</option>
+                      <option value="Odisha">Odisha</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Rajasthan">Rajasthan</option>
+                      <option value="Sikkim">Sikkim</option>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Tripura">Tripura</option>
+                      <option value="Uttar Pradesh">Uttar Pradesh</option>
+                      <option value="Uttarakhand">Uttarakhand</option>
+                      <option value="West Bengal">West Bengal</option>
+                      <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                      <option value="Chandigarh">Chandigarh</option>
+                      <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                      <option value="Ladakh">Ladakh</option>
+                      <option value="Lakshadweep">Lakshadweep</option>
+                      <option value="Puducherry">Puducherry</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Order Summary */}
-            <div className="w-full lg:w-96 bg-white p-6 rounded-xl shadow-lg border border-gray-300 mx-auto lg:mx-0">
-              <h3 className="text-lg font-semibold mb-4">Your Order</h3>
-              <div className="flex items-center gap-3 mb-4 p-4 border border-gray-300 rounded-lg">
+            <div className="w-full lg:w-96 bg-white p-6 rounded-3xl shadow-xl mx-auto lg:mx-0">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Your Order</h3>
+              <div className="flex items-center gap-3 mb-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
                 <img
                   src={selectedCard.icon}
                   alt={selectedCard.title}
-                  className="w-10 h-10"
+                  className="w-12 h-12"
                 />
                 <div>
-                  <p className="font-semibold">{selectedCard.title}</p>
-                  <p className="text-gray-500 text-sm">{selectedCard.description}</p>
+                  <p className="font-semibold text-gray-800">{selectedCard.title}</p>
+                  <p className="text-gray-600 text-sm">{selectedCard.description}</p>
                 </div>
               </div>
-              <div className="mb-2 flex justify-between text-gray-600">
+              <div className="mb-2 flex justify-between text-gray-700">
                 <span>Product Price:</span>
                 <span>₹{Number(basePrice).toLocaleString("en-IN")}</span>
               </div>
 
-              <div className="mb-2 flex justify-between text-gray-600">
+              <div className="mb-2 flex justify-between text-gray-700">
                 <span>GST ({gstRate}%):</span>
                 <span>₹{Number(gstAmount).toLocaleString("en-IN")}</span>
               </div>
@@ -918,12 +845,12 @@ const Register = () => {
                 </div>
               )}
 
-              <div className="mb-4 flex justify-between font-bold">
+              <div className="mb-4 flex justify-between font-bold text-gray-900 text-lg">
                 <span>Total:</span>
                 <span>₹{Math.round(total).toLocaleString("en-IN")}</span>
               </div>
               
-              <hr className="border-gray-300 mb-4" />
+              <hr className="border-gray-200 mb-4" />
               
               {!showPromoInput ? (
                 <button
@@ -1029,39 +956,16 @@ const Register = () => {
 
               <button
                 className={`w-full py-3 rounded-lg transition-colors ${
-                  !termsAccepted || !privacyAccepted
-                    ? "bg-gray-400 cursor-not-allowed text-gray-600"
+                  !termsAccepted || !privacyAccepted || !formData.full_name?.trim() || !formData.email?.trim() || !formData.confirmEmail?.trim() || !formData.phone?.trim() || formData.phone.length !== 10 || !formData.password?.trim() || !formData.state?.trim()
+                    ? "bg-gray-200 cursor-not-allowed text-gray-600"
                     : "bg-blue-600 cursor-pointer text-white hover:bg-blue-700"
                 }`}
                 onClick={handleSubmit}
-                disabled={loading || !termsAccepted || !privacyAccepted}
+                disabled={loading || !termsAccepted || !privacyAccepted || !formData.full_name?.trim() || !formData.email?.trim() || !formData.confirmEmail?.trim() || !formData.phone?.trim() || formData.phone.length !== 10 || !formData.password?.trim() || !formData.state?.trim()}
               >
                 {loading ? "Processing..." : "Place an Order"}
               </button>
             </div>
-          </motion.div>
-        )}
-
-        {/* Step 3 */}
-        {step === 3 && (
-          <motion.div
-            key="step3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="bg-white p-6 rounded-xl shadow text-center max-w-md mx-auto"
-          >
-            <h3 className="text-xl font-semibold mb-4">Payment</h3>
-            <p className="text-gray-600 mb-6">
-              Proceed with payment for <strong>{selectedCard.title}</strong>.
-            </p>
-            <button
-              onClick={() => startRazorpayPayment(paymentData)}
-              className="px-6 py-2 cursor-pointer bg-green-600 text-white rounded-xl hover:bg-green-700"
-            >
-              Confirm Payment
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1094,7 +998,7 @@ const Register = () => {
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 cursor-pointer  rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-6 py-2 cursor-pointer rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white hover:shadow-lg transition-all duration-300 font-semibold"
                   onClick={() => {
                     setShowPopup(false);
                     dispatch(setStep(2));

@@ -17,7 +17,7 @@ const Section1 = ({ packageName, price, promoPrice, description, buttonText, ima
   return (
     <div className='px-2'>
       <motion.div
-      className="flex flex-col font-outfit lg:flex-row items-center bg-[#002B54] rounded-4xl shadow-xl max-w-6xl mx-auto mt-30 px-8 py-12 md:py-0 sm:px-6 lg:px-0 lg:pl-12"
+      className="flex flex-col font-outfit lg:flex-row items-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] rounded-4xl shadow-xl container mx-auto mt-30 px-8 py-12 md:py-0 sm:px-6 lg:px-0 lg:pl-12"
       initial="hidden"
       animate="show"
       variants={wrapperVariants}

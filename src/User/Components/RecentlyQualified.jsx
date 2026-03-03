@@ -12,14 +12,15 @@ const RecentlyQualified = () => {
 ];
   return (
     <div
-      className="bg-white rounded-4xl cursor-default border border-[#C9C9C9] mb-4 overflow-hidden w-full "
+      className="bg-white border border-black/10 rounded-3xl cursor-default overflow-hidden w-full "
     >
 
       <div
         className="p-3"
-        style={{ background: 'linear-gradient(to bottom right, #4852F4 0%, #8B38EA 100%)' }}
+         
       >
-        <h3 className="text-lg text-white px-2 font-medium">Recently Qualified</h3>
+        <h3 className="text-lg text-black px-2 font-medium">Recently Qualified</h3>
+        <p className="text-xs text-gray-500 px-2">Latest users who achieved qualifications</p>
       </div>
 
       {/* Content */}
@@ -35,15 +36,15 @@ const RecentlyQualified = () => {
       className="w-12 h-12 rounded-full object-cover mr-3"
     />
   ) : (
-    <div className="w-12 h-12 rounded-full mr-3 flex items-center justify-center bg-gradient-to-r from-indigo-500  to-indigo-300 text-white font-bold text-sm uppercase">
+    <div className="w-12 h-12 rounded-full mr-3 flex items-center justify-center bg-gradient-to-r from-[#3b82f6] via-[#3b82f6] to-[#3b82f6] text-white font-bold text-sm uppercase">
       {user.name?.slice(0, 2)}
     </div>
   )}
 
   <div className="leading-tight">
     <p className="font-semibold text-sm">{user.name}</p>
-    <p className="text-xs text-[#B5B5B5]">{user.qualification}</p>
-    <p className="text-xs text-[#B5B5B5]">{user.timeAgo}</p>
+    <p className="text-xs text-gray-500">{user.qualification}</p>
+    <p className="text-xs text-gray-500">{user.timeAgo}</p>
   </div>
 </div>
 

@@ -42,7 +42,7 @@ const JobCard = ({ job }) => {
     },
     {
       icon: IndianRupee,
-      title: "Salary",
+      title: "Expect Salary",
       value: salary,
      bgColor: "bg-indigo-50",
       iconColor: "text-indigo-600"

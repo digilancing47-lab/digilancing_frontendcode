@@ -15,7 +15,7 @@ const fadeUp = {
 const ACCESS_KEY = "97089d31-5a4c-4e20-8d4f-5e654bf29d64";
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -41,6 +41,7 @@ const Contact = () => {
       // Use the same casing as your reference (Web3Forms accepts arbitrary fields)
       Name: form.name,
       Email: form.email,
+      Phone: form.phone,
       Message: form.message,
       Subject: "Digilancing – Contact Form",
       // helpful extras (optional for Web3Forms)
@@ -58,7 +59,7 @@ const Contact = () => {
 
       if (result?.success) {
         setSent(true);
-        setForm({ name: "", email: "", message: "" });
+        setForm({ name: "", email: "", phone: "", message: "" });
         // auto-hide after a bit
         setTimeout(() => setSent(false), 3500);
       } else {
@@ -80,7 +81,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-page relative min-h-screen bg-[#021E3A] text-white flex items-center justify-center px-6 py-24 sm:py-28 cursor-default overflow-hidden">
+    <div className="contact-page relative min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white flex items-center justify-center px-6 py-24 sm:py-28 cursor-default overflow-hidden">
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"
@@ -98,10 +99,9 @@ const Contact = () => {
         <div className="flex flex-col justify-center space-y-8">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}>
             <motion.div className="flex gap-4 items-center" variants={fadeUp} custom={0}>
-              <img src={contact} alt="Contact" className="w-16 h-16 object-contain" />
               <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">Get in touch with us</h1>
             </motion.div>
-            <motion.p className="mt-5 text-base sm:text-lg text-gray-300 max-w-xl" variants={fadeUp} custom={1}>
+            <motion.p className="mt-3 text-base sm:text-lg text-gray-200 max-w-xl" variants={fadeUp} custom={1}>
               We're here to help! Whether you have a question about our services, need assistance with your account, or want to
               provide feedback, our team is ready to assist you.
             </motion.p>
@@ -123,7 +123,6 @@ const Contact = () => {
                     <div className="font-semibold">{emailAddr}</div>
                   </div>
                 </div>
-                {copied.email ? <Check className="h-5 w-5 text-green-300" /> : <Copy className="h-5 w-5 opacity-80" />}
               </motion.button>
 
               <motion.button
@@ -142,26 +141,25 @@ const Contact = () => {
                     <div className="font-semibold">{phoneNum}</div>
                   </div>
                 </div>
-                {copied.phone ? <Check className="h-5 w-5 text-green-300" /> : <Copy className="h-5 w-5 opacity-80" />}
               </motion.button>
             </div>
 
-            <motion.p className="mt-3 text-sm sm:text-base text-gray-400" variants={fadeUp} custom={4}>
+            <motion.p className="mt-5 text-sm sm:text-base text-gray-200" variants={fadeUp} custom={4}>
               Available Monday to Friday, 9 AM – 6 PM GMT
             </motion.p>
           </motion.div>
         </div>
-
+{/* form */}
         <motion.div
           initial={{ opacity: 0, x: 28 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ type: "spring", stiffness: 110, damping: 18 }}
-          className="bg-[#0A2F50]/80 backdrop-blur rounded-2xl border border-white/10 px-4 py-6 sm:p-10"
+          className="bg-white rounded-3xl shadow-xl px-4 py-6 sm:p-10"
         >
           <form className="space-y-6" onSubmit={onSubmit}>
             <div>
-              <label htmlFor="name" className="block text-base mb-2">Name</label>
+              <label htmlFor="name" className="block text-base mb-2 text-gray-700">Name</label>
               <input
                 id="name"
                 name="name"
@@ -170,12 +168,12 @@ const Contact = () => {
                 onChange={onChange}
                 placeholder="Enter your name ..."
                 required
-                className="w-full px-5 py-4 rounded-lg bg-[#1668B6]/80 text-white placeholder-white/80 border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 text-lg"
+                className="w-full px-5 py-3 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-500 border border-gray-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-base mb-2">Email</label>
+              <label htmlFor="email" className="block text-base mb-2 text-gray-700">Email</label>
               <input
                 id="email"
                 name="email"
@@ -184,12 +182,26 @@ const Contact = () => {
                 onChange={onChange}
                 placeholder="Enter your email ..."
                 required
-                className="w-full px-5 py-4 rounded-lg bg-[#1668B6]/80 text-white placeholder-white/80 border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 text-lg"
+                className="w-full px-5  py-3 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-500 border border-gray-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
               />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-base mb-2">Message</label>
+              <label htmlFor="phone" className="block text-base mb-2 text-gray-700">Phone Number</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={form.phone}
+                onChange={onChange}
+                placeholder="Enter your phone number ..."
+                required
+                className="w-full px-5  py-3 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-500 border border-gray-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-base mb-2 text-gray-700">Message</label>
               <textarea
                 id="message"
                 name="message"
@@ -198,7 +210,7 @@ const Contact = () => {
                 onChange={onChange}
                 placeholder="Message..."
                 required
-                className="w-full px-5 py-4 rounded-lg bg-[#1668B6]/80 text-white placeholder-white/80 border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 text-lg"
+                className="w-full px-5  py-3 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-500 border border-gray-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all text-sm"
               />
             </div>
 
@@ -233,7 +245,7 @@ const Contact = () => {
                 whileTap={{ scale: 0.97 }}
                 type="submit"
                 disabled={loading}
-                className="ml-auto inline-flex items-center gap-3 bg-white text-[#0A2A43] font-medium px-7 py-4 rounded-full text-lg disabled:opacity-70 disabled:cursor-not-allowed shadow/50 hover:shadow active:shadow-md transition"
+                className="ml-auto inline-flex items-center gap-3 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white font-medium px-7 py-4 rounded-full text-lg disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl active:shadow-md transition"
               >
                 <span>{loading ? "Sending..." : "Send Message"}</span>
                 <Send className={`h-5 w-5 ${loading ? "animate-pulse" : ""}`} />

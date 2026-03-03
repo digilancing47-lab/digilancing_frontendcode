@@ -150,7 +150,7 @@ const Header = ({ isDarkMode }) => {
             {/* Right Buttons */}
             <div className="w-full max-w-[320px] items-center justify-end hidden lg:flex">
               <div className="flex items-center gap-3">
-                <Link to="/Contact" className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}>
+                <Link to="/Contact" className={`bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}>
                   <span>Support</span>
                 </Link>
               </div>
@@ -214,7 +214,7 @@ const Header = ({ isDarkMode }) => {
             {/* Right Buttons */}
             <div className="w-full max-w-[320px] items-center justify-end hidden lg:flex">
               <div className="flex items-center gap-3">
-                <Link to="/Contact" className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}>
+                <Link to="/Contact" className={`bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}>
                   <span>Support</span>
                 </Link>
 
@@ -281,7 +281,7 @@ const Header = ({ isDarkMode }) => {
             {/* Right Buttons */}
             <div className="w-full max-w-[320px] items-center justify-end hidden lg:flex">
               <div className="flex items-center gap-3">
-                <Link to="/Contact" className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}>
+                <Link to="/Contact" className={`bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}>
                   <span>Support</span>
                 </Link>
 
@@ -346,7 +346,7 @@ const Header = ({ isDarkMode }) => {
             {/* Right Buttons */}
             <div className="w-full max-w-[320px] items-center justify-end hidden lg:flex">
               <div className="flex items-center gap-3">
-                <Link to="/Contact" className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}>
+                <Link to="/Contact" className={`bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}>
                   <span>Support</span>
                 </Link>
 
@@ -398,7 +398,7 @@ const Header = ({ isDarkMode }) => {
             </div>
             <div className="w-full max-w-[320px] items-center justify-end hidden lg:flex">
               <div className="flex items-center gap-3">
-                <Link to="/Contact" className={`${scrolled || isDarkMode ? 'bg-[#0183FF]' : 'bg-[#0183FF]'} py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl text-white`}>
+                <Link to="/Contact" className={`bg-gradient-to-r from-[#FFA80B] to-[#ffe6b8] text-black py-2.5 font-outfit flex items-center justify-center px-10 text-[16px] cursor-pointer rounded-xl`}>
                   <span>Support</span>
                 </Link>
               </div>

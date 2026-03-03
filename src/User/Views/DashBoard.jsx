@@ -115,7 +115,7 @@ const DashBoard = () => {
             <div className='pb-10'>
               <GreetingSection />
             </div>
-            <div className='mt-5'>
+            <div className=''>
               <div className="flex justify-between items-center mb-4 max-w-screen-xl mx-auto px-2">
                 <h3 className="text-xl font-semibold text-gray-800">
                   {packages.find(pkg => pkg.id === packageid)?.name || currentPackage?.name || "Unknown Package"}
@@ -153,7 +153,7 @@ const DashBoard = () => {
                       .map((item, index) => (
                         <motion.div
                           key={index}
-                          className="w-full flex flex-col border border-gray-300 rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-lg transition-transform transform hover:scale-105 relative"
+                          className="w-full flex flex-col border border-white/20 rounded-2xl overflow-hidden backdrop-blur-md bg-white/30 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 relative"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -169,24 +169,43 @@ const DashBoard = () => {
                             />
                           </div>
 
-                          <div className="flex flex-col flex-grow bg-white px-4 pb-3">
+                          <div className="flex flex-col flex-grow backdrop-blur-sm bg-white/40 px-4 pb-3">
                             <h3 className="font-semibold text-[16px] line-clamp-2 text-gray-900">
                               {item.title}
                             </h3>
 
                             <div className="flex-grow" />
-                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                            <p className="text-xs text-gray-700 mt-1 line-clamp-2">
                               {item.description}
                             </p>
 
                             <div className="flex flex-wrap gap-2 mt-3">
-                              <div className="flex items-center px-2 py-0.5 rounded-full border border-gray-300 w-fit gap-2">
+                              <div className="flex items-center px-2 py-0.5 rounded-full border border-white/40 backdrop-blur-sm bg-white/30 w-fit gap-2">
                                 <img src={timing_icon} className="w-4" />
-                                <p className="text-[12px] font-medium text-gray-500">
-                                  {item.duration}
+                                <p className="text-[12px] font-medium text-gray-700">
+                                  {(() => {
+                                    if (!item.duration) return 'N/A';
+                                    
+                                    // Check if duration is already in "X hrs Y mins" format
+                                    if (item.duration.includes('hrs') || item.duration.includes('min')) {
+                                      return item.duration;
+                                    }
+                                    
+                                    // Parse HH:MM:SS format
+                                    const parts = item.duration.split(':');
+                                    if (parts.length !== 3) return item.duration;
+                                    
+                                    const [hours, minutes] = parts.map(Number);
+                                    if (isNaN(hours) || isNaN(minutes)) return item.duration;
+                                    
+                                    const totalMinutes = hours * 60 + minutes;
+                                    const hrs = Math.floor(totalMinutes / 60);
+                                    const mins = totalMinutes % 60;
+                                    return `${hrs} hrs ${mins} mins`;
+                                  })()}
                                 </p>
                               </div>
-                              <button onClick={() => { Navigate('/courses') }} className="bg-blue-600 cursor-pointer text-white text-xs ml-auto font-semibold py-2 px-6 rounded-lg hover:bg-blue-500 transition">
+                              <button onClick={() => { Navigate('/courses') }} className="bg-gradient-to-br from-[#3b82f6] via-[#3b82f6] to-[#3b82f6] cursor-pointer text-white text-xs ml-auto font-semibold py-2 px-6 rounded-lg hover:bg-blue-500 transition">
                                 Continue
                               </button>
                             </div>

@@ -31,7 +31,7 @@ const Section3 = () => {
 
   return (
     <motion.div
-      className="max-w-screen-xl font-outfit mx-auto my-12 px-4 sm:px-6 lg:px-8"
+      className="container font-outfit mx-auto my-12"
       initial="hidden"
       animate="show"
       variants={container}
@@ -39,7 +39,7 @@ const Section3 = () => {
       <div className="flex flex-col sm:flex-row justify-between gap-8">
         {/* Course Overview */}
         <motion.div
-          className="flex-1 bg-[#003B73] p-8 rounded-2xl text-white will-change-transform transform-gpu"
+          className="flex-1 bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] p-8 rounded-2xl text-white will-change-transform transform-gpu"
           variants={card}
         >
           <h3 className="text-xl font-bold mb-4">Course Overview</h3>
@@ -57,7 +57,7 @@ const Section3 = () => {
 
         {/* What You'll Learn */}
         <motion.div
-          className="flex-1 bg-[#003B73] p-8 rounded-2xl text-white will-change-transform transform-gpu"
+          className="flex-1 bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] p-8 rounded-2xl text-white will-change-transform transform-gpu"
           variants={card}
         >
           <h3 className="text-xl font-bold mb-4">What you’ll learn in this course:</h3>

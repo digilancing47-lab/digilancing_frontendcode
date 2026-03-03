@@ -25,21 +25,21 @@ const GreetingSection = () => {
     return (
         <div
             className="relative rounded-3xl p-6 cursor-default text-white flex flex-col lg:flex-row justify-between items-start gap-6 min-h-[20rem]"
-            style={{ background: 'linear-gradient(to bottom right, #4852F4 0%, #6A50FF 100%)' }}
+            style={{ backgroundImage: 'linear-gradient(to top, #accbee 0%, #e7f0fd 100%)', backgroundSize: '200% auto', transition: '0.5s' }}
         >
             {/* Left Content */}
             <div className=" md:p-5">
                 <h2 className=" text-2xl md:text-4xl font-semibold leading-tight" style={{ fontFamily: "'Roboto', sans-serif" }}>
-                    <span className='font-light text-2xl'>{greetingText},</span> <br />
-                    <span className="text-white text-3xl md:text-5xl font-bold" >{user?.fullname}</span>
+                    <span className='font-light text-black  text-2xl'>{greetingText},</span> <br />
+                    <span className="text-black text-3xl md:text-5xl font-bold" >{user?.fullname}</span>
                 </h2>
-                <p className="text-lg mt-1 opacity-80">{user?.email}</p>
+                <p className="text-lg mt-1 text-black  opacity-80">{user?.email}</p>
 
                 <button
                     onClick={() => navigate("/Courses")}
-                    className="mt-6 absolute bottom-10  hover:scale-105 cursor-pointer bg-white text-black flex items-center justify-center gap-2 w-fit  md:px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition"
+                    className="mt-6 absolute bottom-10 hover:scale-105 cursor-pointer backdrop-blur-md bg-white/30 border border-white/40 text-black flex items-center justify-center gap-2 w-fit md:px-6 py-3 rounded-lg font-medium hover:bg-white/40 transition shadow-lg"
                 >
-                    <div className='px-3 border-r border-gray-500'><img src={play} alt="Play" className="h-5 w-5" /></div>
+                    <div className='px-3 border-r border-gray-500/50'><img src={play} alt="Play" className="h-5 w-5" /></div>
                     <span className='px-1'>Start Learning</span>
                 </button>
 
@@ -48,7 +48,7 @@ const GreetingSection = () => {
 
             {/* Right Card */}
             <div
-                className="w-full max-w-[300px] h-[360px] bg-white text-black p-4 rounded-2xl mt-6 lg:mt-0 flex-shrink-0"
+                className="w-full max-w-[300px] h-[360px] bg-white text-black p-4 rounded-3xl  lg:mt-0 flex-shrink-0"
             >
 
                 <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-4 py-1 rounded-md">

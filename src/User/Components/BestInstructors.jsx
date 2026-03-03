@@ -42,18 +42,18 @@ const BestInstructors = ({ topInstructors = [] }) => {
           instructorsToShow.map((instructor) => (
             <div
               key={instructor.id}
-              className="flex items-center justify-between p-2 border border-[#D9D9D9] rounded-xl shadow-sm bg-white"
+              className="flex items-center justify-between p-2 border border-white/20 rounded-xl shadow-lg backdrop-blur-md bg-white/30"
             >
               {/* Profile Info */}
               <div className="flex items-center">
                 <img
-                  src={`https://storage.googleapis.com/digilancing_storage/${instructor.profile_url}` || '/ArunKumar.jpg'}
+                  src={`https://storage.googleapis.com/digilancing_storage/${instructor.profile_url}`}
                   alt={instructor.name}
-                  className="w-17 h-17 rounded-xl object-cover mr-4"
+                  className="w-17 h-17 rounded-xl object-top object-cover mr-4"
                 />
                 <div>
-                  <h3 className="font-semibold text-lg">{instructor.name}</h3>
-                  <p className="text-sm text-gray-500">
+                  <h3 className="font-semibold text-lg text-gray-900">{instructor.name}</h3>
+                  <p className="text-sm text-gray-700">
                     {instructor.total_courses} {instructor.total_courses > 1 ? 'Courses' : 'Course'}
                   </p>
                 </div>
