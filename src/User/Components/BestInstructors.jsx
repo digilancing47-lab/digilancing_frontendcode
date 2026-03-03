@@ -47,7 +47,7 @@ const BestInstructors = ({ topInstructors = [] }) => {
               {/* Profile Info */}
               <div className="flex items-center">
                 <img
-                  src={ '/ArunKumar.jpg' || instructor.profile_url}
+                  src={`https://storage.googleapis.com/digilancing_storage/${instructor.profile_url}` || '/ArunKumar.jpg'}
                   alt={instructor.name}
                   className="w-17 h-17 rounded-xl object-cover mr-4"
                 />
