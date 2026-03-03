@@ -1,7 +1,9 @@
 import React from "react";
 import { Briefcase, MapPin, Clock, ChevronRight, IndianRupee } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const JobCard = ({ job }) => {
+  const navigate = useNavigate();
   const experienceMap = {
     internship: "Fresher",
     entry: "1 year",
@@ -112,6 +114,11 @@ const JobCard = ({ job }) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
+              const user = sessionStorage.getItem('user');
+              if (!user) {
+                navigate('/login');
+                return;
+              }
               window.open(job.apply_url || job.link, "_blank");
             }}
             className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap"
