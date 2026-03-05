@@ -41,6 +41,7 @@ import Test from './User/Components/Test'
 import ViewCertificate from "./User/Views/ViewCertificate"
 import Freelancer from './User/Views/Freelancer'
 import Careers from './Views/Careers'
+import ApplyForJob from './User/Components/ApplyForJob'
 const AuthGuard = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -103,6 +104,7 @@ function App() {
         <Route path="/LeaderBoard" element={<><AuthGuard><Leader /></AuthGuard></>} />
         <Route path="/Profile" element={<><AuthGuard><Profile /></AuthGuard></>} />
         <Route path="/Careers" element={<><Header isDarkMode={true} /><Careers /></>} />
+        <Route path="/ApplyForJob" element={<><AuthGuard><Header isDarkMode={true} /><ApplyForJob /></AuthGuard></>} />
         {/* <Route path="/DetailedCourse" element={<><AuthGuard><DetailedCourse /></AuthGuard></>} /> */}
         <Route path="/DetailedCourse" element={<><Header isDarkMode={true} /><DetailedCourse /></>} />
         <Route path="/Upgrade" element={<><Header isDarkMode={true} /><Upgrade /></>} />

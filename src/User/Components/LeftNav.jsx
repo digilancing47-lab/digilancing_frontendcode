@@ -22,6 +22,8 @@ const LeftNav = () => {
         return 'upgrade';
       case '/Careers':
         return 'careers';
+      case '/ApplyForJob':
+        return 'applyjob';
       case '/Support':
         return 'support';
       case '/LogOut':
@@ -73,7 +75,8 @@ const LeftNav = () => {
     { to: '/AffiliatePanel', label: 'Affiliate Panel', icon: Network, key: 'affiliate' },
     { to: '/Contact', label: 'Support', icon: Headset, key: 'support' },
     { to: '/Upgrade', label: 'Upgrade Package', icon: ArrowUpCircle, key: 'upgrade' },
-    { to: '/Careers', label: 'Careers', icon: Briefcase, key: 'careers' }
+    { to: '/Careers', label: 'Careers', icon: Briefcase, key: 'careers' },
+    { to: '/ApplyForJob', label: 'Apply for Job', icon: Briefcase, key: 'applyjob', fillIcon: true }
   ];
 
   return (
