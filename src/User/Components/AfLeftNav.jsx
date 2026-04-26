@@ -47,7 +47,7 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           lg:top-[2vh] lg:left-2 lg:w-64 lg:h-[96vh] lg:translate-x-0
           w-64 max-w-xs lg:max-w-none
-          bg-[#003B73] text-white shadow-xl rounded-none lg:rounded-3xl
+          bg-gradient-to-b from-[#1e3a8a] to-[#3b82f6] text-white shadow-xl rounded-none lg:rounded-3xl
           flex flex-col
         `}
             >

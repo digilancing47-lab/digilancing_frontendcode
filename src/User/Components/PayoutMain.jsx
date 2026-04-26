@@ -30,14 +30,14 @@ export default function PayoutDetails() {
         <input
           type="text"
           placeholder="Search by Status or Amount"
-          className="px-4 py-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-[#003B73] bg-white border border-gray-300 shadow-sm text-gray-700"
+          className="px-4 py-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] bg-white border border-gray-300 shadow-sm text-gray-700"
         />
       </div>
 
       {/* Table */}
       <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <table className="w-full text-sm text-left border-collapse">
-          <thead className="bg-[#003B73] text-white uppercase text-xs tracking-wide">
+          <thead className="bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white uppercase text-xs tracking-wide">
             <tr>
               <th className="py-3 px-4">S.No</th>
               <th className="py-3 px-4">Status</th>
@@ -78,7 +78,7 @@ export default function PayoutDetails() {
             <button className="px-3 py-1 rounded border border-gray-300 text-gray-600 hover:bg-gray-200 transition">
               Previous
             </button>
-            <span className="px-3 py-1 border rounded bg-[#003B73] text-white font-semibold">
+            <span className="px-3 py-1 border rounded bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white font-semibold">
               1
             </span>
             <button className="px-3 py-1 rounded border border-gray-300 text-gray-600 hover:bg-gray-200 transition">

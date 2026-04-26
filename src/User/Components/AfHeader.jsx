@@ -59,11 +59,11 @@ const AfHeader = () => {
   return (
     <>
       {/* Fixed Mobile Header */}
-      <div className="fixed top-0 left-0 w-full z-50 bg-[#002B54] px-4 py-2 flex items-center justify-between lg:hidden ">
+      <div className="fixed top-0 left-0 w-full z-50 bg-white px-4 py-2 flex items-center justify-between lg:hidden shadow-sm">
         {/* Company Logo */}
         <div>
           <img 
-            src="/white.svg" 
+            src="/Logo_Black.svg" 
             alt="Digilancing" 
             className="h-6 w-auto"
           />
@@ -94,7 +94,7 @@ const AfHeader = () => {
           {/* Hamburger Icon */}
           <button
             onClick={() => setIsSidebarOpen(prev => !prev)}
-            className="inline-flex items-center p-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002B54]"
+            className="inline-flex items-center p-2 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -108,8 +108,8 @@ const AfHeader = () => {
       </div>
 
       {/* Desktop Header */}
-      <div className="w-full top-0 bg-[#002B54] px-1 py-1 flex items-center justify-between hidden lg:flex">
-        <h1 className="text-lg sm:text-xl md:text-xl font-bold text-white truncate"></h1>
+      <div className="w-full top-0 px-1 py-1 flex items-center justify-between hidden lg:flex">
+        <h1 className="text-lg sm:text-xl md:text-xl font-bold text-gray-900 truncate"></h1>
         <div className="px-4 flex items-center py-4 rounded-xl bg-white w-full space-x-4">
           <div className="flex w-full">
             {image ? (
@@ -117,7 +117,7 @@ const AfHeader = () => {
                 src={image}
                 alt="Profile"
                 onClick={()=>{navigate('/Profile')}}
-                className="w-10 h-10 cursor-pointer  rounded-full object-cover"
+                className="w-10 h-10 cursor-pointer rounded-full object-cover"
               />
             ) : (
               <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-lg uppercase" 
@@ -126,7 +126,7 @@ const AfHeader = () => {
                 {name?.slice(0, 2)}
               </div>
             )}
-            <div  onClick={()=>{navigate('/Profile')}} className="flex cursor-pointer px-2 flex-col">
+            <div onClick={()=>{navigate('/Profile')}} className="flex cursor-pointer px-2 flex-col">
               <span className="bg-gradient-to-r from-indigo-500 to-indigo-300 bg-clip-text text-transparent font-semibold text-base capitalize">
                 Hello! {name}
               </span>
@@ -135,13 +135,12 @@ const AfHeader = () => {
               </span>
             </div>
             <div className="flex items-center gap-5 pr-5 ml-auto justify-end">
-              <a href="/DashBoard" className="text-black-400 hover:text-black-800 transition">
+              <a href="/DashBoard" className="text-gray-600 hover:text-gray-900 transition">
                 Dashboard
               </a>
-              <a href="/courses" className="text-black-400 hover:text-black-800 transition">
+              <a href="/courses" className="text-gray-600 hover:text-gray-900 transition">
                 Courses
               </a>
-               
               <h1
                 onClick={handleLogoutClick}
                 className="text-red-600 cursor-pointer hover:text-red-800 transition"

@@ -5,7 +5,7 @@ import OffersContainer from "../Components/OffersContainer";
 import AfMain from "../Components/AfMain"
 const AffiliatePanel = () => {
   return (
-    <div className="affiliate-panel flex flex-col lg:flex-row min-h-screen">
+    <div className="affiliate-panel flex flex-col lg:flex-row min-h-screen bg-white">
       <AfLeftNav />
       <div className="flex-1 p-4 ">
         <div className="lg:ml-64 ">

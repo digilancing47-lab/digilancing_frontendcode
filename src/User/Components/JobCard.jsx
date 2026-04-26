@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Briefcase, MapPin, Clock, ChevronRight, IndianRupee } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../../apiBase";
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
@@ -49,20 +50,30 @@ const JobCard = ({ job }) => {
     }
   ];
 
+  const [imgError, setImgError] = useState(false);
+
+  const isLinkedInImage = job.company_logo?.includes('licdn.com');
+  const logoSrc = isLinkedInImage
+    ? `${API_BASE}/api/v_1/proxy-image?url=${encodeURIComponent(job.company_logo)}`
+    : job.company_logo;
+
   return (
     <div className="group relative bg-white rounded-2xl border border-gray-200 p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer h-full flex flex-col">
 
       {/* Top Section */}
       <div className="flex items-start gap-4">
-        <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
-          {job.company_logo ? (
+        <div className="w-14 h-14 rounded-xl overflow-hidden bg-indigo-50 flex items-center justify-center flex-shrink-0">
+          {!imgError && job.company_logo ? (
             <img
-              src={job.company_logo}
+              src={logoSrc}
               alt={job.company_name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
+              onError={() => setImgError(true)}
             />
           ) : (
-            <Briefcase className="w-7 h-7 text-gray-500" />
+            <span className="text-indigo-600 font-bold text-lg">
+              {(job.company_name || 'C').charAt(0).toUpperCase()}
+            </span>
           )}
         </div>
 

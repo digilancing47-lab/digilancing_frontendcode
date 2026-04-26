@@ -79,7 +79,7 @@ const WebinarCalendar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#002B54] flex flex-col items-center text-white">
+    <div className="min-h-screen bg-white flex flex-col items-center text-gray-900">
       {/* Header */}
 
       <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[250px] rounded-4xl mb-3 overflow-hidden">

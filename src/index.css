@@ -15,21 +15,19 @@ html, body, #root {
   padding: 0;
 }
 
-/* Affiliate Panel blue background - ensure page stays blue */
+/* Affiliate Panel white background */
 .affiliate-panel {
-  background: #002B54 !important;
+  background: #ffffff !important;
   min-height: 100vh;
 }
 
-/* Force body to be blue when affiliate panel is active */
 body:has(.affiliate-panel),
 html:has(.affiliate-panel) {
-  background: #002B54 !important;
+  background: #ffffff !important;
 }
 
-/* Ensure root container stays blue */
 #root:has(.affiliate-panel) {
-  background: #002B54 !important;
+  background: #ffffff !important;
 }
 
 /* Override Section1 background for certificates page */

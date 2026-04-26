@@ -154,7 +154,7 @@ export default function ReferralDetails() {
       <div className="w-full max-w-7xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse min-w-[900px]">
-          <thead className="bg-[#003B73] text-white uppercase text-xs tracking-wide">
+          <thead className="bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white uppercase text-xs tracking-wide">
             <tr>
               <th className="py-3 px-4">S.no</th>
               <th className="py-3 px-4">Photo</th>
@@ -240,7 +240,7 @@ export default function ReferralDetails() {
                     key={pageNum}
                     onClick={() => gotoPage(pageNum)}
                     className={`px-3 py-1 border rounded ${page === pageNum
-                      ? "bg-[#003B73] text-white font-semibold"
+                      ? "bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white font-semibold"
                       : "bg-white text-gray-700 hover:bg-gray-200"
                       }`}
                   >

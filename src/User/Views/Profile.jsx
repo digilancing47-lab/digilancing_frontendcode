@@ -4,7 +4,7 @@ import AfHeader from "../Components/AfHeader";
 import ProfileMain from "../Components/ProfileMain"
 const Profile = () => {
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[#002B54]">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
       <AfLeftNav />
       <div className="flex-1 p-2 sm:p-4">
         <div className="lg:ml-64">
