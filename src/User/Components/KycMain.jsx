@@ -457,7 +457,7 @@ const KYCForm = () => {
 
   return (
     <div className="w-full p-4 sm:p-6 md:p-8 flex justify-center">
-      <div className="w-full max-w-4xl bg-[#0b3b70] cursor-default rounded-2xl shadow-lg p-6 sm:p-8 text-white">
+      <div className="w-full max-w-4xl bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#06b6d4] cursor-default rounded-2xl shadow-lg p-6 sm:p-8 text-white">
         {/* Step Progress */}
         {currentStage < 3 && (
         <div className="mb-8">
@@ -474,8 +474,8 @@ const KYCForm = () => {
                       currentStage > item.stage
                         ? "bg-green-500 border-green-500"
                         : currentStage === item.stage
-                        ? "bg-white border-white text-[#0b3b70]"
-                        : "bg-transparent border-gray-400"
+                        ? "bg-white border-white text-[#1e3a8a]"
+                        : "bg-transparent border-white/40"
                     }`}
                   >
                     {currentStage > item.stage ? (
@@ -515,12 +515,12 @@ const KYCForm = () => {
               className={`px-6 py-2 rounded-full transition-colors ${
                 nextLoading
                   ? 'bg-gray-400 text-white cursor-not-allowed'
-                  : 'bg-white text-[#0b3b70] cursor-pointer hover:bg-gray-200'
+                  : 'bg-white text-[#1e3a8a] cursor-pointer hover:bg-gray-200'
               }`}
             >
               {nextLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-t-transparent border-[#0b3b70] rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 border-t-transparent border-[#1e3a8a] rounded-full animate-spin"></div>
                   Loading...
                 </div>
               ) : (

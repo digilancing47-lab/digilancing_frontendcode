@@ -48,13 +48,15 @@ const LinkGenerator = () => {
 
   return (
   <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center p-3 sm:p-6">
-      <div className="relative w-full cursor-default text-[#ffffff] text-center h-[200px] sm:h-[300px] rounded-2xl sm:rounded-4xl mb-3 overflow-hidden">
+      <div className="relative w-full cursor-default text-white text-center h-[200px] sm:h-[300px] rounded-2xl sm:rounded-4xl mb-3 overflow-hidden">
              <img src='/LinkGenerator.avif' alt="Link Generator Background" className="absolute inset-0 w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/70 via-[#3b82f6]/50 to-[#06b6d4]/60" />
              <div className="relative flex flex-col items-center justify-center h-full px-4">
                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-wide">LINK GENERATOR</h1>
+               <p className="text-white/80 text-sm mt-2">Generate and share your referral links</p>
              </div>
            </div>
-      <div className="w-full max-w-4xl bg-[#0b3b70] p-4 sm:p-6 rounded-2xl shadow-lg relative mt-3 sm:mt-5">
+      <div className="w-full max-w-4xl bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#06b6d4] p-4 sm:p-6 rounded-2xl shadow-lg relative mt-3 sm:mt-5">
         <h2 className="text-base sm:text-lg font-semibold mb-4 text-white">Affiliate Link Generator</h2>
         <hr className="border-gray-500 mb-4 sm:mb-6" />
         
@@ -86,7 +88,7 @@ const LinkGenerator = () => {
             <select
               value={selectedPackage}
               onChange={(e) => setSelectedPackage(e.target.value)}
-              className="w-full px-3 py-2 rounded-md text-white bg-[#00335B] text-sm sm:text-base"
+              className="w-full px-3 py-2 rounded-md text-white bg-white/10 border border-white/20 text-sm sm:text-base"
             >
               <option value="">-- Select package --</option>
               {packages.map((pkg) => (
@@ -110,7 +112,7 @@ const LinkGenerator = () => {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
                 onClick={generateReferralLink}
-                className="flex-1 sm:flex-none bg-[#00335B] text-white px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base hover:bg-[#002a4a] transition-colors"
+                className="flex-1 sm:flex-none bg-white/15 border border-white/20 text-white px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base hover:bg-white/25 transition-colors"
               >
                 Generate Link
               </button>

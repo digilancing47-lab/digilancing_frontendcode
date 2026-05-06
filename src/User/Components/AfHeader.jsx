@@ -84,7 +84,7 @@ const AfHeader = () => {
                   className="w-8 h-8 mt-2 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-8 h-8 mt-2 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-xs uppercase">
+                <div className="w-8 h-8 mt-2 rounded-full flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white font-bold text-xs uppercase">
                   {name?.slice(0, 2)}
                 </div>
               )}
@@ -120,14 +120,14 @@ const AfHeader = () => {
                 className="w-10 h-10 cursor-pointer rounded-full object-cover"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-lg uppercase" 
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white font-bold text-lg uppercase" 
                onClick={() => navigate("/Profile")}
                 style={{cursor:"pointer"}}>
                 {name?.slice(0, 2)}
               </div>
             )}
             <div onClick={()=>{navigate('/Profile')}} className="flex cursor-pointer px-2 flex-col">
-              <span className="bg-gradient-to-r from-indigo-500 to-indigo-300 bg-clip-text text-transparent font-semibold text-base capitalize">
+              <span className="bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent font-semibold text-base capitalize">
                 Hello! {name}
               </span>
               <span className="text-gray-400 text-sm">

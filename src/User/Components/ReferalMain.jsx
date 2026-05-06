@@ -109,18 +109,12 @@ export default function ReferralDetails() {
   return (
     <div className="min-h-screen bg-gray-50  p-6 rounded-4xl">
       {/* Header */}
-      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[250px] rounded-4xl mb-3 overflow-hidden">
-        {/* Background Image */}
-        <img
-          src={referal}
-          alt="Webinar Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-    
-        {/* Centered Text */}
+      <div className="relative w-full cursor-default text-white text-center h-[250px] rounded-4xl mb-3 overflow-hidden">
+        <img src={referal} alt="Referral Background" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/70 via-[#3b82f6]/50 to-[#06b6d4]/60" />
         <div className="relative flex flex-col items-center justify-center h-full">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">REFERRAL DETAILS</h1>
-          <h1 className="text-sm font-normal tracking-wide">Track and manage your referral network</h1>
+          <p className="text-white/80 text-sm mt-2">Track and manage your referral network</p>
         </div>
       </div>
 

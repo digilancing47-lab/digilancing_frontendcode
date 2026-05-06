@@ -9,7 +9,7 @@ const OffersContainer = () => {
     const isAffiliatePanel = location.pathname === "/AffiliatePanel"
 
     return (
-        <div className=" bg-[#003366] text-white text-center  text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full  flex items-center justify-center sm:px-4  lg:max-w-6xl lg:mx-auto">
+        <div className="bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white text-center text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full flex items-center justify-center sm:px-4 lg:max-w-6xl lg:mx-auto">
             {isOffers && "OFFERS"}
             {isKyc && "KYC"}
             {isAcheivements && "ACHEIVEMENTS"}

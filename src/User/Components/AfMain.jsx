@@ -233,8 +233,7 @@ export default function MainDashboard() {
       )}
 
       {/* Greeting Banner */}
-      <div className="rounded-3xl p-6 md:p-8 mb-6"
-        style={{ backgroundImage: 'linear-gradient(to top, #accbee 0%, #e7f0fd 100%)' }}>
+      <div className="rounded-3xl p-6 md:p-8 mb-6 bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left - Big Profile Image */}
           <div className="relative w-full lg:w-[400px] flex-shrink-0">
@@ -242,7 +241,7 @@ export default function MainDashboard() {
             {user.customer_image ? (
               <img src={user.customer_image} alt="Profile" className="w-full h-full object-cover" />
             ) : (
-              <div className="h-full w-full flex items-center justify-center bg-gradient-to-r from-[#3b82f6] to-[#1e3a8a] text-white/60 font-bold text-[120px] uppercase">
+              <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white/60 font-bold text-[120px] uppercase">
                 {user.fullname?.slice(0, 2)}
               </div>
             )}
@@ -297,7 +296,7 @@ export default function MainDashboard() {
               graph.map((bar, idx) => (
                 <div key={idx} className="flex flex-col items-center flex-1 relative group">
                   <div className="w-full max-w-[40px] rounded-t-lg cursor-pointer relative transition-all hover:opacity-80"
-                    style={{ height: `${bar.height}px`, background: "linear-gradient(180deg, #3b82f6 0%, #1e3a8a 100%)" }}>
+                    style={{ height: `${bar.height}px`, background: "linear-gradient(180deg, #06b6d4 0%, #1e3a8a 100%)" }}>
                     <span className="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded-md shadow-md whitespace-nowrap">
                       {bar.value}{bar.count ? ` • ${bar.count}` : ""}
                     </span>
@@ -352,7 +351,7 @@ export default function MainDashboard() {
                       {img ? (
                         <img src={img} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
                       ) : (
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-r from-[#3b82f6] to-[#1e3a8a] text-white font-bold text-sm uppercase">
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white font-bold text-sm uppercase">
                           {ref.fullname?.slice(0, 2)}
                         </div>
                       )}

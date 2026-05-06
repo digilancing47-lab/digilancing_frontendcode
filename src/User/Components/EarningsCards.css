@@ -1,21 +1,21 @@
 /* Earnings Cards CSS Variables and Styles */
 :root {
-  /* Base blue/teal color palette */
-  --earnings-primary: #0ea5e9;
-  --earnings-primary-dark: #0284c7;
-  --earnings-primary-light: #38bdf8;
+  /* Updated color palette matching the app gradient */
+  --earnings-primary: #3b82f6;
+  --earnings-primary-dark: #1e3a8a;
+  --earnings-primary-light: #06b6d4;
   
-  --earnings-secondary: #06b6d4;
-  --earnings-secondary-dark: #0891b2;
-  --earnings-secondary-light: #22d3ee;
+  --earnings-secondary: #a855f7;
+  --earnings-secondary-dark: #7c3aed;
+  --earnings-secondary-light: #e879f9;
   
-  --earnings-accent: #0d9488;
-  --earnings-accent-dark: #0f766e;
-  --earnings-accent-light: #14b8a6;
+  --earnings-accent: #10b981;
+  --earnings-accent-dark: #065f46;
+  --earnings-accent-light: #34d399;
   
-  --earnings-deep: #1e40af;
-  --earnings-deep-dark: #1e3a8a;
-  --earnings-deep-light: #3b82f6;
+  --earnings-deep: #f59e0b;
+  --earnings-deep-dark: #b45309;
+  --earnings-deep-light: #fbbf24;
 }
 
 /* Gradient Split Card Styles */
@@ -132,5 +132,5 @@
 
 /* Custom range card styling */
 .earnings-card-custom {
-  background: linear-gradient(135deg, var(--earnings-accent-dark) 0%, var(--earnings-secondary) 50%, var(--earnings-deep-light) 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
 }

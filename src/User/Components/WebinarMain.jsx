@@ -82,22 +82,14 @@ const WebinarCalendar = () => {
     <div className="min-h-screen bg-white flex flex-col items-center text-gray-900">
       {/* Header */}
 
-      <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[250px] rounded-4xl mb-3 overflow-hidden">
-  {/* Background Image */}
-  <img
-    src={webiner_image}
-    alt="Webinar Background"
-    className="absolute inset-0 w-full h-full object-cover"
-  />
-
-  {/* Overlay for slight dim effect (optional) */}
-  <div className="absolute inset-0 bg-white/10"></div>
-
-  {/* Centered Text */}
-  <div className="relative flex flex-col items-center justify-center h-full">
-    <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">WEBINAR SCHEDULE</h1>
-  </div>
-</div>
+      <div className="relative w-full cursor-default text-white text-center h-[250px] rounded-4xl mb-3 overflow-hidden">
+        <img src={webiner_image} alt="Webinar Background" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/70 via-[#3b82f6]/50 to-[#06b6d4]/60" />
+        <div className="relative flex flex-col items-center justify-center h-full">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">WEBINAR SCHEDULE</h1>
+          <p className="text-white/80 text-sm mt-2">Stay updated with upcoming sessions</p>
+        </div>
+      </div>
 
 
       {/* Calendar Section (Light Theme) */}
@@ -138,7 +130,7 @@ const WebinarCalendar = () => {
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <button
             onClick={() => setShowMonthPicker(!showMonthPicker)}
-            className="bg-[#12467f] text-[#ffffff] px-3 sm:px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base cursor-pointer hover:bg-[#0b3b70] transition-colors"
+            className="bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white px-3 sm:px-4 py-2 rounded-lg shadow font-semibold text-sm sm:text-base cursor-pointer hover:opacity-90 transition-opacity"
           >
             Month
           </button>
@@ -170,7 +162,7 @@ const WebinarCalendar = () => {
                     key={monthIndex}
                     className={`px-3 py-2 rounded text-sm transition-colors ${
                       selectedMonth === monthIndex
-                        ? "bg-[#0b3b70] text-white"
+                        ? "bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white"
                         : "hover:bg-gray-200"
                     }`}
                     onClick={() =>
@@ -208,7 +200,7 @@ const WebinarCalendar = () => {
               />
 
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#0b3b70]">
+                <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#1e3a8a]">
                   {selectedEvent.title}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-700 mb-2">
