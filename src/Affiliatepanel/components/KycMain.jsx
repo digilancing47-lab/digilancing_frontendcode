@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Check, AlertTriangle, X } from "lucide-react";
 import { API_BASE } from "../../apiBase";
 
+import { FaBullhorn } from "react-icons/fa";
+
 const KYCForm = () => {
   const [currentStage, setCurrentStage] = useState(1);
   const [showWarning, setShowWarning] = useState(false);
@@ -245,7 +247,7 @@ const KYCForm = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {fields.map((field) => (
           <div key={field.name} className="w-full">
-            <label className="block mb-2 text-sm font-medium">{field.label}</label>
+            <label className="block mb-2 text-sm font-medium text-black">{field.label}</label>
             <div className="relative">
               <input
                 type={field.type}
@@ -260,7 +262,7 @@ const KYCForm = () => {
                   }
                 }}
                 readOnly={['fullName', 'email', 'phone'].includes(field.name)}
-                className={`w-full border rounded-2xl p-3 text-black focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                className={`w-full px-5 py-4 border border-gray-300 rounded-2xl text-black text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600 ${
                   ['fullName', 'email', 'phone'].includes(field.name) 
                     ? 'bg-gray-100 cursor-pointer' 
                     : 'bg-white'
@@ -332,13 +334,13 @@ const KYCForm = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {fields.map((field) => (
           <div key={field.name} className="w-full">
-            <label className="block mb-2 text-sm font-medium">{field.label}</label>
+            <label className="block mb-2 text-sm font-medium text-black">{field.label}</label>
             {field.type === "select" ? (
               <select
                 name={field.name}
                 value={formData[field.name]}
                 onChange={handleChange}
-                className="w-full border rounded-2xl p-3 text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-5 py-4 border border-gray-300 rounded-2xl text-black bg-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
                 <option value="">Select {field.label}</option>
                 {field.options.map((option) => (
@@ -352,7 +354,7 @@ const KYCForm = () => {
                 placeholder={field.placeholder}
                 value={formData[field.name]}
                 onChange={handleChange}
-                className="w-full border rounded-2xl p-3 text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-5 py-4 border border-gray-300 rounded-2xl text-black bg-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             )}
             {errors[field.name] && (
@@ -446,18 +448,52 @@ const KYCForm = () => {
 
   if (kycLoading) {
     return (
-      <div className="w-full p-4 sm:p-6 md:p-8 flex justify-center items-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-t-transparent border-blue-600 rounded-full animate-spin"></div>
-          <p className="text-white text-lg">Loading KYC Status...</p>
+      <div className="flex-1 bg-white rounded-3xl p-3">
+        {/* Banner skeleton */}
+        <div className="w-full h-[300px] rounded-3xl mb-3 bg-gray-200 animate-pulse" />
+        {/* Form skeleton */}
+        <div className="p-6 sm:p-8">
+          {/* Step progress skeleton */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
+                {i < 3 && <div className="w-12 sm:w-20 h-0.5 bg-gray-200 animate-pulse" />}
+              </div>
+            ))}
+          </div>
+          {/* Input fields skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i}>
+                <div className="h-4 w-24 bg-gray-200 rounded animate-pulse mb-2" />
+                <div className="h-14 w-full bg-gray-200 rounded-2xl animate-pulse" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full p-4 sm:p-6 md:p-8 flex justify-center">
-      <div className="w-full max-w-4xl bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#06b6d4] cursor-default rounded-2xl shadow-lg p-6 sm:p-8 text-white">
+    <div className="flex-1 bg-white  rounded-3xl backdrop-blur-xl border border-white/10 p-3 relative">
+      <div className="flex flex-col items-center">
+       <div className="relative w-full cursor-default text-[#ffffff] text-center  h-[300px] rounded-3xl mb-3 overflow-hidden">
+         <img src='/Marketingtools.avif' alt="Webinar Background" className="absolute inset-0 w-full h-full object-cover" />
+         <div className="relative flex flex-col items-center justify-center h-full">
+           <div className="w-20 h-20 mx-auto rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
+              <FaBullhorn className="h-8 w-8 text-white" />
+           </div>
+           <h1 className="text-3xl font-bold text-white">KYC Verification</h1>
+           <p className="text-white/70 mt-2 max-w-md text-sm">
+               Ensure secure and compliant affiliate participation with our streamlined KYC process
+           </p>
+         </div>
+       </div>
+      </div>
+      {/*  Kyc form */}
+      <div className="w-full cursor-default rounded-2xl p-6 sm:p-8 text-white">
         {/* Step Progress */}
         {currentStage < 3 && (
         <div className="mb-8">
@@ -470,26 +506,26 @@ const KYCForm = () => {
               <React.Fragment key={item.stage}>
                 <div className="flex flex-col items-center w-24 sm:w-auto">
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 flex items-center justify-center mb-2 ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center mb-2 ${
                       currentStage > item.stage
-                        ? "bg-green-500 border-green-500"
+                        ? "bg-green-500 border-green-500 text-white"
                         : currentStage === item.stage
-                        ? "bg-white border-white text-[#1e3a8a]"
-                        : "bg-transparent border-white/40"
+                        ? "bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] border-[#3b82f6] text-white"
+                        : "bg-transparent border-gray-300 text-black"
                     }`}
                   >
                     {currentStage > item.stage ? (
                       <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     ) : (
-                      <span className="text-sm sm:text-base font-bold">{item.stage}</span>
+                      <span className="text-sm sm:text-base font-light">{item.stage}</span>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-center font-medium">{`Stage ${item.stage}`}</p>
-                  <span className="text-xs sm:text-sm font-semibold text-center leading-tight">{item.title}</span>
+                  <p className="text-xs sm:text-[14px] text-center font-semibold text-black">{`Stage ${item.stage}`}</p>
+                  <span className="text-[14px] mt-0.5 font-light text-center leading-tight text-black/40">{item.title}</span>
                 </div>
                 {idx < 2 && (
                   <div className={`w-12 sm:w-20 h-0.5 mt-5 sm:mt-6 ${
-                    currentStage > item.stage ? "bg-green-500" : "bg-gray-400"
+                    currentStage > item.stage ? "bg-green-500" : "bg-gray-300"
                   }`}></div>
                 )}
               </React.Fragment>
@@ -508,19 +544,18 @@ const KYCForm = () => {
         {/* Navigation Buttons */}
         {currentStage < 3 && (
           <div className="flex justify-end">
-
             <button
               onClick={handleNext}
               disabled={nextLoading}
-              className={`px-6 py-2 rounded-full transition-colors ${
+              className={`bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white w-full max-w-[150px] py-2 rounded-2xl font-semibold text-sm sm:text-base whitespace-nowrap transition-colors ${
                 nextLoading
-                  ? 'bg-gray-400 text-white cursor-not-allowed'
-                  : 'bg-white text-[#1e3a8a] cursor-pointer hover:bg-gray-200'
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'cursor-pointer hover:opacity-90'
               }`}
             >
               {nextLoading ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-t-transparent border-[#1e3a8a] rounded-full animate-spin"></div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></div>
                   Loading...
                 </div>
               ) : (

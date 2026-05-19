@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import img1 from "../Assets/pro-ref.png"; // fallback photo
+import img1 from "../../User/Assets/pro-ref.png"; // fallback photo
 import { API_BASE } from "../../apiBase";
 import referal from '/referal.avif'
 
@@ -107,7 +107,7 @@ export default function ReferralDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50  p-6 rounded-4xl">
+    <div className="flex-1 bg-white  rounded-3xl backdrop-blur-xl border border-white/10 p-3 relative">
       {/* Header */}
       <div className="relative w-full cursor-default text-white text-center h-[250px] rounded-4xl mb-3 overflow-hidden">
         <img src={referal} alt="Referral Background" className="absolute inset-0 w-full h-full object-cover" />
@@ -126,26 +126,36 @@ export default function ReferralDetails() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name / email / phone"
-          className="px-4 py-2 rounded-lg w-full sm:w-96 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border border-gray-300 shadow-sm text-gray-700"
+          className="px-4 py-3 rounded-lg w-full sm:w-96 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border border-gray-300 shadow-sm text-gray-700"
         />
         <div className="ml-auto flex items-center gap-2">
           <label className="text-gray-700 text-sm">Rows:</label>
-          <select
-            value={limit}
-            onChange={handleLimitChange}
-            className="px-3 py-2 rounded border border-gray-300 shadow-sm bg-white text-gray-700"
-          >
-            {[5, 10, 20, 50].map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={limit}
+              onChange={handleLimitChange}
+              className="appearance-none px-3 py-1 pr-8 rounded border border-gray-300 shadow-sm bg-white text-gray-700"
+            >
+              {[5, 10, 20, 50].map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+            <svg
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
       </div>
 
       {/* Table */}
-      <div className="w-full max-w-7xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="w-full  mx-auto bg-white overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse min-w-[900px]">
           <thead className="bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white uppercase text-xs tracking-wide">
@@ -161,11 +171,17 @@ export default function ReferralDetails() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan={7} className="py-6 text-center">
-                  Loading...
-                </td>
-              </tr>
+              Array.from({ length: limit }).map((_, i) => (
+                <tr key={i} className="animate-pulse">
+                  <td className="py-3 px-4"><div className="h-4 w-6 bg-gray-200 rounded"></div></td>
+                  <td className="py-3 px-4"><div className="h-10 w-10 bg-gray-200 rounded-full"></div></td>
+                  <td className="py-3 px-4"><div className="h-4 w-24 bg-gray-200 rounded"></div></td>
+                  <td className="py-3 px-4"><div className="h-4 w-28 bg-gray-200 rounded"></div></td>
+                  <td className="py-3 px-4"><div className="h-4 w-36 bg-gray-200 rounded"></div></td>
+                  <td className="py-3 px-4"><div className="h-4 w-24 bg-gray-200 rounded"></div></td>
+                  <td className="py-3 px-4"><div className="h-4 w-32 bg-gray-200 rounded"></div></td>
+                </tr>
+              ))
             ) : error ? (
               <tr>
                 <td colSpan={7} className="py-6 text-center text-red-500 font-medium">

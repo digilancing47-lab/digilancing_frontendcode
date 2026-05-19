@@ -1,10 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Trophy, Star, Zap, Target, Crown, Gem, Flame } from 'lucide-react';
-import f1 from "../Assets/cup.png";
-import b1 from "../Assets/b_1.png";
-import b2 from "../Assets/b_2.png";
-import b3 from "../Assets/b_3.png";
+
 
 const achievements = [
   { title: '10 Lakhs', subtitle: 'Rising Star', description: 'Complete previous levels to unlock', level: 1, icon: <Star className="w-5 h-5" />, gradient: 'from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]' },
@@ -18,36 +15,27 @@ const achievements = [
 ];
 
 const stats = [
-  { value: '0', label: 'Achievements Unlocked', icon: b1, gradient: 'from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]' },
-  { value: '8', label: 'Goals Remaining', icon: b2, gradient: 'from-[#7c3aed] via-[#a855f7] to-[#e879f9]' },
-  { value: '0%', label: 'Progress Completion', icon: b3, gradient: 'from-[#b45309] via-[#f59e0b] to-[#fbbf24]' },
+  { value: '0', label: 'Achievements Unlocked', icon: <Trophy className="w-7 h-7 text-white" />, gradient: 'from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]' },
+  { value: '8', label: 'Goals Remaining', icon: <Target className="w-7 h-7 text-white" />, gradient: 'from-[#7c3aed] via-[#a855f7] to-[#e879f9]' },
+  { value: '0%', label: 'Progress Completion', icon: <Flame className="w-7 h-7 text-white" />, gradient: 'from-[#b45309] via-[#f59e0b] to-[#fbbf24]' },
 ];
 
 const AchievementPage = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center pb-10">
+    <div className="flex-1 bg-white  rounded-3xl backdrop-blur-xl border border-white/10 p-3 relative">
 
       {/* Header */}
-      <div className="w-full rounded-3xl p-8 flex flex-col items-center text-center bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4] text-white text-center text-lg sm:text-3xl md:text-5xl font-medium h-56 sm:h-64 md:h-72 rounded-3xl w-full flex items-center justify-center relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-60 h-60 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
         <div className="relative z-10 flex flex-col items-center">
           <div className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
-            <img src={f1} alt="Trophy" className="h-12 w-12" />
+            <Trophy className="h-10 w-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-white">Your Achievements</h1>
           <p className="text-white/70 mt-2 max-w-md text-sm">
             Track your progress and unlock powerful rewards
           </p>
-          <div className="mt-5 w-full max-w-xs">
-            <div className="flex justify-between text-[11px] text-white/50 mb-1">
-              <span>Progress</span>
-              <span>0 / 8</span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-white/40 w-[0%]" />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -98,7 +86,7 @@ const AchievementPage = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-14 w-full max-w-4xl px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-14 w-full px-4">
         {stats.map((stat, i) => (
           <motion.div
             key={i}
@@ -111,7 +99,7 @@ const AchievementPage = () => {
             <div className={`bg-gradient-to-br ${stat.gradient} rounded-2xl p-6 flex flex-col items-center relative overflow-hidden opacity-95`}>
               <div className="absolute -top-6 -right-6 w-20 h-20 bg-white/10 rounded-full" />
               <div className="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center mb-3">
-                <img src={stat.icon} alt={stat.label} className="h-7 w-7" />
+                {stat.icon}
               </div>
               <p className="text-2xl font-bold text-white">{stat.value}</p>
               <p className="text-xs text-white/70 mt-1 text-center">{stat.label}</p>

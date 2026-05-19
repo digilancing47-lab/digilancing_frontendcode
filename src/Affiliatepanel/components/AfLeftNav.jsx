@@ -10,16 +10,16 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
 
     const menuItems = [
         { path: "/AffiliatePanel", key: "DashBoard", label: "Overview", icon: LayoutDashboard },
-        { path: "/Offers", key: "Offers", label: "Offers", icon: Package },
-        { path: "/Acheivements", key: "acheivements", label: "Acheivements", icon: Award },
-        { path: "/Marketingtools", key: "marketingtools", label: "Marketing Tools", icon: Network },
-        { path: "/Training", key: "training", label: "Training", icon: Monitor },
-        { path: "/Webinar", key: "webinar", label: "Webinar", icon: Headset },
-        { path: "/LinkGenerator", key: "linkgenerator", label: "Link Generator", icon: Link2 },
-        { path: "/Kyc", key: "kyc", label: "Kyc", icon: UserCheck },
-        { path: "/ReferalDetails", key: "referaldetails", label: "Referal Details", icon: Users },
-        { path: "/Qualification", key: "qualification", label: "Qualification", icon: BookOpen },
-        { path: "/Earning", key: "earning", label: "Earning", icon: BarChart2 },
+        { path: "/AffiliatePanel/Offer", key: "Offers", label: "Offers", icon: Package },
+        { path: "/AffiliatePanel/Acheivements", key: "acheivements", label: "Acheivements", icon: Award },
+        { path: "/AffiliatePanel/Marketingtools", key: "marketingtools", label: "Marketing Tools", icon: Network },
+        { path: "/AffiliatePanel/Training", key: "training", label: "Training", icon: Monitor },
+        { path: "/AffiliatePanel/Webinar", key: "webinar", label: "Webinar", icon: Headset },
+        { path: "/AffiliatePanel/LinkGenerator", key: "linkgenerator", label: "Link Generator", icon: Link2 },
+        { path: "/AffiliatePanel/KYC", key: "kyc", label: "Kyc", icon: UserCheck },
+        { path: "/AffiliatePanel/ReferalDetails", key: "referaldetails", label: "Referal Details", icon: Users },
+        { path: "/AffiliatePanel/Qualification", key: "qualification", label: "Qualification", icon: BookOpen },
+        { path: "/AffiliatePanel/Earnings", key: "earning", label: "Earning", icon: BarChart2 },
     ];
 
     const getActiveMenu = () => {
@@ -44,19 +44,11 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
     return (
         <>
             {/* Sidebar */}
-            <aside id="sidebar" className={`fixed lg:sticky top-0 left-0 z-40 lg:z-30 h-screen transition-transform transform
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-          lg:top-[2vh] lg:left-2 lg:w-64 lg:h-[96vh] lg:translate-x-0
-          ${isOpen ? 'rounded-none' : 'lg:rounded-3xl'} lg:rounded-3xl
-          w-[50vw] max-w-sm
-        `}
-                aria-label="Sidebar"
-            >
+            <aside id="sidebar" className={`fixed lg:sticky top-0 left-0 z-40 lg:z-30 h-screen transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:top-[2vh] lg:left-2 lg:w-64 lg:h-[96vh] lg:translate-x-0 ${isOpen ? 'rounded-none' : 'lg:rounded-3xl'} lg:rounded-3xl w-[50vw] max-w-sm`} aria-label="Sidebar">
                 <div className="h-full bg-white/1 backdrop-blur-xl border border-white/10 flex flex-col p-2 lg:rounded-3xl rounded-none lg:h-full lg:relative lg:flex-shrink-0 transition-all duration-300 ease-in-out overflow-auto">
                     {/* Logo Section */}
                     <div className="flex items-center justify-between pr-3 pt-3 h-16">
-                        <span
-                            className="text-xl font-bold text-[#2B3FF5] flex items-center gap-2"
+                        <span className="text-xl font-bold text-[#2B3FF5] flex items-center gap-2"
                             style={{ fontFamily: "Finance" }}
                         >
                             <img
@@ -81,9 +73,9 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
                                 <li key={key} className="md-1 md:mb-2">
                                     <Link
                                         to={path}
-                                        className={`flex items-center text-[16px] py-3 px-3 font-semibold transition-all duration-300 ${activeMenu === key
-                                            ? 'bg-white/5 backdrop-blur-sm border border-white/10 text-white rounded-xl '
-                                            : 'text-white hover:bg-white/5 rounded-md'}`}
+                                        className={`flex items-center text-[15px] py-3 px-3 font-semibold border rounded-xl transition-colors duration-300 ${activeMenu === key
+                                            ? 'bg-white/5 backdrop-blur-sm border-white/10 text-white'
+                                            : 'border-transparent text-white hover:bg-white/5'}`}
                                     >
                                         <Icon className="w-5 h-5 mr-3" />
                                         {label}

@@ -1,0 +1,616 @@
+import React, { useEffect, useState } from "react";
+import { API_BASE } from "../../apiBase";
+import { useNavigate } from "react-router-dom";
+
+
+
+// ---- Animated counter component (paste above MainDashboard) ----
+function AnimatedAmount({ value = 0, duration = 900, formatter }) {
+  const [display, setDisplay] = useState(0);
+
+
+  useEffect(() => {
+    let raf;
+    let startTimestamp = null;
+
+    // if value is 0, just set immediately
+    if (!value) {
+      setDisplay(0);
+      return;
+    }
+
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const elapsed = timestamp - startTimestamp;
+      const progress = Math.min(elapsed / duration, 1); // 0..1
+      const current = Math.round(value * progress); // linear easing
+      setDisplay(current);
+      if (progress < 1) {
+        raf = requestAnimationFrame(step);
+      }
+    };
+
+    raf = requestAnimationFrame(step);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [value, duration]);
+
+  return <p className="text-white text-lg sm:text-3xl font-bold">{formatter ? formatter(display) : display}</p>;
+}
+
+
+function PackagePieChart({ dataObj = {}, size = 220, innerRadiusPct = 0.62, loading = false }) {
+  const [data, setData] = useState([]);
+  const [hovered, setHovered] = useState(null);
+  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: "" });
+
+  useEffect(() => {
+    let arr = [];
+    if (Array.isArray(dataObj)) {
+      arr = dataObj.map((d, i) => ({ id: d.id || d.label || `item-${i}`, pct: Number(d.pct ?? d.value ?? d.percentage ?? 0) }));
+    } else if (dataObj && typeof dataObj === "object") {
+      arr = Object.entries(dataObj).map(([k, v]) => ({ id: k, pct: Number(v) || 0 }));
+    }
+    
+    // Ensure we always have some data to display
+    if (arr.length === 0 || arr.every(x => x.pct === 0)) {
+      arr = [
+        { id: "DIGI0001", pct: 20 },
+        { id: "DIGI0002", pct: 15 },
+        { id: "DIGI0003", pct: 25 },
+        { id: "DIGI0004", pct: 30 },
+        { id: "DIGI0005", pct: 10 }
+      ];
+    }
+    
+    const total = arr.reduce((s, x) => s + x.pct, 0);
+    const normalized = total > 0 ? arr.map((x) => ({ ...x, pct: (x.pct / total) * 100 })) : arr.map((x) => ({ ...x, pct: 0 }));
+    setData(normalized);
+  }, [dataObj]);
+
+  const packages = [
+    { id: "DIGI0001", name: "Basic Package" },
+    { id: "DIGI0002", name: "Standard Package" },
+    { id: "DIGI0003", name: "Advanced Package" },
+    { id: "DIGI0004", name: "Premium Package" },
+    { id: "DIGI0005", name: "Ultimate Package" },
+  ];
+
+  const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7"];
+
+  if (!data.length) {
+    return (
+      <div className="flex flex-col items-center justify-center h-48">
+        <div className="text-sm text-gray-500">Loading packages...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full flex flex-col items-center">
+      {/* Simple Pie Chart using CSS */}
+      <div className="relative w-48 h-48 rounded-full overflow-hidden mb-4" style={{
+        background: `conic-gradient(
+          ${data.map((item, index) => {
+            const startAngle = data.slice(0, index).reduce((sum, d) => sum + (d.pct * 3.6), 0);
+            const endAngle = startAngle + (item.pct * 3.6);
+            return `${COLORS[index % COLORS.length]} ${startAngle}deg ${endAngle}deg`;
+          }).join(', ')}
+        )`
+      }}>
+        <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center">
+          <span className="text-sm font-semibold text-gray-600">Packages</span>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="w-full grid grid-cols-1 gap-2">
+        {data
+          .slice()
+          .sort((a, b) => b.pct - a.pct)
+          .map((s, index) => {
+            const pkgName = packages.find((p) => p.id === s.id)?.name || s.id;
+            return (
+              <div key={s.id} className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <span 
+                    className="w-4 h-4 rounded-sm inline-block" 
+                    style={{ background: COLORS[data.findIndex(d => d.id === s.id) % COLORS.length] }} 
+                  />
+                  <span className="truncate text-sm">{pkgName}</span>
+                </div>
+                <div className="text-gray-600 font-bold">{s.pct.toFixed(1)}%</div>
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
+
+// -------------------------
+// Main Dashboard (updated)
+// -------------------------
+export default function MainDashboard() {
+  const packages = [
+    { id: "DIGI0001", name: "Basic Package" },
+    { id: "DIGI0002", name: "Standard Package" },
+    { id: "DIGI0003", name: "Advanced Package" },
+    { id: "DIGI0004", name: "Premium Package" },
+    { id: "DIGI0005", name: "Ultimate Package" },
+  ];
+
+  const Navigate = useNavigate()
+
+  // load mock lists into state (simulate)
+  const [loading, setLoading] = useState(false);
+  // parse user & enrollment from sessionStorage
+  let parsedUser = null;
+  let enrolledid = null;
+  try {
+    parsedUser = JSON.parse(sessionStorage.getItem("user") || "null");
+    enrolledid = JSON.parse(sessionStorage.getItem("enrollment") || "null");
+  } catch (e) {
+    parsedUser = sessionStorage.getItem("user") || null;
+    enrolledid = sessionStorage.getItem("enrollment") || null;
+  }
+
+  const user = parsedUser;
+  const [guide_code] = useState(user?.guide_code || "");
+
+  // api data + loading
+  const [apiData, setApiData] = useState(null);
+  const [Last6monthsearnings, setLast6monthsearnings] = useState([]);
+
+  // Recent referreal and package enrolled - robust extraction
+  const [recentreferrals, setrecentreferrals] = useState([]);
+  const [packagePercentages, setpackagePercentages] = useState({}); // store as object by default
+  const [packageCounts, setpackageCounts] = useState([]);
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      if (!guide_code) return;
+      const cachedData = sessionStorage.getItem(`dashboard_${guide_code}`);
+      if (cachedData) {
+        setApiData(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/v_1/Affiliate/${guide_code}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch data");
+        const result = await res.json();
+
+        setApiData(result?.data ?? null);
+        sessionStorage.setItem(
+          `dashboard`,
+          JSON.stringify(result?.data ?? null)
+        );
+      } catch (error) {
+        console.error("Error fetching dashboard:", error);
+        setApiData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, [guide_code]);
+
+
+  // fetch last 6 months earnings - robust extraction
+  useEffect(() => {
+    const fetchLast6 = async () => {
+      if (!guide_code) return;
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/api/v_1/Affiliate/Last6monthsearnings/${guide_code}`);
+        if (!res.ok) throw new Error("Failed to fetch last6 data");
+        const result = await res.json();
+        const payload = result?.data ?? result ?? {};
+        const arr = Array.isArray(payload) ? payload : Array.isArray(payload.monthly6) ? payload.monthly6 : [];
+        setLast6monthsearnings(arr);
+      } catch (error) {
+        console.error("Error fetching last6:", error);
+        setLast6monthsearnings([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLast6();
+  }, [guide_code]);
+
+  // fetch recent enrolls + package stats
+  useEffect(() => {
+    const fetchPackageData = async () => {
+      if (!guide_code) return;
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/api/v_1/Affiliate/lastRecentEnrolls/${guide_code}`);
+        if (!res.ok) throw new Error("Failed to fetch package data");
+        const result = await res.json();
+        console.log("Package API Response:", result); // Debug log
+        
+        // Handle different possible response structures
+        setrecentreferrals(result.referrals || result.data?.referrals || []);
+        
+        // Handle package percentages - convert to proper format if needed
+        let packagePerc = result.packagePercentages || result.data?.packagePercentages || {};
+        
+        // If packagePercentages is empty, create mock data for testing
+        if (Object.keys(packagePerc).length === 0) {
+          packagePerc = {
+            "DIGI0001": 20,
+            "DIGI0002": 15,
+            "DIGI0003": 25,
+            "DIGI0004": 30,
+            "DIGI0005": 10
+          };
+        }
+        
+        setpackagePercentages(packagePerc);
+        setpackageCounts(result.packageCounts || result.data?.packageCounts || []);
+      } catch (error) {
+        console.error("Error fetching package data:", error);
+        // Set fallback data on error
+        setpackagePercentages({
+          "DIGI0001": 20,
+          "DIGI0002": 15,
+          "DIGI0003": 25,
+          "DIGI0004": 30,
+          "DIGI0005": 10
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPackageData();
+  }, [guide_code]);
+
+  // Rank
+  const [LeaderBoard, setLeaderBoard] = useState([]);
+  const [customerrank, setrank] = useState([]);
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      if (!guide_code) return;
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/v_1/Affiliate/rankposition/${guide_code}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch data");
+
+        const result = await res.json();
+        setrank(result.data.target.rank);
+        setLeaderBoard(result.data.window);
+      } catch (error) {
+        console.error("Error fetching dashboard:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, [guide_code]);
+
+  const inrFormatter = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-white bg-[#002E5D]">Loading user profile...</div>
+    );
+  }
+
+  const last6 = Array.isArray(Last6monthsearnings) ? Last6monthsearnings : [];
+  const maxTotal = last6.length ? Math.max(...last6.map((m) => Number(m.total || 0))) : 1;
+  const graph = last6.map((item) => {
+    const monthLabel = (item.label || item.month || "").split(" ")[0] || "-";
+    const total = Number(item.total || 0);
+    const height = maxTotal > 0 ? (total / maxTotal) * 200 : 0;
+    return { month: monthLabel, value: `₹${total.toLocaleString()}`, height, count: item.count || 0 };
+  });
+
+  const enrolledPackageName = packages.find((pkg) => pkg.id === enrolledid?.package_id)?.name || "Unknown Package";
+  const fmtCurrency = (amtStr) => {
+    const num = Number(amtStr || 0);
+    return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(num);
+  };
+
+
+
+
+  const earningsData = apiData
+    ? [
+      {
+        id: "today",
+        label: "Today's Earning",
+        amount: inrFormatter.format(Number(apiData.today?.total || 0)),
+        amountNum: Number(apiData.today?.total || 0),
+        count: apiData.today?.count,
+      },
+      {
+        id: "last7",
+        label: "Last 7 Days Earnings",
+        amount: inrFormatter.format(Number(apiData.last7Days?.total || 0)),
+        amountNum: Number(apiData.last7Days?.total || 0),
+        count: apiData.last7Days?.count,
+      },
+      {
+        id: "last30",
+        label: "Last 30 Days Earnings",
+        amount: inrFormatter.format(Number(apiData.last30Days?.total || 0)),
+        amountNum: Number(apiData.last30Days?.total || 0),
+        count: apiData.last30Days?.count,
+      },
+      {
+        id: "allTime",
+        label: "All Time Earning",
+        amount: inrFormatter.format(Number(apiData.allTime?.total || 0)),
+        amountNum: Number(apiData.allTime?.total || 0),
+        count: apiData.allTime?.count,
+      },
+    ]
+    : [];
+
+
+  return (
+    <main className="flex-1 bg-white/5 rounded-3xl backdrop-blur-xl border border-white/10 p-0 relative">
+      {/* Skeleton loader */}
+      {loading && (
+        <div className="flex flex-col text-[#000000] font-sans">
+          <div className=" rounded-4xl p-4">
+            <div className="flex flex-col lg:flex-row gap-6">
+              <div className="w-full lg:w-[350px] h-[220px] rounded-4xl bg-gray-200 animate-pulse" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="bg-gray-200 rounded-2xl h-28 animate-pulse" />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="rounded-3xl p-4 ">
+            <div className="grid grid-cols-1 lg:grid-cols-10 gap-3">
+              <div className="lg:col-span-7 flex flex-col gap-3">
+                <div className="bg-gray-200 rounded-4xl h-[340px] animate-pulse" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-gray-200 rounded-2xl h-[250px] animate-pulse" />
+                  <div className="bg-gray-200 rounded-2xl h-[250px] animate-pulse" />
+                </div>
+              </div>
+              <div className="lg:col-span-3">
+                <div className="bg-gray-200 rounded-2xl h-[400px] animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col text-[#000000] font-sans">
+        {/* Top Section */}
+        <div className="rounded-4xl p-4">
+          <div className="flex flex-col lg:flex-row gap-6">
+            <div className="relative w-full lg:w-[350px] h-[220px] rounded-4xl overflow-hidden shadow-md flex-shrink-0">
+              {user.customer_image ? (
+                <img src={user.customer_image} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <div className="h-full w-full mx-auto flex items-center  justify-center bg-gradient-to-r from-indigo-500  to-indigo-300 text-white/60 font-bold text-[150px] uppercase">
+                  {user.fullname?.slice(0, 2)}
+                </div>
+              )}
+              <div className="absolute bottom-4 left-4 right-4 bg-white/90 rounded-2xl shadow-md px-4 py-3 flex items-center justify-between">
+                <div className="flex flex-col">
+                  <h2 className="text-sm sm:text-base uppercase font-semibold text-black">{user.fullname}</h2>
+                  <p className="text-[11px] sm:text-xs text-gray-600 truncate">ID: {user.guide_code} | {enrolledPackageName} <span className="text-[#0088FF] font-medium">{user.role}</span></p>
+                </div>
+              </div>
+            </div>
+
+            {/* Earnings Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 flex-1">
+              {loading && earningsData.length === 0 ? (
+                // skeletons while loading
+                <>
+                  <div className="bg-[#2264EC] rounded-2xl p-4 sm:p-6 flex flex-col justify-center shadow-md animate-pulse h-28" />
+                  <div className="bg-[#2264EC] rounded-2xl p-4 sm:p-6 flex flex-col justify-center shadow-md animate-pulse h-28" />
+                </>
+              ) : (
+                earningsData.map((earning) => (
+                  <div key={earning.id} className="bg-[#2264EC] border border-white/10 rounded-2xl p-4 sm:p-6 flex flex-col justify-center">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-white rounded-full">
+                        <img src="/money-bag.svg" alt="" className="w-6" />
+                      </div>
+                      <div className="">
+                        <p className="text-gray-200 text-xs sm:text-[12px]">{earning.label}</p>
+
+                        {/* Animated amount: uses numeric value; falls back to formatted string if you want */}
+                        <AnimatedAmount
+                          value={earning.amountNum || 0}
+                          duration={900}
+                          formatter={(n) => inrFormatter.format(n)}
+                        />
+
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="rounded-3xl p-4 ">
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-3">
+            {/* LEFT big */}
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              {/* Earning Graph */}
+              <div className="bg-[#F9FAFB] rounded-4xl p-4 sm:p-6 shadow-sm">
+                <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+                  <h3 className="font-semibold text-xl">Earning Graph</h3>
+                  <span className="text-sm bg-[#E6F7E9] text-[#1E6FFF] px-6 py-1 rounded-lg">Last 6 months</span>
+                </div>
+                <div className="flex items-end justify-between gap-3 sm:gap-2 h-[280px] px-2 sm:px-6 pb-2">
+                  {loading && graph.length === 0 ? (
+                    <div className="flex-1 flex items-center justify-center text-sm text-gray-400">Loading graph...</div>
+                  ) : graph.length === 0 ? (
+                    <div className="flex-1 flex items-center justify-center text-sm text-gray-400">No earnings data for the last 6 months</div>
+                  ) : (
+                    graph.map((bar, idx) => (
+                      <div key={idx} className="flex flex-col items-center flex-1 relative group">
+                        <div className=" w-full max-w-[34px] cursor-pointer relative" style={{ height: `${bar.height}px`, background: "linear-gradient(180deg, #C9E7FF 0%, #5BBEFF 100%)", boxShadow: "0 4px 16px 0 rgba(30,111,255,0.07)" }}>
+                          <span className="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs px-2 py-1 rounded-md shadow-md whitespace-nowrap">{bar.value} {bar.count ? ` • ${bar.count}` : ""}</span>
+                        </div>
+                        <span className="text-xs mt-2 text-[#062F43]">{bar.month}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Referrals + Leaderboard */}
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-3">
+                {/* Recent Referrals */}
+                <div className="bg-[#F9FAFB] rounded-2xl p-4 sm:p-6 shadow-sm">
+                  <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    <h3 className="font-semibold text-xl">Your Recent Referrals</h3>
+                    <button onClick={()=>{Navigate('/ReferalDetails')}} className="text-xs cursor-pointer bg-[#E6F7E9] text-[#1E6FFF] px-3 py-1 rounded-full">See all</button>
+                  </div>
+                  <div className="space-y-3">
+                    {loading && recentreferrals.length === 0 ? (
+                      // referral skeletons
+                      <>
+                        <div className="flex justify-between items-center animate-pulse">
+                          <div className="flex items-center py-1 gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                            <div className="flex flex-col gap-1">
+                              <div className="w-36 h-4 bg-gray-200 rounded" />
+                              <div className="w-20 h-3 bg-gray-200 rounded" />
+                            </div>
+                          </div>
+                          <div className="w-16 h-5 bg-gray-200 rounded" />
+                        </div>
+                        <div className="flex justify-between items-center animate-pulse">
+                          <div className="flex items-center py-1 gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                            <div className="flex flex-col gap-1">
+                              <div className="w-36 h-4 bg-gray-200 rounded" />
+                              <div className="w-20 h-3 bg-gray-200 rounded" />
+                            </div>
+                          </div>
+                          <div className="w-16 h-5 bg-gray-200 rounded" />
+                        </div>
+                      </>
+                    ) : (
+                      recentreferrals.map((ref, idx) => {
+                        const pkg = packages.find((p) => p.id === ref.package_id)?.name || ref.package_id || "Unknown Package";
+                        const img = ref.customer_image;
+                        const earned = fmtCurrency(ref.amount);
+                        return (
+                          <div key={idx} className="flex justify-between items-center">
+                            <div className="flex items-center py-1 gap-3">
+
+                              {img ? (
+                                <img
+                                  src={img}
+                                  alt="Profile"
+                                  className="w-10 h-10 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500  to-indigo-300 text-white font-bold text-lg uppercase">
+                                  {ref.fullname?.slice(0, 2)}
+                                </div>
+                              )}
+                              <div className="flex flex-col">
+                                <span className="text-[16px] font-semibold capitalize">{ref.fullname}</span>
+                                <span className="text-[12px] text-gray-500">{pkg}</span>
+                              </div>
+                            </div>
+                            <span className="text-[14px] font-medium">{earned}/-</span>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+
+               
+                {/* <div className="bg-[#F9FAFB] rounded-2xl p-4 sm:p-6 shadow-sm">
+                  <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    <h3 className="font-semibold text-xl">Leaderboard</h3>
+                    <p className="text-sm font-semibold text-gray-500">Position #{customerrank}</p>
+                  </div>
+
+                  <div className="space-y-3">
+                    {loading && LeaderBoard.length === 0 ? (
+                      <>
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-white animate-pulse">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                            <div className="w-28 h-4 bg-gray-200 rounded" />
+                          </div>
+                          <div className="w-20 h-4 bg-gray-200 rounded" />
+                        </div>
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-white animate-pulse">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                            <div className="w-28 h-4 bg-gray-200 rounded" />
+                          </div>
+                          <div className="w-20 h-4 bg-gray-200 rounded" />
+                        </div>
+                      </>
+                    ) : (
+                      LeaderBoard.map((u, i) => {
+                        const image = u.customer_image; 
+                        const name = u.fullname;
+                        const amount = `₹${parseFloat(u.total).toLocaleString("en-IN")}`;
+
+                        return (
+                          <div
+                            key={i}
+                            className="flex justify-between items-center p-3 rounded-lg bg-white"
+                          >
+                            <div className="flex items-center gap-3">
+                              {image ? (
+                                <img
+                                  src={image}
+                                  alt="Profile"
+                                  className="w-10 h-10 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500  to-indigo-300 text-white font-bold text-lg uppercase">
+                                  {name?.slice(0, 2)}
+                                </div>
+                              )}
+
+                              <span className="text-[16x] capitalize font-semibold">{name}</span>
+                            </div>
+                            <span className="text-lg font-bold text-black">{amount}</span>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div> */}
+
+              </div>
+            </div>
+
+            {/* RIGHT small */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
+              {/* Packages: show donut + legend */}
+              <div className="bg-[#F9FAFB] rounded-2xl p-6 shadow-sm">
+                <h3 className="font-semibold mb-4">Packages</h3>
+                <PackagePieChart dataObj={packagePercentages} size={220} innerRadiusPct={0.6} loading={loading} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

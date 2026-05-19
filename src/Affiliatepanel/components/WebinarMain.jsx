@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { API_BASE } from "../../apiBase";
-
+import { FaBullhorn } from "react-icons/fa";
 import webiner_image from '/webinar_frontend.avif'
 
 function getRandomColor() {
@@ -79,21 +79,27 @@ const WebinarCalendar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center text-gray-900">
+     <div className="flex-1 bg-white  rounded-3xl backdrop-blur-xl border border-white/10 p-3 relative">
       {/* Header */}
 
-      <div className="relative w-full cursor-default text-white text-center h-[250px] rounded-4xl mb-3 overflow-hidden">
+      <div className="relative w-full cursor-default text-white text-center h-[300px] rounded-4xl mb-3 overflow-hidden">
         <img src={webiner_image} alt="Webinar Background" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/70 via-[#3b82f6]/50 to-[#06b6d4]/60" />
         <div className="relative flex flex-col items-center justify-center h-full">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">WEBINAR SCHEDULE</h1>
-          <p className="text-white/80 text-sm mt-2">Stay updated with upcoming sessions</p>
+           <div className="w-20 h-20 mx-auto rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
+              <FaBullhorn className="h-8 w-8 text-white" />
+           </div>
+           <h1 className="text-3xl font-bold text-white ">Webinar Schedule</h1>
+           <p className="text-white/70 mt-2 max-w-md text-sm">
+              Stay updated with upcoming sessions
+           </p>
         </div>
+       
       </div>
 
 
       {/* Calendar Section (Light Theme) */}
-      <div className="w-full bg-[#f8fafc] text-black p-4 sm:p-8 rounded-4xl relative shadow-md">
+      <div className="w-full  text-black relative">
         <div className="calendar-light">
           <FullCalendar
             ref={(ref) => setCalendarRef(ref)}

@@ -16,17 +16,20 @@ import ScrollToTop from './Components/ScrollToTop'
 import AboutUs from './Views/AbouUs'
 import ForgotPassword from './Views/ForgotPassword'
 import DashBoard from './User/Views/DashBoard'
-import AffiliatePanel from './User/Views/AffiliatePanel'
-import Offers from './User/Views/Offers'
-import Kyc from './User/Views/Kyc'
-import Acheivements from './User/Views/Acheivements'
-import Marketing from './User/Views/Marketingtools'
-import Training from './User/Views/Training'
-import Webinar from './User/Views/Webinar'
-import Link from './User/Views/Link'
-import Referal from './User/Views/Referal'
-import Qualification from './User/Views/Qualification'
-import Earning from './User/Views/Earning'
+import AffiliatePanel from './Affiliatepanel/AffiliatePanel'
+import AfMain from './Affiliatepanel/components/AfMain'
+import Offers from './Affiliatepanel/components/Offers'
+import AchievementPage from './Affiliatepanel/components/AcheiveMain'
+import MarketingTools from './Affiliatepanel/components/MarketingMain'
+import TrainingPage from './Affiliatepanel/components/TrainingMain'
+
+import WebinarCalendar from './Affiliatepanel/components/WebinarMain'
+import LinkGenerator from './Affiliatepanel/components/LinkMain'
+import KYCForm from './Affiliatepanel/components/KycMain'
+import QualificationMain from './Affiliatepanel/components/QualificationMain'
+import EarningsDashboard from './Affiliatepanel/components/EarningMain'
+
+import ReferralDetails from './Affiliatepanel/components/ReferalMain'
 import Payout from './User/Views/Payout'
 import Leader from './User/Views/Leaderboard'
 import Profile from './User/Views/Profile'
@@ -42,6 +45,7 @@ import ViewCertificate from "./User/Views/ViewCertificate"
 import Freelancer from './User/Views/Freelancer'
 import Careers from './Views/Careers'
 import ApplyForJob from './User/Components/ApplyForJob'
+
 const AuthGuard = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -89,17 +93,19 @@ function App() {
 
         <Route path="/DashBoard" element={<><AuthGuard><DashBoard /></AuthGuard></>} />
         <Route path="/Certificates" element={<><AuthGuard><Header isDarkMode={true} /><Certificates /></AuthGuard></>} />
-        <Route path="/AffiliatePanel" element={<><AuthGuard><AffiliatePanel /></AuthGuard></>} />
-        <Route path="/Offers" element={<><AuthGuard><Offers /></AuthGuard></>} />
-        <Route path="/Kyc" element={<><AuthGuard><Kyc /></AuthGuard></>} />
-        <Route path="/Acheivements" element={<><AuthGuard><Acheivements /></AuthGuard></>} />
-        <Route path="/Marketingtools" element={<><AuthGuard><Marketing /></AuthGuard></>} />
-        <Route path="/Training" element={<><AuthGuard><Training /></AuthGuard></>} />
-        <Route path="/Webinar" element={<><AuthGuard><Webinar /></AuthGuard></>} />
-        <Route path="/LinkGenerator" element={<><AuthGuard><Link /></AuthGuard></>} />
-        <Route path="/ReferalDetails" element={<><AuthGuard><Referal /></AuthGuard></>} />
-        <Route path="/Qualification" element={<><AuthGuard><Qualification /></AuthGuard></>} />
-        <Route path="/Earning" element={<><AuthGuard><Earning /></AuthGuard></>} />
+        <Route path="/AffiliatePanel" element={<><AuthGuard><AffiliatePanel /></AuthGuard></>}>
+          <Route index element={<AfMain />} />
+          <Route path="offer" element={<Offers />} />
+          <Route path="Acheivements" element={<AchievementPage />} />
+          <Route path="Marketingtools" element={<MarketingTools />} />
+          <Route path="Training" element={<TrainingPage />} />
+          <Route path="Webinar" element={<WebinarCalendar />} />
+          <Route path="ReferalDetails" element={<ReferralDetails />} />
+          <Route path="LinkGenerator" element={<LinkGenerator />} />
+          <Route path="KYC" element={<KYCForm />} />
+          <Route path="Qualification" element={<QualificationMain />} />
+          <Route path="Earnings" element={<EarningsDashboard />} />
+        </Route>       
         <Route path="/PayoutDetails" element={<><AuthGuard><Payout /></AuthGuard></>} />
         <Route path="/LeaderBoard" element={<><AuthGuard><Leader /></AuthGuard></>} />
         <Route path="/Profile" element={<><AuthGuard><Profile /></AuthGuard></>} />

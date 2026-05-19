@@ -14,7 +14,6 @@ const OffersContainer = () => {
             {isKyc && "KYC"}
             {isAcheivements && "ACHEIVEMENTS"}
             {isAffiliatePanel && "AFFILIATE DASHBOARD"}
-       
         </div>
     );
 };

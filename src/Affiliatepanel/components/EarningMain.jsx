@@ -521,7 +521,7 @@ function PremiumDateRangeModal({
                     applyDateRange?.({ start: startDate, end: endDate });
                     setModalOpen(false);
                   }}
-                  className="rounded-md px-3 cursor-pointer py-2 text-sm bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white shadow"
+                  className="rounded-md px-3 cursor-pointer py-2 text-sm bg-[#003D80] text-white shadow"
                 >
                   Apply
                 </button>
@@ -694,28 +694,28 @@ export default function EarningsDashboard() {
           label: "Today's Earning",
           rawAmount: Number(apiData.today?.total || 0),
           count: apiData.today?.count,
-          gradient: "from-[#1e3a8a] via-[#3b82f6] to-[#06b6d4]",
+          gradient: "from-[#277AFF] via-[#2375F8] to-[#2375F8]",
         },
         {
           id: "last7",
           label: "Last 7 Days Earnings",
           rawAmount: Number(apiData.last7Days?.total || 0),
           count: apiData.last7Days?.count,
-          gradient: "from-[#7c3aed] via-[#a855f7] to-[#e879f9]",
+          gradient: "from-[#307CF7] via-[#307CF7] to-[#20D1F7]",
         },
         {
           id: "last30",
           label: "Last 30 Days Earnings",
           rawAmount: Number(apiData.last30Days?.total || 0),
           count: apiData.last30Days?.count,
-          gradient: "from-[#065f46] via-[#10b981] to-[#34d399]",
+          gradient: "from-[#0CA746] via-[#0CA746] to-[#0CBFA9]",
         },
         {
           id: "allTime",
           label: "All Time Earning",
           rawAmount: Number(apiData.allTime?.total || 0),
           count: apiData.allTime?.count,
-          gradient: "from-[#b45309] via-[#f59e0b] to-[#fbbf24]",
+          gradient: "from-[#047CFF] via-[#047CFF] to-[#00B4F8]",
         },
       ]
     : [];
@@ -821,64 +821,53 @@ export default function EarningsDashboard() {
 
 
   return (
-    <div className="min-h-screen rounded-4xl bg-[#ffffff] overflow-y-auto cursor-default flex flex-col items-center px-4 md:px-6">
+<div className="flex-1 bg-white  rounded-3xl backdrop-blur-xl border border-white/10 p-3 relative">
       {/* Profile Card */}
-     <div className="w-full rounded-3xl bg-white border border-gray-100 shadow-sm p-6 md:p-8 relative">
-        <div className="flex flex-col md:flex-row items-center gap-5">
-          {/* Avatar */}
-          <div className="relative">
-            <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-md">
-              {image ? (
-                <img src={image} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1e3a8a] to-[#06b6d4] text-white font-bold text-2xl uppercase cursor-pointer"
-                  onClick={() => navigate("/Profile")}>
-                  {name?.slice(0, 2)}
-                </div>
-              )}
-            </div>
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-lg border-2 border-white" />
-          </div>
-
-          {/* Info */}
-          <div className="text-center md:text-left flex-1">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 capitalize">{user?.fullname || "Unknown"}</h2>
-            <p className="text-gray-500 text-sm mt-1">{user?.email || ""}</p>
-            <div className="mt-2 inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4]" />
-              <span className="text-xs text-gray-600 font-medium">{user?.guide_code || ""}</span>
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-3">
-            <button
-              onClick={handleUploadClick}
-              disabled={checkingPending}
-              className="cursor-pointer flex items-center gap-2 bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Upload Industry Earning"
-            >
-              {checkingPending ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Upload className="w-4 h-4" />
-              )}
-              Upload
-            </button>
-            <button
-              onClick={() => setModalOpen(!modalOpen)}
-              className="cursor-pointer flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all"
-              title="Select Date Range"
-            >
-              <Calendar className="w-4 h-4" />
-              Filter
-            </button>
-          </div>
+     <div className=" text-center py-2 md:py-10 rounded-3xl w-full  flex items-center justify-center lg:max-w-6xl lg:mx-auto relative">
+        <div className="flex flex-col items-center">
+          {image ? (
+              <img
+                src={image}
+                alt="Profile"
+                className="w-26 h-26 md:w-34 md:h-34 border-4 sm:border-6 border-[#20D5E8] rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-28 h-28 sm:w-28 sm:h-28 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-300 text-white font-bold text-3xl sm:text-4xl uppercase" 
+               onClick={() => navigate("/Profile")}
+                style={{cursor:"pointer"}}>
+                {name?.slice(0, 2)}
+              </div>
+            )}
+          <h2 className="text-black text-lg sm:text-xl md:text-3xl lg:text-3xl font-bold mt-3 md:mt-4 capitalize">{user?.fullname || "Unknown"}</h2>
+          <p className="text-black text-[16px] sm:text-base md:text-lg lg:text-2xl mt-0.5">{user?.email || ""}</p>
+        </div>
+        <div className="absolute top-4 right-4 flex gap-2">
+          <button
+            onClick={handleUploadClick}
+            disabled={checkingPending}
+            className="cursor-pointer hover:scale-105 bg-white p-2 border border-black/10 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Upload Industry Earning"
+          >
+            {checkingPending ? (
+              <div className="w-5 h-5 border-2 border-gray-300  border-t-gray-700 rounded-full animate-spin" />
+            ) : (
+              <Upload className="w-5 h-5 text-gray-700" />
+            )}
+          </button>
+          <button
+            onClick={() => {
+              setModalOpen(!modalOpen);
+            }}
+            className="cursor-pointer hover:scale-105 border border-black/10  bg-white p-2 rounded-full"
+            title="Select Date Range"
+          >
+            <Calendar className="w-5 h-5 text-gray-700" />
+          </button>
         </div>
       </div>
 
       {/* Earnings Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-6 pt-3 md:pt-5 w-full">
+      <div className="grid grid-cols-1 px-5 sm:grid-cols-2 gap-2 md:gap-6 pt-3 md:pt-5 w-full">
         {loading && <div className="col-span-full text-center text-white">Loading...</div>}
 
         {!loading && earningsCards.length === 0 && (
@@ -908,7 +897,7 @@ export default function EarningsDashboard() {
 
             {/* details list if available */}
             {showCustomDetails && (
-              <div className="mt-3 rounded-lg bg-white/5 p-3 text-white/90">
+              <div className="mt-3 bg-white/5 p-3 text-white/90">
                 {Array.isArray(customRangeResult.customers) &&
                 customRangeResult.customers.length > 0 ? (
                   <div className="space-y-2 max-h-64 overflow-auto">
@@ -942,7 +931,7 @@ export default function EarningsDashboard() {
         {earningsCards.map((item) => (
           <button
             key={item.id}
-            className={`rounded-xl px-4 sm:px-5 h-[95px] md:h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
+            className={`rounded-3xl px-4 sm:px-5 h-[95px] md:h-[120px] text-white shadow-lg bg-gradient-to-r ${item.gradient} text-left`}
           >
             <div className="flex items-center justify-between">
               <p className="text-[16px] sm:text-lg leading-tight">{item.label}</p>
