@@ -9,11 +9,10 @@ const Loader = () => (
   </div>
 );
 
-const AfHeader = () => {
+const AfHeader = ({ onMenuToggle }) => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -58,11 +57,11 @@ const AfHeader = () => {
   return (
     <>
       {/* Mobile Header */}
-      <div className="w-full bg-white px-4 py-2 flex items-center justify-between lg:hidden shadow-sm sticky top-0 z-50">
+      <div className="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 px-4 py-2 flex items-center justify-between lg:hidden fixed top-0 z-50">
         {/* Company Logo */}
         <div>
           <img 
-            src="/Logo_Black.svg" 
+            src="/white.svg" 
             alt="Digilancing" 
             className="h-6 w-auto"
           />
@@ -92,7 +91,7 @@ const AfHeader = () => {
 
           {/* Hamburger Icon */}
           <button
-            onClick={() => setIsSidebarOpen(prev => !prev)}
+            onClick={onMenuToggle}
             className="inline-flex items-center p-2 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

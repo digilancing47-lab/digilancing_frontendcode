@@ -113,7 +113,7 @@ export default function ReferralDetails() {
         <img src={referal} alt="Referral Background" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/70 via-[#3b82f6]/50 to-[#06b6d4]/60" />
         <div className="relative flex flex-col items-center justify-center h-full">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">REFERRAL DETAILS</h1>
+         <h1 className=" text-2xl lg:text-3xl font-bold text-white">REFERRAL DETAILS</h1>
           <p className="text-white/80 text-sm mt-2">Track and manage your referral network</p>
         </div>
       </div>

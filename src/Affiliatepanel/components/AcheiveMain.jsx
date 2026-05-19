@@ -32,8 +32,8 @@ const AchievementPage = () => {
           <div className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
             <Trophy className="h-10 w-10 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white">Your Achievements</h1>
-          <p className="text-white/70 mt-2 max-w-md text-sm">
+          <h1 className=" text-2xl :text-3xl font-bold text-white">Your Achievements</h1>
+          <p className="text-white/70 mt-2 max-w-[300px] text-sm">
             Track your progress and unlock powerful rewards
           </p>
         </div>

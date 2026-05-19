@@ -485,7 +485,7 @@ const KYCForm = () => {
            <div className="w-20 h-20 mx-auto rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
               <FaBullhorn className="h-8 w-8 text-white" />
            </div>
-           <h1 className="text-3xl font-bold text-white">KYC Verification</h1>
+           <h1 className=" text-2xl lg:text-3xl font-bold text-white">KYC Verification</h1>
            <p className="text-white/70 mt-2 max-w-md text-sm">
                Ensure secure and compliant affiliate participation with our streamlined KYC process
            </p>

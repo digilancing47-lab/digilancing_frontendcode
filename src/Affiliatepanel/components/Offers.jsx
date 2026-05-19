@@ -10,16 +10,16 @@ const Offers = () => {
                <div className="w-20 h-20 mx-auto rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center mb-4">
                   <FaTrophy className="h-8 w-8 text-white" />
                </div>
-               <h1 className="text-3xl font-bold text-white">Your Offers</h1>
+               <h1 className=" text-2xl lg:text-3xl font-bold text-white">Your Offers</h1>
                <p className="text-white/70 mt-2 max-w-md text-sm">
                   Exclusive deals and rewards await you
                </p>
             </div>
         </div>
       <div className="flex flex-col items-center h-[50vh] text-center">
-        <img src="/offers.png" alt="" className="w-[230px]"/>
-        <h2 className="text-4xl font-bold text-black">Offers Coming Soon!</h2>
-        <p className="text-gray-300 mt-2 text-lg">
+        <img src="/offers.png" alt="" className="w-[150px] lg:w-[230px]"/>
+        <h2 className="text-2xl lg:text-4xl font-bold text-black">Offers Coming Soon!</h2>
+        <p className="text-gray-300 mt-2 text-sm md:text-lg">
           Stay tuned for exciting offers and deals!
         </p>
       </div>
