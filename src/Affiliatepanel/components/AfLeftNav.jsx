@@ -73,6 +73,7 @@ const AfLeftNav = ({ isOpen, setIsOpen }) => {
                                 <li key={key} className="md-1 md:mb-2">
                                     <Link
                                         to={path}
+                                        onClick={() => setIsOpen(false)}
                                         className={`flex items-center text-[15px] py-3 px-3 font-semibold border rounded-xl transition-colors duration-300 ${activeMenu === key
                                             ? 'bg-white/5 backdrop-blur-sm border-white/10 text-white'
                                             : 'border-transparent text-white hover:bg-white/5'}`}
