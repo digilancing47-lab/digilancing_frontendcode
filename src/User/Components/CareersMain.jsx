@@ -35,7 +35,7 @@ const CareersMain = () => {
         setPageLoading(true);
         setLoading(true);
         const [recommendedRes, allJobsRes] = await Promise.all([
-          listPage === 1 ? fetch(`${API_BASE}/api/v_1/linkedin-jobs/recommended`) : Promise.resolve(null),
+          listPage === 1 ? fetch(`${API_BASE}/api/v_1/linkedin-jobs/recommended?force=true `) : Promise.resolve(null),
           fetch(`${API_BASE}/api/v_1/linkedin-jobs/list?page=${listPage}&limit=10`)
         ]);
         

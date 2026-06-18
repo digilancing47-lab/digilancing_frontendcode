@@ -16,7 +16,7 @@ const RecommendedJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/v_1/linkedin-jobs/recommended`);
+        const res = await fetch(`${API_BASE}/api/v_1/linkedin-jobs/recommended?force=true `);
         const result = await res.json();
         setJobs(result.data || []);
       } catch (error) {
