@@ -22,6 +22,11 @@ const faqs = [
     answer:
       "Absolutely. You can upgrade anytime by paying the difference between your current package and the higher-tier package.",
   },
+  {
+    question: "Do you offer refunds?",
+    answer:
+      "Yes, we offer refunds for eligible purchases. If you wish to request a refund, please email us at team@digilancing.com with your order details within 24 hours of your purchase. Refund requests received after 24 hours may not be eligible for a refund.",
+  },
 ];
 
 
